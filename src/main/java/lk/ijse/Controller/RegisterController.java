@@ -151,7 +151,6 @@ public class RegisterController {
     private void  email(){
         System.out.println("Start");
 
-
         generateOTP();
 
         Mail mail = new Mail();
@@ -171,8 +170,6 @@ public class RegisterController {
     public boolean checkOtp(String generatedOtp) {
         String enteredOtp = txtOtp.getText();
 
-        //enteredOtp = String.format("%06d", Integer.parseInt(enteredOtp));
-
         if (generatedOtp.equals(enteredOtp)) {
             new Alert(Alert.AlertType.CONFIRMATION, "OTP Verified").show();
             return true;
@@ -181,7 +178,6 @@ public class RegisterController {
             return false;
         }
     }
-
     public static class Mail implements Runnable{
         private String msg;
         private String to;
@@ -197,7 +193,7 @@ public class RegisterController {
         }
 
         public boolean outMail() throws MessagingException {
-            String from = "sithiraroneth@gmail.com"; //sender's email address
+            String from = "sithiraroneth@gmail.com";
             String host = "localhost";
 
             Properties properties = new Properties();

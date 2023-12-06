@@ -92,22 +92,16 @@ public class RegisterController {
             }
             var dto = new UserDto(username,email,password);
 
-            String  finalOTP = HyperLinkSendOtpOnAction(new ActionEvent());
+            HyperLinkSendOtpOnAction();
 
-            boolean flag = checkOtp(finalOTP);
+            boolean isReg = userModel.checkRegister(dto);
+            if (isReg){
+                new Alert(Alert.AlertType.CONFIRMATION,"Registered Successfully").show();
+                AnchorPane anchorPane = FXMLLoader.load(getClass().getResource("/view/login_form.fxml"));
+                Stage stage = (Stage) root.getScene().getWindow();
 
-            if (flag){
-                boolean isReg = userModel.checkRegister(dto);
-                if (isReg){
-                    new Alert(Alert.AlertType.CONFIRMATION,"Registered Successfully").show();
-                    AnchorPane anchorPane = FXMLLoader.load(getClass().getResource("/view/login_form.fxml"));
-                    Stage stage = (Stage) root.getScene().getWindow();
-
-                    stage.setScene(new Scene(anchorPane));
-                    stage.centerOnScreen();
-                }
-            }else {
-                lblOtp.setText("Invalid OTP");
+                stage.setScene(new Scene(anchorPane));
+                stage.centerOnScreen();
             }
         }catch (SQLException e){
             new Alert(Alert.AlertType.ERROR,e.getMessage()).show();
@@ -150,97 +144,95 @@ public class RegisterController {
         stage.centerOnScreen();
     }
 
-    public String  HyperLinkSendOtpOnAction(ActionEvent actionEvent) {//void
-        String finalOtp = email();
-       // System.out.println(finalOtp);
-        return finalOtp;
+    public void HyperLinkSendOtpOnAction() {
+        email();
     }
-        private String  email(){
+
+    private void  email(){
         System.out.println("Start");
 
-        // Generate OTP
-        String otp = generateOTP();
 
-        // Construct email message
+        generateOTP();
+
         Mail mail = new Mail();
-        mail.setMsg("Your OTP is: " + otp);
+        mail.setMsg("Your OTP is: " + txtOtp);
         mail.setTo(txtEmail.getText());
         mail.setSubject("OTP for V Tec Motors(pvt).Ltd");
 
         Thread thread = new Thread(mail);
         thread.start();
 
-        return otp;
-       /* checkOtp(otp);*/
-
     }
-    public  boolean checkOtp(String otp) {
-        if (otp.equals(txtOtp.getText())) {
+    private void generateOTP() {
+        String generateOtp =  String.format("%06d", new Random().nextInt(1000000));
+        checkOtp(generateOtp);
+    }
+
+    public boolean checkOtp(String generatedOtp) {
+        String enteredOtp = txtOtp.getText();
+
+        //enteredOtp = String.format("%06d", Integer.parseInt(enteredOtp));
+
+        if (generatedOtp.equals(enteredOtp)) {
             new Alert(Alert.AlertType.CONFIRMATION, "OTP Verified").show();
             return true;
         } else {
             System.out.println("Invalid OTP. Please try again.");
             return false;
         }
-
     }
-        private static String generateOTP() {
-           String generateOtp =  String.format("%06d", new Random().nextInt(1000000));
-            //checkOtp(generateOtp);
-            return generateOtp;
+
+    public static class Mail implements Runnable{
+        private String msg;
+        private String to;
+        private String subject;
+        public void setMsg(String msg) {
+            this.msg = msg;
+        }
+        public void setTo(String to) {
+            this.to = to;
+        }
+        public void setSubject(String subject) {
+            this.subject = subject;
         }
 
-        public static class Mail implements Runnable{
-            private String msg;
-            private String to;
-            private String subject;
-            public void setMsg(String msg) {
-                this.msg = msg;
-            }
-            public void setTo(String to) {
-                this.to = to;
-            }
-            public void setSubject(String subject) {
-                this.subject = subject;
-            }
+        public boolean outMail() throws MessagingException {
+            String from = "sithiraroneth@gmail.com"; //sender's email address
+            String host = "localhost";
 
-            public boolean outMail() throws MessagingException {
-                String from = "sithiraroneth@gmail.com"; //sender's email address
-                String host = "localhost";
+            Properties properties = new Properties();
+            properties.put("mail.smtp.auth", "true");
+            properties.put("mail.smtp.starttls.enable", "true");
+            properties.put("mail.smtp.host", "smtp.gmail.com");
+            properties.put("mail.smtp.port", 587);
 
-                Properties properties = new Properties();
-                properties.put("mail.smtp.auth", "true");
-                properties.put("mail.smtp.starttls.enable", "true");
-                properties.put("mail.smtp.host", "smtp.gmail.com");
-                properties.put("mail.smtp.port", 587);
-
-                Session session = Session.getInstance(properties, new Authenticator() {
+            Session session = Session.getInstance(properties, new Authenticator() {
 
 
-                    protected PasswordAuthentication getPasswordAuthentication() {
-                        return new PasswordAuthentication("sithiraroneth@gmail.com", "gboj ljqu knde oiyc");  // email and password
-                    }
-                });
-
-                MimeMessage mimeMessage = new MimeMessage(session);
-                mimeMessage.setFrom(new InternetAddress(from));
-                mimeMessage.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
-                mimeMessage.setSubject(this.subject);
-                mimeMessage.setText(this.msg);
-                Transport.send(mimeMessage);
-                return true;
-            }
-            public void run() {
-                if (msg != null) {
-                    try {
-                        outMail();
-                    } catch (MessagingException e) {
-                        throw new RuntimeException(e);
-                    }
-                } else {
-                    System.out.println("not sent. empty msg!");
+                protected PasswordAuthentication getPasswordAuthentication() {
+                    return new PasswordAuthentication("sithiraroneth@gmail.com", "gboj ljqu knde oiyc");  // email and password
                 }
+            });
+
+            MimeMessage mimeMessage = new MimeMessage(session);
+            mimeMessage.setFrom(new InternetAddress(from));
+            mimeMessage.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
+            mimeMessage.setSubject(this.subject);
+            mimeMessage.setText(this.msg);
+            Transport.send(mimeMessage);
+            return true;
+        }
+        public void run() {
+            if (msg != null) {
+                try {
+                    outMail();
+                } catch (MessagingException e) {
+                    throw new RuntimeException(e);
+                }
+            } else {
+                System.out.println("not sent. empty msg!");
             }
         }
+    }
 
 }

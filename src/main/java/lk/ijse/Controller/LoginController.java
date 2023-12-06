@@ -3,6 +3,9 @@ package lk.ijse.Controller;
 import com.jfoenix.controls.JFXButton;
 
 import com.jfoenix.controls.JFXPasswordField;
+import jakarta.mail.*;
+import jakarta.mail.internet.InternetAddress;
+import jakarta.mail.internet.MimeMessage;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
@@ -11,6 +14,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
@@ -32,6 +36,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Properties;
+import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -46,6 +51,8 @@ public class LoginController {
     public Label lblEmail;
     public Label lblUserNameInvalied;
     public Label lblPasswordInvalied;
+    public Hyperlink hlSendOtp;
+    public TextField txtOtp;
 
     private UserModel userModel = new UserModel();
     private void updateTime() {
@@ -88,8 +95,10 @@ public class LoginController {
 
         String username = txtUsername.getText();
         String email = txtEmail.getText();
+        String otp = txtOtp.getText();
         String password = txtPassword.getText();
 
+        HyperLinkSendOtpOnActionLog();
         List<UserDto> userDtoList = userModel.loginUser();
         for (UserDto userDto:userDtoList) {
             if (userDto.getUser_name().equals(username)) {
@@ -130,51 +139,95 @@ public class LoginController {
 
 
     }
+    private void  email(){
+        System.out.println("Start");
 
-    /*public void mailSend( String mail) throws MessagingException {
-        Properties properties = new Properties();
 
-        properties.put("mail.smtp.auth", "true");
-        properties.put("mail.smtp.starttls.enable", "true");
-        properties.put("mail.smtp.host", "smtp.gmail.com");
-        properties.put("mail.smtp.port", 587);
+        generateOTP();
 
-        String myEmail = "peirisroneth@gmail.com";
-        String password = "mmmw tzmb hkae gakf";
+        LoginController.Mail mail = new Mail();
+        mail.setMsg("Your OTP is: " + txtOtp);
+        mail.setTo(txtEmail.getText());
+        mail.setSubject("OTP for V Tec Motors(pvt).Ltd");
 
-        Session session = Session.getInstance(properties, new Authenticator() {
-            @Override
-            protected PasswordAuthentication getPasswordAuthentication() {
-                return new PasswordAuthentication(myEmail,password);
-            }
-        });
+        Thread thread = new Thread(mail);
+        thread.start();
 
-        Message message = prepareMessage(session,myEmail,mail);
-        if(message!=null){
-            new Alert(Alert.AlertType.CONFIRMATION,"Send Email Successfully").show();
-        }else {
-            new Alert(Alert.AlertType.WARNING,"Please Enter Recipient's Email Address").show();
-        }
-        Transport.send(message);
+    }
+    private void generateOTP() {
+        String generateOtp =  String.format("%06d", new Random().nextInt(1000000));
+        checkOtp(generateOtp);
     }
 
-    private static Message prepareMessage(Session session, String myAccountEmail, String recepient) {
-        try {
-            Message message = new MimeMessage(session);
-            message.setFrom(new InternetAddress(myAccountEmail));
-            message.setRecipients(Message.RecipientType.TO , new InternetAddress[]{
-                    new InternetAddress(recepient)
+    public boolean checkOtp(String generatedOtp) {
+        String enteredOtp = txtOtp.getText();
+
+        //enteredOtp = String.format("%06d", Integer.parseInt(enteredOtp));
+
+        if (generatedOtp.equals(enteredOtp)) {
+            new Alert(Alert.AlertType.CONFIRMATION, "OTP Verified").show();
+            return true;
+        } else {
+            System.out.println("Invalid OTP. Please try again.");
+            return false;
+        }
+    }
+
+    public void HyperLinkSendOtpOnActionLog() {
+        email();
+    }
+
+    public static class Mail implements Runnable{
+        private String msg;
+        private String to;
+        private String subject;
+        public void setMsg(String msg) {
+            this.msg = msg;
+        }
+        public void setTo(String to) {
+            this.to = to;
+        }
+        public void setSubject(String subject) {
+            this.subject = subject;
+        }
+
+        public boolean outMail() throws MessagingException {
+            String from = "sithiraroneth@gmail.com"; //sender's email address
+            String host = "localhost";
+
+            Properties properties = new Properties();
+            properties.put("mail.smtp.auth", "true");
+            properties.put("mail.smtp.starttls.enable", "true");
+            properties.put("mail.smtp.host", "smtp.gmail.com");
+            properties.put("mail.smtp.port", 587);
+
+            Session session = Session.getInstance(properties, new Authenticator() {
+
+
+                protected PasswordAuthentication getPasswordAuthentication() {
+                    return new PasswordAuthentication("sithiraroneth@gmail.com", "gboj ljqu knde oiyc");  // email and password
+                }
             });
 
-            message.setSubject("Login Successfully Confirm");
-            message.setText("Login Successfully to the system!");
-            return message;
-        }catch (Exception e){
-            Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE,null,e);
+            MimeMessage mimeMessage = new MimeMessage(session);
+            mimeMessage.setFrom(new InternetAddress(from));
+            mimeMessage.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
+            mimeMessage.setSubject(this.subject);
+            mimeMessage.setText(this.msg);
+            Transport.send(mimeMessage);
+            return true;
         }
-        return null;
+        public void run() {
+            if (msg != null) {
+                try {
+                    outMail();
+                } catch (MessagingException e) {
+                    throw new RuntimeException(e);
+                }
+            } else {
+                System.out.println("not sent. empty msg!");
+            }
+        }
     }
-*/
-
 }
 

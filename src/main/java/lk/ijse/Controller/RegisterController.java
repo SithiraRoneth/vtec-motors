@@ -107,6 +107,7 @@ public class RegisterController {
         }
     }
     private boolean validateUsername() {
+
         boolean isValidate = true;
         boolean username = Pattern.matches("[A-Za-z]{1,}", txtUsername.getText());
         if (!username){

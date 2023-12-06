@@ -19,19 +19,16 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-import javafx.stage.WindowEvent;
 import javafx.util.Duration;
 import lk.ijse.Model.UserModel;
 import lk.ijse.dto.UserDto;
 import org.controlsfx.control.Notifications;
-
 import java.io.IOException;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Properties;
 import java.util.Random;
-import java.util.Scanner;
 import java.util.regex.Pattern;
 
 public class RegisterController {

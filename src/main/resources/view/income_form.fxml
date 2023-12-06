@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXComboBox?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane fx:id="root" minHeight="756.0" minWidth="1141.0" prefHeight="756.0" prefWidth="1141.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.Controller.IncomeController">
+<children>
+      <ImageView fitHeight="764.0" fitWidth="1144.0" layoutY="-3.0" pickOnBounds="true">
+         <image>
+            <Image url="@../assests/blue!.jpg" />
+         </image>
+      </ImageView>
+    <JFXComboBox fx:id="cmbMonth" layoutX="215.0" layoutY="82.0" onAction="#cmbMonthOnAction" prefHeight="31.0" prefWidth="184.0" promptText="month" AnchorPane.leftAnchor="215.0" AnchorPane.topAnchor="82.0" />
+    <JFXTextField fx:id="txtYear" layoutX="282.0" layoutY="85.0" promptText="Enter Year" AnchorPane.leftAnchor="30.0" AnchorPane.topAnchor="85.0" />
+    <Text layoutX="282.0" layoutY="84.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Year :" AnchorPane.leftAnchor="30.0" AnchorPane.topAnchor="68.0" />
+    <Text layoutX="274.0" layoutY="81.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Month :" AnchorPane.leftAnchor="215.0" AnchorPane.topAnchor="68.0" />
+    <AnchorPane layoutX="234.0" layoutY="133.0" prefHeight="170.0" prefWidth="684.0" AnchorPane.rightAnchor="223.0" AnchorPane.topAnchor="133.0">
+        <children>
+            <DatePicker fx:id="dateDate" layoutX="91.0" layoutY="14.0" prefHeight="31.0" prefWidth="184.0" />
+            <Text layoutX="22.0" layoutY="35.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Date :" AnchorPane.leftAnchor="22.0" />
+            <Text layoutX="357.0" layoutY="35.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Description :" AnchorPane.leftAnchor="357.0" />
+            <JFXTextField fx:id="txtDesc" layoutX="455.0" layoutY="14.0" promptText="Enter Description" />
+            <Text layoutX="356.0" layoutY="117.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Amont :" AnchorPane.leftAnchor="22.0" />
+            <JFXTextField fx:id="txtAmount" layoutX="88.0" layoutY="97.0" prefHeight="31.0" prefWidth="191.0" promptText="Enter amont" />
+            <JFXButton fx:id="btnExpenditure" layoutX="575.0" layoutY="98.0" onAction="#btnExpenditureOnAction" text="Expenditure" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="98.0" />
+            <JFXButton fx:id="btnIncome" layoutX="481.0" layoutY="98.0" onAction="#btnIncomeOnAction" text="Income" AnchorPane.topAnchor="98.0" />
+        </children>
+    </AnchorPane>
+    <TableView fx:id="tblIncome" layoutX="46.0" layoutY="364.0" prefHeight="227.0" prefWidth="488.0" AnchorPane.leftAnchor="30.0" AnchorPane.topAnchor="364.0">
+        <columns>
+            <TableColumn fx:id="colInDate" prefWidth="125.0" text="Date" />
+            <TableColumn fx:id="colInDesc" prefWidth="206.0" text="Description" />
+            <TableColumn fx:id="colInAmount" prefWidth="156.0" text="Amont" />
+        </columns>
+    </TableView>
+    <TableView fx:id="tblExpenditure" layoutX="619.0" layoutY="372.0" prefHeight="227.0" prefWidth="488.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="364.0">
+        <columns>
+            <TableColumn fx:id="colExDate" prefWidth="125.0" text="Date" />
+            <TableColumn fx:id="colExDesc" prefWidth="206.0" text="Description" />
+            <TableColumn fx:id="colExAmount" prefWidth="156.0" text="Amont" />
+        </columns>
+    </TableView>
+    <Text layoutX="31.0" layoutY="619.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Income Total :" AnchorPane.leftAnchor="31.0" AnchorPane.topAnchor="606.0" />
+    <Text layoutX="626.0" layoutY="619.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Expenditure Total :" AnchorPane.topAnchor="606.0" />
+    <Label fx:id="lblIncomeTotal" layoutX="139.0" layoutY="490.0" AnchorPane.leftAnchor="120.0" AnchorPane.topAnchor="606.0" />
+    <Label fx:id="lblExpenditureTotal" layoutX="904.0" layoutY="494.0" AnchorPane.leftAnchor="740.0" AnchorPane.topAnchor="606.0" />
+    <AnchorPane layoutX="464.0" layoutY="655.0" prefHeight="65.0" prefWidth="247.0" AnchorPane.bottomAnchor="30.0">
+        <children>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Final Income :" AnchorPane.bottomAnchor="20.0" />
+            <Label fx:id="lblFinalIncome" layoutX="106.0" layoutY="26.0" />
+        </children>
+    </AnchorPane>
+    <Label layoutX="212.0" layoutY="319.0" text="Income ">
+        <font>
+            <Font size="25.0" />
+        </font>
+    </Label>
+    <Label layoutX="815.0" layoutY="319.0" text="Expenditure">
+        <font>
+            <Font size="25.0" />
+        </font>
+    </Label>
+    <JFXButton fx:id="btnSaveIn" layoutX="434.0" layoutY="599.0" onAction="#btnSaveInOnAction" style="-fx-background-color: grey;" text="Save Income" textFill="WHITE" />
+    <JFXButton fx:id="btnnSaveEx" layoutX="1000.0" layoutY="598.0" onAction="#btnSaveExOnAction" style="-fx-background-color: yellow;" text="Save Expenditure" />
+      <Text layoutX="87.0" layoutY="150.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Income &amp; Expenditure " AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="20.0">
+         <font>
+            <Font size="30.0" />
+         </font>
+      </Text>
+      <JFXButton layoutX="31.0" layoutY="693.0" onAction="#btnBackOnAction" prefHeight="34.0" prefWidth="79.0" style="-fx-background-color: #d1a300;" text="Back">
+         <graphic>
+            <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../assests/back.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </JFXButton>
+</children>
+</AnchorPane>

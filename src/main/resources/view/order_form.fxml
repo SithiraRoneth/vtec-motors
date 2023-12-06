@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXComboBox?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane fx:id="root" minHeight="756.0" minWidth="1141.0" prefHeight="756.0" prefWidth="1141.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.Controller.OrderController">
+   <children>
+      <ImageView fitHeight="759.0" fitWidth="1143.0" layoutX="-1.0" layoutY="-1.0" pickOnBounds="true">
+         <image>
+            <Image url="@../assests/blue!.jpg" />
+         </image>
+      </ImageView>
+      <Label layoutX="25.0" layoutY="14.0" text="Manage Orders Details" AnchorPane.leftAnchor="25.0">
+         <font>
+            <Font size="25.0" />
+         </font>
+      </Label>
+      <Text layoutX="45.0" layoutY="132.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Guardian Id : " AnchorPane.leftAnchor="45.0">
+         <font>
+            <Font size="13.0" />
+         </font>
+      </Text>
+      <JFXComboBox fx:id="cmbGuardian_Id" layoutX="45.0" layoutY="146.0" onAction="#cmbGuardianOnAction" prefHeight="26.0" prefWidth="173.0" AnchorPane.leftAnchor="45.0" />
+      <Text layoutX="57.0" layoutY="261.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Service Id:" AnchorPane.leftAnchor="57.0">
+         <font>
+            <Font size="13.0" />
+         </font>
+      </Text>
+      <JFXComboBox fx:id="cmbService_id" layoutX="50.0" layoutY="288.0" onAction="#cmbServiceOnAction" prefHeight="26.0" prefWidth="157.0" AnchorPane.bottomAnchor="442.0" AnchorPane.leftAnchor="50.0" AnchorPane.topAnchor="288.0" />
+      <TableView fx:id="tblOrder" layoutX="47.0" layoutY="391.0" prefHeight="200.0" prefWidth="428.0" AnchorPane.leftAnchor="47.0" AnchorPane.rightAnchor="666.0">
+         <columns>
+            <TableColumn fx:id="colSer_Id" prefWidth="77.06669998168945" text="Service_ID" />
+            <TableColumn fx:id="colService_name" prefWidth="152.2666473388672" text="Service_Name" />
+            <TableColumn fx:id="colAmount" minWidth="0.0" prefWidth="118.933349609375" text="Amount" />
+            <TableColumn fx:id="colAction" minWidth="0.0" prefWidth="77.5999755859375" text="Delete" />
+         </columns>
+      </TableView>
+      <Label layoutX="37.0" layoutY="195.0" text="Add Services">
+         <font>
+            <Font size="17.0" />
+         </font>
+      </Label>
+      <Label layoutX="381.0" layoutY="58.0" text="Order Date  :">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <Label layoutX="25.0" layoutY="58.0" text="Order ID :">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <Label layoutX="392.0" layoutY="119.0" text="Guardian Name :">
+         <font>
+            <Font size="13.0" />
+         </font>
+      </Label>
+      <Label layoutX="274.0" layoutY="249.0" text="Service Name :" AnchorPane.leftAnchor="274.0">
+         <font>
+            <Font size="13.0" />
+         </font>
+      </Label>
+      <Label layoutX="42.0" layoutY="614.0" text="Full Service Amount  :">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label fx:id="lblOrderDate" layoutX="476.0" layoutY="62.0">
+         <font>
+            <Font size="13.0" />
+         </font>
+      </Label>
+      <JFXButton fx:id="btnAddToCart" buttonType="RAISED" layoutX="474.0" layoutY="345.0" onAction="#btnAddToCartOnAction" prefHeight="27.0" prefWidth="90.0" style="-fx-background-color: #3498db;" text="Add to cart" textFill="WHITE">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </JFXButton>
+      <Label layoutX="482.0" layoutY="247.0" text="Amount  :" AnchorPane.leftAnchor="500.0">
+         <font>
+
+            <Font size="13.0" />
+         </font>
+      </Label>
+      <JFXButton fx:id="btnPlaceOrder" layoutX="988.0" layoutY="682.0" onAction="#btnPlaceOrderOnAction" prefHeight="34.0" prefWidth="120.0" style="-fx-background-color: green;" text="Place Order" textFill="WHITE" />
+      <Label fx:id="lblGuardianName" layoutX="500.0" layoutY="120.0" />
+      <Label fx:id="lblService_name" layoutX="357.0" layoutY="291.0" AnchorPane.leftAnchor="274.0" />
+      <Label fx:id="lblAmount" layoutX="637.0" layoutY="282.0" AnchorPane.leftAnchor="500.0" />
+      <TableView fx:id="tblSpare" layoutX="665.0" layoutY="381.0" prefHeight="182.0" prefWidth="437.0" AnchorPane.rightAnchor="39.0">
+        <columns>
+          <TableColumn fx:id="colServiceid" prefWidth="98.66656339168549" text="Service_id" />
+          <TableColumn fx:id="colSpareName" prefWidth="156.53345489501953" text="SpareName" />
+            <TableColumn fx:id="colPrice" prefWidth="90.39995117187499" text="price" />
+            <TableColumn fx:id="colDelete" prefWidth="90.39995117187499" text="Delete" />
+        </columns>
+      </TableView>
+      <JFXComboBox fx:id="cmbSpareId" layoutX="674.0" layoutY="194.0" onAction="#cmbSpareIdOnAction" prefHeight="26.0" prefWidth="118.0" />
+      <Text layoutX="678.0" layoutY="164.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Spare ID">
+         <font>
+            <Font size="13.0" />
+         </font>
+      </Text>
+      <Text layoutX="997.0" layoutY="164.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Spare Name" AnchorPane.leftAnchor="996.97646484375" AnchorPane.rightAnchor="73.62353515625">
+         <font>
+            <Font size="13.0" />
+         </font>
+      </Text>
+      <Text layoutX="1020.0" layoutY="261.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Price">
+         <font>
+            <Font size="13.0" />
+         </font>
+      </Text>
+      <Label fx:id="lblPrice" layoutX="1020.0" layoutY="291.0" />
+      <JFXButton buttonType="RAISED" layoutX="1057.0" layoutY="330.0" onAction="#btnAddOnAction" prefHeight="27.0" prefWidth="52.0" style="-fx-background-color: #3498db;" text="Add" textFill="WHITE">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </JFXButton>
+      <Label fx:id="lblSpareName" layoutX="1006.0" layoutY="199.0" />
+      <Text layoutX="735.0" layoutY="596.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Spare Total  :">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Text>
+      <Label fx:id="lblSpareTot" layoutX="821.0" layoutY="583.0" />
+      <Label fx:id="lblFullAmount" layoutX="191.0" layoutY="616.0">
+         <font>
+            <Font size="13.0" />
+         </font>
+      </Label>
+      <Text layoutX="392.0" layoutY="707.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Full Amount  :">
+         <font>
+            <Font size="19.0" />
+         </font>
+      </Text>
+      <Label fx:id="lblFullAmountOf" layoutX="528.0" layoutY="691.0" textFill="RED">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Label>
+      <Label fx:id="lblOrderId" layoutX="115.0" layoutY="62.0">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>

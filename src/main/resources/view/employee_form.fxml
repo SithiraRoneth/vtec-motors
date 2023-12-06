@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane fx:id="root" minHeight="756.0" minWidth="1141.0" prefHeight="756.0" prefWidth="1141.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.Controller.EmployeeController">
+   <children>
+      <ImageView fitHeight="756.0" fitWidth="1141.0" layoutX="-1.0" layoutY="-2.0" pickOnBounds="true">
+         <image>
+            <Image url="@../assests/blue!.jpg" />
+         </image>
+      </ImageView>
+      <Label layoutX="25.0" layoutY="14.0" text="Manage Employee Details" AnchorPane.leftAnchor="25.0">
+         <font>
+            <Font size="25.0" />
+         </font>
+      </Label>
+      <JFXButton layoutX="680.0" layoutY="47.0" onAction="#btnAddOnAction" prefHeight="30.0" prefWidth="106.0" style="-fx-background-color: green;" text="Add" AnchorPane.rightAnchor="354.6">
+         <graphic>
+            <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../assests/add.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </JFXButton>
+      <TableView fx:id="tblEmployee" layoutX="30.0" layoutY="83.79999999999995" prefHeight="607.0" prefWidth="768.0" AnchorPane.bottomAnchor="65.0" AnchorPane.leftAnchor="30.0" AnchorPane.rightAnchor="343.0" AnchorPane.topAnchor="83.79999999999995">
+        <columns>
+          <TableColumn fx:id="colId" prefWidth="62.39999198913574" text="Id" />
+          <TableColumn fx:id="colName" prefWidth="136.00003814697266" text="Employee Name " />
+            <TableColumn fx:id="colContact" prefWidth="120.79998779296875" text="Contact No" />
+            <TableColumn fx:id="colNic" prefWidth="124.79998779296875" text="NIC" />
+            <TableColumn fx:id="colJobType" prefWidth="107.19998168945312" text="Job Type" />
+            <TableColumn fx:id="colEmail" prefWidth="139.20001220703125" text="Email" />
+            <TableColumn fx:id="colDelete" prefWidth="83.20001220703125" text="Delete" />
+        </columns>
+      </TableView>
+      <JFXButton layoutX="864.0" layoutY="37.0" onAction="#btnManageAttendanceOnAction" prefHeight="40.0" prefWidth="126.0" style="-fx-background-color: blue;" text="Manage Attendance" textFill="WHITE" />
+      <AnchorPane layoutX="811.0" layoutY="84.0" prefHeight="607.0" prefWidth="313.0" style="-fx-background-color: white;" AnchorPane.bottomAnchor="65.0" AnchorPane.topAnchor="84.0">
+         <children>
+            <ImageView fitHeight="229.0" fitWidth="152.0" layoutX="57.0" layoutY="65.0" pickOnBounds="true" preserveRatio="true" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <image>
+                  <Image url="@../assests/fun-3d-cartoon-illustration-indian-businessman.jpg" />
+               </image>
+            </ImageView>
+            <Text layoutX="29.0" layoutY="72.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Employee Id :" AnchorPane.leftAnchor="10.0" />
+            <Label fx:id="lblEmpId" layoutX="31.0" layoutY="87.0" AnchorPane.leftAnchor="30.0" />
+            <Text layoutX="21.0" layoutY="150.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Employee Name :" AnchorPane.leftAnchor="10.0" />
+            <Text layoutX="28.0" layoutY="232.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Contact No :" AnchorPane.leftAnchor="10.0" />
+            <Label fx:id="lblConNo" layoutX="42.0" layoutY="250.0" AnchorPane.leftAnchor="30.0" />
+            <Text layoutX="24.0" layoutY="306.0" strokeType="OUTSIDE" strokeWidth="0.0" text="NIC" AnchorPane.leftAnchor="10.0" />
+            <Label fx:id="lblNIC" layoutX="29.0" layoutY="317.0" AnchorPane.leftAnchor="30.0" />
+            <Text layoutX="18.0" layoutY="394.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Job Type :" AnchorPane.leftAnchor="10.0" />
+            <Label fx:id="lblJobType" layoutX="29.0" layoutY="408.0" />
+            <JFXButton layoutX="183.0" layoutY="552.0" onAction="#btnUpdateOnAction" prefHeight="30.0" prefWidth="106.0" style="-fx-background-color: #f39c12;" text="Update">
+               <graphic>
+                  <ImageView fitHeight="25.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../assests/update.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </JFXButton>
+            <Label fx:id="lblEmpName" layoutX="6.0" layoutY="160.0" AnchorPane.leftAnchor="30.0" />
+            <Text layoutX="6.0" layoutY="461.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Job Type :" AnchorPane.leftAnchor="10.0" />
+            <Label fx:id="lblEmail" layoutX="22.0" layoutY="478.0" />
+         </children>
+      </AnchorPane>
+      <JFXButton layoutX="998.0" layoutY="37.0" onAction="#btnSalaryOnAction" prefHeight="40.0" prefWidth="126.0" style="-fx-background-color: black;" text="Salary" textFill="WHITE" />
+   </children>
+</AnchorPane>

@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane fx:id="root" prefHeight="756.0" prefWidth="1141.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.Controller.AddAttendanceController">
+   <children>
+      <ImageView fitHeight="759.0" fitWidth="1141.0" layoutX="-1.0" layoutY="-1.0" pickOnBounds="true">
+         <image>
+            <Image url="@../assests/blue!.jpg" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="246.0" fitWidth="356.0" layoutX="464.0" layoutY="5.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="321.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <image>
+            <Image url="@../assests/Employee.jpg" />
+         </image>
+      </ImageView>
+      <Label layoutX="25.0" layoutY="14.0" text="Update Attendance" AnchorPane.leftAnchor="25.0">
+         <font>
+            <Font size="25.0" />
+         </font>
+      </Label>
+      <JFXButton layoutX="645.0" layoutY="504.0" onAction="#btnUpdateOnAction" prefHeight="30.0" prefWidth="106.0" style="-fx-background-color: green;" text="Update" AnchorPane.bottomAnchor="20.0" AnchorPane.rightAnchor="20.0">
+         <graphic>
+            <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../assests/edit.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </JFXButton>
+      <Text layoutX="47.0" layoutY="87.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Date :">
+         <font>
+            <Font size="13.0" />
+         </font>
+      </Text>
+      <Text layoutX="54.0" layoutY="162.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Employee Id :">
+         <font>
+            <Font size="13.0" />
+         </font>
+      </Text>
+      <Text layoutX="373.0" layoutY="161.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Employee Name :" AnchorPane.leftAnchor="373.0">
+         <font>
+            <Font size="13.0" />
+         </font>
+      </Text>
+      <JFXComboBox fx:id="cmbEmpId" layoutX="55.0" layoutY="165.0" onAction="#cmbEmpIdOnAction" prefHeight="26.0" prefWidth="175.0" />
+      <Label fx:id="lblEmployeeName" layoutX="398.0" layoutY="170.0" AnchorPane.leftAnchor="373.0" />
+      <TableView fx:id="tblAttendance" layoutX="40.0" layoutY="263.0" prefHeight="422.0" prefWidth="1081.0" AnchorPane.leftAnchor="30.0" AnchorPane.rightAnchor="30.0">
+        <columns>
+          <TableColumn fx:id="colEmpId" prefWidth="212.7999210357666" text="Employee Id" />
+          <TableColumn fx:id="colEmpName" prefWidth="692.8000793457031" text="Employee Name " />
+            <TableColumn fx:id="colAction" prefWidth="175.9998779296875" text="Action" />
+        </columns>
+      </TableView>
+      <JFXButton fx:id="BtnMarkAttendance" layoutX="650.0" layoutY="175.0" onAction="#BtnMarkAttendanceOnAction" style="-fx-background-color: #d7e55f;" text="Mark Attendance" />
+      <JFXButton layoutX="926.0" layoutY="702.0" onAction="#btnBackOnAction" prefHeight="34.0" prefWidth="79.0" style="-fx-background-color: #d1a300;" text="Back">
+         <graphic>
+            <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../assests/back.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </JFXButton>
+      <DatePicker fx:id="dateDate" layoutX="45.0" layoutY="98.0" />
+   </children>
+</AnchorPane>

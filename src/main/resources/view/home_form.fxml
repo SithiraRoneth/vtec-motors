@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.scene.chart.BarChart?>
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:id="root" minHeight="756.0" minWidth="1141.0" prefHeight="756.0" prefWidth="1141.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.Controller.HomeController">
+   <children>
+      <ImageView fitHeight="280.0" fitWidth="385.0" layoutX="650.0" layoutY="11.0" pickOnBounds="true">
+         <image>
+            <Image url="@../assests/income_page.jpg" />
+         </image>
+      </ImageView>
+      <JFXButton layoutX="927.0" layoutY="162.0" onAction="#btnIncomeOnAction" prefHeight="26.0" prefWidth="134.0" style="-fx-background-color: blue;" text="Income" textFill="WHITE" AnchorPane.topAnchor="162.0" />
+      <JFXButton layoutX="1077.0" layoutY="14.0" text=" " />
+      <JFXButton layoutX="1087.0" layoutY="8.0" onAction="#btnCloseOnAction" text=" ">
+         <graphic>
+            <ImageView fitHeight="29.0" fitWidth="81.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../assests/close..png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </JFXButton>
+      <BarChart fx:id="barChart" layoutX="39.0" layoutY="261.0" prefHeight="475.0" prefWidth="976.0" AnchorPane.bottomAnchor="20.0">
+        <xAxis>
+          <CategoryAxis side="BOTTOM" />
+        </xAxis>
+        <yAxis>
+          <NumberAxis side="LEFT" />
+        </yAxis>
+      </BarChart>
+      <Label layoutX="-1.0" layoutY="21.0" prefHeight="51.0" prefWidth="530.0" text="About UsWE ARE VTEC MOTORS" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="20.0">
+         <font>
+            <Font size="35.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>

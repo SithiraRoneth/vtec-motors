@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXComboBox?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane fx:id="root" minHeight="756.0" minWidth="1141.0" prefHeight="756.0" prefWidth="1141.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.Controller.SalaryController">
+   <children>
+      <ImageView fitHeight="761.0" fitWidth="1144.0" layoutX="-2.0" pickOnBounds="true">
+         <image>
+            <Image url="@../assests/blue!.jpg" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="549.0" fitWidth="443.0" layoutX="648.0" layoutY="50.0" pickOnBounds="true" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="1.0" AnchorPane.topAnchor="190.0">
+         <image>
+            <Image url="@../assests/salary.jpg" />
+         </image>
+      </ImageView>
+      <Label layoutX="14.0" layoutY="14.0" text="Employee Salary Manage">
+         <font>
+            <Font size="25.0" />
+         </font>
+      </Label>
+      <TableView fx:id="tblSalary" layoutX="20.0" layoutY="490.8" prefHeight="239.0" prefWidth="815.0" AnchorPane.bottomAnchor="26.0" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="450.0">
+         <columns>
+            <TableColumn fx:id="colId" prefWidth="97.0" text="Id" />
+            <TableColumn fx:id="colName" prefWidth="175.0" text="Name" />
+            <TableColumn fx:id="colSalary" prefWidth="120.0" text="Salary Amount" />
+            <TableColumn fx:id="colDiscount" prefWidth="130.0" text="Bonus" />
+            <TableColumn fx:id="colVat" prefWidth="130.0" text="ETF/EPF" />
+            <TableColumn fx:id="colFinalSalary" prefWidth="150.0" text="Final Salary Amount" />
+         </columns>
+      </TableView>
+      <AnchorPane layoutX="276.0" layoutY="49.0" prefHeight="343.0" prefWidth="854.0" AnchorPane.leftAnchor="276.0" AnchorPane.rightAnchor="11.0" AnchorPane.topAnchor="61.0">
+         <children>
+            <Text layoutX="22.0" layoutY="72.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Employee Id" AnchorPane.leftAnchor="22.0" />
+            <Text layoutX="210.0" layoutY="72.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Name :" AnchorPane.leftAnchor="210.0" />
+            <Text layoutX="22.0" layoutY="152.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Salary Payment :" AnchorPane.leftAnchor="22.0" />
+            <Text layoutX="200.0" layoutY="150.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Bonus :" AnchorPane.leftAnchor="200.0" />
+            <Text layoutX="373.0" layoutY="152.0" strokeType="OUTSIDE" strokeWidth="0.0" text="ETF/ EPF :" AnchorPane.leftAnchor="373.0" />
+            <Label layoutX="21.0" layoutY="3.0" text="Update Salary Details " AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="10.0">
+               <font>
+                  <Font name="System Bold" size="20.0" />
+               </font>
+            </Label>
+            <JFXButton layoutX="416.0" layoutY="284.0" onAction="#btnPrintOnAction" style="-fx-background-color: #cf6a87;" text="Print" AnchorPane.bottomAnchor="33.599999999999966" AnchorPane.rightAnchor="397.2" />
+            <JFXTextField fx:id="txtSalary" layoutX="200.0" layoutY="169.0" prefHeight="31.0" prefWidth="139.0" AnchorPane.leftAnchor="200.0" AnchorPane.topAnchor="169.0" />
+            <JFXTextField fx:id="txtBonus" layoutX="20.0" layoutY="169.0" prefHeight="31.0" prefWidth="139.0" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="169.0" />
+            <JFXTextField fx:id="txtE" layoutX="373.0" layoutY="169.0" prefHeight="31.0" prefWidth="139.0" AnchorPane.leftAnchor="373.0" AnchorPane.topAnchor="169.0" />
+            <JFXComboBox fx:id="cmbEmpId" layoutX="23.0" layoutY="77.0" onAction="#cmbEmpIdOnAction" prefHeight="31.0" prefWidth="139.0" AnchorPane.leftAnchor="23.0" />
+            <JFXButton fx:id="btnAdd" layoutX="373.0" layoutY="284.0" onAction="#btnAddOnAction" style="-fx-background-color: #7ed6df;" text="Pay" AnchorPane.bottomAnchor="33.599999999999966" />
+            <Text layoutX="28.0" layoutY="263.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Salary Amount :" />
+            <Label fx:id="lblFinalSalary" layoutX="51.0" layoutY="279.0">
+               <font>
+                  <Font size="13.0" />
+               </font>
+            </Label>
+            <Label fx:id="lblEmpName" layoutX="229.0" layoutY="84.0" />
+            <Text layoutX="397.0" layoutY="72.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Email  :" />
+            <Label fx:id="lblEmail" layoutX="402.0" layoutY="84.0" />
+         </children>
+      </AnchorPane>
+      <JFXComboBox fx:id="cmbMonth" layoutX="40.0" layoutY="95.0" onAction="#cmbMonthOnAction" prefHeight="31.0" prefWidth="154.0" promptText="Month" AnchorPane.leftAnchor="40.0" AnchorPane.topAnchor="95.0" />
+      <Text layoutX="383.0" layoutY="76.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Month :" AnchorPane.leftAnchor="40.0" />
+      <JFXButton layoutX="1047.0" layoutY="707.0" onAction="#btnBackOnAction" prefHeight="34.0" prefWidth="79.0" style="-fx-background-color: #d1a300;" text="Back">
+         <graphic>
+            <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../assests/back.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </JFXButton>
+   </children>
+</AnchorPane>

@@ -1,7 +1,4 @@
-/*
-    author :
-    sithiraRoneth
-*/
+/* Created By Sithira Roneth */
 
 package lk.ijse;
 

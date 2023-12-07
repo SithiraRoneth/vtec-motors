@@ -51,9 +51,6 @@ public class RegisterController {
         String formattedTime = timeFormat.format(new Date());
         lblTime.setText(formattedTime);
 
-         /*SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-         String formattedDate = dateFormat.format(new Date());
-         lblDate.setText(formattedDate);*/
     }
 
     public void initialize() {

@@ -18,12 +18,14 @@ import java.util.regex.Pattern;
 public class UpdateEmployeeController {
 
     public AnchorPane root;
-    public JFXTextField txtEmployee_id;
+
     public JFXTextField txtName;
+
     public JFXTextField txtContact;
     public JFXTextField txtNic;
     public JFXTextField txtJob;
     public JFXComboBox<String> comboEmployee_id;
+
     public JFXTextField txtEmail;
 
     private EmployeeModel employeeModel = new EmployeeModel();

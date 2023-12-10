@@ -43,7 +43,6 @@ public class RegisterController {
     public Hyperlink hlSendOtp;
     public TextField txtOtp;
     public Label lblOtp;
-
     private UserModel userModel = new UserModel();
 
     private void updateTime() {

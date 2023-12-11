@@ -158,6 +158,7 @@ public class RegisterController {
     }
     private void generateOTP() {
         String generateOtp =  String.format("%06d", new Random().nextInt(1000000));
+        System.out.println(generateOtp);
         checkOtp(generateOtp);
     }
 

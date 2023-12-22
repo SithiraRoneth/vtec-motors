@@ -2,7 +2,6 @@ package lk.ijse.Controller;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
-import com.jfoenix.controls.JFXTextField;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -12,14 +11,14 @@ import javafx.scene.Cursor;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
-import lk.ijse.Model.AttendanceModel;
-import lk.ijse.Model.EmployeeModel;
+import lk.ijse.DAO.AttendanceModel;
+import lk.ijse.DAO.Custom.EmployeeDAO;
+import lk.ijse.DAO.Impl.EmployeeDAOImpl;
 import lk.ijse.dto.AttendanceDto;
 import lk.ijse.dto.EmployeeDto;
 import lk.ijse.dto.tm.AttendanceTm;
 
 import java.io.IOException;
-import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -60,7 +59,7 @@ public class AddAttendanceController {
 
 
     private AttendanceModel attendanceModel = new AttendanceModel();
-    private EmployeeModel employeeModel = new EmployeeModel();
+    EmployeeDAO employeeDAO = new EmployeeDAOImpl();
 
     private ObservableList<AttendanceTm> obList = FXCollections.observableArrayList();
 
@@ -150,7 +149,7 @@ public class AddAttendanceController {
 
     private void DeleteEmployee(String employeeId){
         try {
-            boolean isDeleted = EmployeeModel.deleteEmployee(employeeId);
+            boolean isDeleted = employeeDAO.delete(employeeId);
             if(isDeleted) {
                 new Alert(Alert.AlertType.CONFIRMATION, "Employee remove!").show();
             } else {
@@ -158,17 +157,19 @@ public class AddAttendanceController {
             }
         } catch (SQLException e) {
             new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
         }
         tblAttendance.refresh();
     }
 
 
 
-    public void cmbEmpIdOnAction(ActionEvent actionEvent) {
+    public void cmbEmpIdOnAction(ActionEvent actionEvent) throws ClassNotFoundException {
         String id = cmbEmpId.getValue();
 
         try {
-            EmployeeDto dto = employeeModel.searchEmployee(id);
+            EmployeeDto dto = employeeDAO.search(id);
             lblEmployeeName.setText(dto.getName());
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -178,13 +179,15 @@ public class AddAttendanceController {
     private void loadAllEmployee() {
         ObservableList<String> obList = FXCollections.observableArrayList();
         try {
-            List<EmployeeDto> employeeDtos = employeeModel.getAllEmployee();
+            List<EmployeeDto> employeeDtos = employeeDAO.getAll();
 
             for (EmployeeDto dto : employeeDtos) {
                 obList.add(dto.getId());
             }
             cmbEmpId.setItems(obList);
         } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } catch (ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
     }

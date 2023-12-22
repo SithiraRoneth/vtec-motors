@@ -11,7 +11,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import lk.ijse.dto.ServiceDto;
-import lk.ijse.Model.ServiceModel;
+import lk.ijse.DAO.ServiceModel;
 import lk.ijse.dto.tm.ServiceTm;
 
 import java.sql.SQLException;

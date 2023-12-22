@@ -1,8 +1,6 @@
-package lk.ijse.Model;
+package lk.ijse.DAO;
 
-import com.mysql.cj.util.DnsSrv;
 import lk.ijse.DB.DbConnection;
-import lk.ijse.dto.SpareDto;
 import lk.ijse.dto.SpareOrderDto;
 
 import java.sql.Connection;

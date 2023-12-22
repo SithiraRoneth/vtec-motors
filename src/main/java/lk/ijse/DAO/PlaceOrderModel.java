@@ -1,13 +1,9 @@
-package lk.ijse.Model;
+package lk.ijse.DAO;
 
-import javafx.scene.control.Alert;
 import lk.ijse.DB.DbConnection;
-import lk.ijse.dto.OrderDto;
-import lk.ijse.dto.OrderServiceDto;
 import lk.ijse.dto.PlaceOrderDto;
 
 import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.time.LocalDate;
 

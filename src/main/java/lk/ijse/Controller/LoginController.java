@@ -22,23 +22,17 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-import lk.ijse.DB.DbConnection;
 //import lk.ijse.Mail.Mail;
-import lk.ijse.Model.UserModel;
+import lk.ijse.DAO.UserModel;
 import lk.ijse.dto.UserDto;
 
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Properties;
 import java.util.Random;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 
 public class LoginController {

@@ -1,8 +1,6 @@
-package lk.ijse.Model;
+package lk.ijse.DAO;
 
-import com.mysql.cj.x.protobuf.MysqlxDatatypes;
 import lk.ijse.DB.DbConnection;
-import lk.ijse.dto.OrderDto;
 
 import java.sql.*;
 import java.time.LocalDate;

@@ -3,9 +3,6 @@ package lk.ijse.Controller;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
 import javafx.event.ActionEvent;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Cursor;
-import javafx.scene.Parent;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ButtonType;
@@ -13,13 +10,12 @@ import javafx.scene.control.Label;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
-import javafx.stage.Stage;
-import lk.ijse.Model.EmployeeModel;
+import lk.ijse.DAO.Custom.EmployeeDAO;
+import lk.ijse.DAO.Impl.EmployeeDAOImpl;
 import lk.ijse.dto.EmployeeDto;
 import org.controlsfx.control.Notifications;
 
 
-import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Optional;
 import java.util.regex.Pattern;
@@ -37,7 +33,7 @@ public class AddEmployeeController {
 
     EmployeeController employeeController=null;
 
-    private EmployeeModel employeeModel = new EmployeeModel();
+    EmployeeDAO employeeDAO = new EmployeeDAOImpl();
 
     public void initialize(){
         generateNextEmployeeId();
@@ -51,10 +47,12 @@ public class AddEmployeeController {
 
     private void generateNextEmployeeId() {
         try {
-            String employeeId = employeeModel.generateNextEmployeeId();
+            String employeeId = employeeDAO.generateNextId();
             lblEmployeeId.setText(employeeId);
         } catch (SQLException e) {
             new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
         }
     }
 
@@ -73,9 +71,7 @@ public class AddEmployeeController {
 
             clearFields();
             var dto = new EmployeeDto(id,name,contact,nic,job,email);
-            boolean isSaved = employeeModel.saveEmployee(dto);
-
-
+            boolean isSaved = employeeDAO.save(dto);
             if (isSaved){
                 ButtonType yes = new ButtonType("yes", ButtonBar.ButtonData.OK_DONE);
 
@@ -85,6 +81,8 @@ public class AddEmployeeController {
             }
         }catch (SQLException e){
             new Alert(Alert.AlertType.ERROR,e.getMessage()).show();
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
         }
         clearFields();
         generateNextEmployeeId();

@@ -14,15 +14,11 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
-import lk.ijse.Model.EmployeeModel;
-import lk.ijse.Model.GuardianModel;
-import lk.ijse.dto.EmployeeDto;
+import lk.ijse.DAO.GuardianModel;
 import lk.ijse.dto.GuardianDto;
-import lk.ijse.dto.tm.EmployeeTm;
 import lk.ijse.dto.tm.GuardianTm;
 import javafx.scene.control.Button;
 
-import java.awt.*;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;

@@ -11,11 +11,8 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
-import lk.ijse.Model.EmployeeModel;
-import lk.ijse.Model.VehicleModel;
-import lk.ijse.dto.EmployeeDto;
+import lk.ijse.DAO.VehicleModel;
 import lk.ijse.dto.VehicleDto;
-import lk.ijse.dto.tm.EmployeeTm;
 import lk.ijse.dto.tm.VehicleTm;
 
 import java.io.IOException;

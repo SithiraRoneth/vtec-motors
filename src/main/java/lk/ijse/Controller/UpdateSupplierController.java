@@ -7,11 +7,10 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.layout.AnchorPane;
-import lk.ijse.Model.SupplierModel;
+import lk.ijse.DAO.SupplierModel;
 import lk.ijse.dto.SupplierDto;
 import org.controlsfx.control.Notifications;
 
-import java.awt.event.ActionEvent;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.regex.Pattern;

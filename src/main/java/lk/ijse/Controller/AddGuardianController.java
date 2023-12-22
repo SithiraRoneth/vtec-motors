@@ -10,9 +10,9 @@ import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
-import javafx.stage.Stage;
-import lk.ijse.Model.EmployeeModel;
-import lk.ijse.Model.GuardianModel;
+import lk.ijse.DAO.Custom.EmployeeDAO;
+import lk.ijse.DAO.Impl.EmployeeDAOImpl;
+import lk.ijse.DAO.GuardianModel;
 import lk.ijse.dto.EmployeeDto;
 import lk.ijse.dto.GuardianDto;
 import org.controlsfx.control.Notifications;
@@ -30,7 +30,7 @@ public class AddGuardianController {
     public JFXComboBox comboEmp_Id;
     public Label lblGuardianId;
     private GuardianModel guardianModel = new GuardianModel();
-    private EmployeeModel employeeModel = new EmployeeModel();
+    EmployeeDAO employeeDAO = new EmployeeDAOImpl();
 
     public void initialize() {
         loadEmp();
@@ -106,7 +106,7 @@ public class AddGuardianController {
         ObservableList<String> obList = FXCollections.observableArrayList();
 
         try {
-            List<EmployeeDto> idList = employeeModel.getAllEmployee();
+            List<EmployeeDto> idList = employeeDAO.getAll();
 
             for (EmployeeDto dto: idList) {
                 obList.add(dto.getId());
@@ -114,6 +114,8 @@ public class AddGuardianController {
 
             comboEmp_Id.setItems(obList);
         } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } catch (ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
     }

@@ -7,7 +7,8 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Alert;
 import javafx.scene.layout.AnchorPane;
-import lk.ijse.Model.EmployeeModel;
+import lk.ijse.DAO.Custom.EmployeeDAO;
+import lk.ijse.DAO.Impl.EmployeeDAOImpl;
 import lk.ijse.dto.EmployeeDto;
 import org.controlsfx.control.Notifications;
 
@@ -27,8 +28,7 @@ public class UpdateEmployeeController {
     public JFXComboBox<String> comboEmployee_id;
 
     public JFXTextField txtEmail;
-
-    private EmployeeModel employeeModel = new EmployeeModel();
+    EmployeeDAO employeeDAO = new EmployeeDAOImpl();
 
     public void initialize() {
         setValue();
@@ -38,7 +38,7 @@ public class UpdateEmployeeController {
         ObservableList<String> obList = FXCollections.observableArrayList();
 
         try {
-            List<EmployeeDto> idList = employeeModel.getAllEmployee();
+            List<EmployeeDto> idList = employeeDAO.getAll();
 
             for ( EmployeeDto dto : idList) {
                 obList.add(dto.getId());
@@ -46,6 +46,8 @@ public class UpdateEmployeeController {
             comboEmployee_id.setItems(obList);
         } catch (SQLException e) {
             new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
         }
     }
 
@@ -63,7 +65,7 @@ public class UpdateEmployeeController {
                 return;
             }
             var dto = new EmployeeDto(id,name,contact,nic,job,email);
-            boolean isUpdate = employeeModel.updateEmployee(dto);
+            boolean isUpdate = employeeDAO.update(dto);
 
             if (isUpdate){
                 new Alert(Alert.AlertType.CONFIRMATION,"Employee is updated").show();
@@ -71,6 +73,8 @@ public class UpdateEmployeeController {
             }
         }catch (SQLException e){
             new Alert(Alert.AlertType.ERROR,e.getMessage()).show();
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
         }
     }
 
@@ -121,13 +125,15 @@ public class UpdateEmployeeController {
         String id = comboEmployee_id.getValue();
 
         try{
-            EmployeeDto dto = employeeModel.searchEmployee(id);
+            EmployeeDto dto = employeeDAO.search(id);
             txtName.setText(dto.getName());
             txtContact.setText(dto.getContact());
             txtNic.setText(dto.getNic());
             txtJob.setText(dto.getJob());
             txtEmail.setText(dto.getEmail());
         } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } catch (ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
     }

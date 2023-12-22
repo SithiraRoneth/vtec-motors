@@ -38,11 +38,10 @@ public class OrderServiceModel {
 }
 */
 
-package lk.ijse.Model;
+package lk.ijse.DAO;
 
 import lk.ijse.DB.DbConnection;
 import lk.ijse.dto.tm.CartTm;
-import lk.ijse.dto.tm.SpareOrderTm;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

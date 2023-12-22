@@ -1,9 +1,8 @@
-package lk.ijse.Model;
+package lk.ijse.DAO;
 
 import lk.ijse.DB.DbConnection;
 import lk.ijse.dto.SalaryDto;
 import lk.ijse.dto.tm.SalaryTm;
-import net.sf.jasperreports.engine.analytics.data.StandardAxisLevel;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

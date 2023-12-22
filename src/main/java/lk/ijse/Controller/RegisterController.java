@@ -20,7 +20,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-import lk.ijse.Model.UserModel;
+import lk.ijse.DAO.UserModel;
 import lk.ijse.dto.UserDto;
 import org.controlsfx.control.Notifications;
 import java.io.IOException;

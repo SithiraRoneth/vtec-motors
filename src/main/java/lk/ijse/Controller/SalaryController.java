@@ -25,10 +25,11 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
+import lk.ijse.DAO.Custom.EmployeeDAO;
 import lk.ijse.DB.DbConnection;
-import lk.ijse.Model.EmployeeModel;
-import lk.ijse.Model.ExpenditureModel;
-import lk.ijse.Model.SalaryModel;
+import lk.ijse.DAO.Impl.EmployeeDAOImpl;
+import lk.ijse.DAO.ExpenditureModel;
+import lk.ijse.DAO.SalaryModel;
 import lk.ijse.dto.EmployeeDto;
 import lk.ijse.dto.ExpenditureDto;
 import lk.ijse.dto.SalaryDto;
@@ -44,7 +45,6 @@ import java.io.InputStream;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.Month;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Properties;
 
@@ -92,9 +92,10 @@ public class SalaryController {
     private SalaryModel salaryModel = new SalaryModel();
     private ExpenditureModel expenditureModel = new ExpenditureModel();
 
+    EmployeeDAO employeeDAO = new EmployeeDAOImpl();
     private ObservableList<SalaryTm> obList = FXCollections.observableArrayList();
 
-    public void initialize() {
+    public void initialize(){
         setMonth();
         month = String.valueOf(cmbMonth.getValue());
         setCellValueFactory();
@@ -104,12 +105,14 @@ public class SalaryController {
     private void loadEmployee() {
         ObservableList<String>obList = FXCollections.observableArrayList();
         try {
-            List<EmployeeDto>dtoList = EmployeeModel.getAllEmployee();
+            List<EmployeeDto>dtoList = employeeDAO.getAll();
             for (EmployeeDto dto : dtoList){
                 obList.add(dto.getId());
             }
             cmbEmpId.setItems(obList);
         } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } catch (ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
     }
@@ -135,10 +138,12 @@ public class SalaryController {
         String id = cmbEmpId.getValue();
 
         try {
-            EmployeeDto dto = EmployeeModel.searchEmployee(id);
+            EmployeeDto dto = employeeDAO.search(id);
             lblEmpName.setText(dto.getName());
             lblEmail.setText(dto.getEmail());
         } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } catch (ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
     }

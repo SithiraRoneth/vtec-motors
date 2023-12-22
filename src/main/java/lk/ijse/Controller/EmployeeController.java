@@ -13,7 +13,8 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
-import lk.ijse.Model.EmployeeModel;
+import lk.ijse.DAO.Custom.EmployeeDAO;
+import lk.ijse.DAO.Impl.EmployeeDAOImpl;
 import lk.ijse.dto.EmployeeDto;
 import lk.ijse.dto.tm.EmployeeTm;
 
@@ -72,7 +73,7 @@ public class EmployeeController {
 
     @FXML
     private Label lblNIC;
-    private EmployeeModel employeeModel = new EmployeeModel();
+    EmployeeDAO employeeDAO = new EmployeeDAOImpl();
 
     private ObservableList<EmployeeTm>obList = FXCollections.observableArrayList();
 
@@ -95,13 +96,13 @@ public class EmployeeController {
 
     public void loadAllEmployee() {
 
-        var model = new EmployeeModel();
+        var model = new EmployeeDAOImpl();
 
         ObservableList<EmployeeTm> obList = FXCollections.observableArrayList();
 
 
         try {
-            List<EmployeeDto> dtoList = model.getAllEmployee();
+            List<EmployeeDto> dtoList = employeeDAO.getAll();
 
             for (EmployeeDto dto : dtoList) {
                 Button btn = new Button("Remove");
@@ -122,6 +123,8 @@ public class EmployeeController {
             tblEmployee.setItems(obList);
         } catch (SQLException e) {
             throw new RuntimeException(e);
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
         }
     }
     private void setDeleteBtnOnAction(Button btn,String id){
@@ -141,7 +144,7 @@ public class EmployeeController {
 
     private void DeleteEmployee(String id) {
         try {
-            boolean isDeleted = EmployeeModel.deleteEmployee(id);
+            boolean isDeleted = employeeDAO.delete(id);
             if(isDeleted) {
                 new Alert(Alert.AlertType.CONFIRMATION, "Employee deleted!").show();
             } else {
@@ -149,6 +152,8 @@ public class EmployeeController {
             }
         } catch (SQLException e) {
             new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
         }
         //tblEmployee.refresh();
         loadAllEmployee();
@@ -170,9 +175,11 @@ public class EmployeeController {
 
         tblEmployee.getSelectionModel().selectedItemProperty().addListener((observable, oldValued, newValue) -> {
             try {
-                EmployeeDto dto = employeeModel.searchEmployee(newValue.getId());
+                EmployeeDto dto =employeeDAO.search(newValue.getId());
                 setData(newValue, dto.getId());
             } catch (SQLException e) {
+                throw new RuntimeException(e);
+            } catch (ClassNotFoundException e) {
                 throw new RuntimeException(e);
             }
         });

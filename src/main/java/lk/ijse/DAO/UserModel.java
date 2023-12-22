@@ -1,7 +1,5 @@
-package lk.ijse.Model;
+package lk.ijse.DAO;
 
-import com.mysql.cj.xdevapi.DbDoc;
-import javafx.scene.control.Alert;
 import lk.ijse.DB.DbConnection;
 import lk.ijse.dto.UserDto;
 

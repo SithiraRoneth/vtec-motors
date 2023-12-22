@@ -8,12 +8,10 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import lk.ijse.Model.EmployeeModel;
-import lk.ijse.Model.ServiceModel;
-import lk.ijse.Model.SparePartsModel;
+import lk.ijse.DAO.ServiceModel;
+import lk.ijse.DAO.SparePartsModel;
 import lk.ijse.dto.ServiceDto;
 import lk.ijse.dto.SpareDto;
-import lk.ijse.dto.tm.EmployeeTm;
 import lk.ijse.dto.tm.SparePartTm;
 
 import java.sql.SQLException;

@@ -9,7 +9,7 @@ import javafx.event.ActionEvent;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
-import lk.ijse.Model.UserModel;
+import lk.ijse.DAO.UserModel;
 import lk.ijse.dto.UserDto;
 import lk.ijse.dto.tm.UserTm;
 

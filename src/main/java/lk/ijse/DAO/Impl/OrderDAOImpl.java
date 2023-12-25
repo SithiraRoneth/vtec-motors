@@ -2,11 +2,8 @@ package lk.ijse.DAO.Impl;
 
 import lk.ijse.DAO.Custom.OrderDAO;
 import lk.ijse.DAO.SQLUtil;
-import lk.ijse.DB.DbConnection;
 import lk.ijse.dto.OrderDto;
-
 import java.sql.*;
-import java.time.LocalDate;
 import java.util.List;
 
 public class OrderDAOImpl implements OrderDAO {
@@ -39,11 +36,7 @@ public class OrderDAOImpl implements OrderDAO {
 
     @Override
     public String generateNextId() throws SQLException, ClassNotFoundException {
-        Connection connection = DbConnection.getInstance().getConnection();
-        String sql = "SELECT Order_id FROM orders ORDER BY Order_id DESC LIMIT 1";
-        PreparedStatement pstm = connection.prepareStatement(sql);
-
-        ResultSet resultSet = pstm.executeQuery();
+        ResultSet resultSet = SQLUtil.execute("SELECT Order_id FROM orders ORDER BY Order_id DESC LIMIT 1");
         if (resultSet.next()){
             return splitId(resultSet.getString(1));
         }

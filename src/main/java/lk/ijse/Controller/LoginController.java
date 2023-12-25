@@ -83,12 +83,14 @@ public class LoginController {
                     btnSigningOnAction(new ActionEvent());
                 } catch (IOException | SQLException  e) {
                     e.printStackTrace();
+                } catch (ClassNotFoundException e) {
+                    throw new RuntimeException(e);
                 }
             }
         });
     }
 
-    public void btnSigningOnAction(ActionEvent actionEvent) throws IOException, SQLException {
+    public void btnSigningOnAction(ActionEvent actionEvent) throws IOException, SQLException, ClassNotFoundException {
 
         String username = txtUsername.getText();
         String email = txtEmail.getText();

@@ -209,7 +209,7 @@ public class SalaryController {
 
         }
 
-        public void cmbMonthOnAction (ActionEvent actionEvent) throws SQLException {
+        public void cmbMonthOnAction (ActionEvent actionEvent) throws SQLException, ClassNotFoundException {
             Month selectMonth = cmbMonth.getValue();
             obList.clear();
             if (selectMonth != null) {

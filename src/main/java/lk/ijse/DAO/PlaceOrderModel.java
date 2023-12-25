@@ -1,6 +1,7 @@
 package lk.ijse.DAO;
 
 import lk.ijse.DAO.Custom.OrderDAO;
+import lk.ijse.DAO.Custom.ServiceDAO;
 import lk.ijse.DAO.Impl.OrderDAOImpl;
 import lk.ijse.DAO.Impl.ServiceDAOImpl;
 import lk.ijse.DB.DbConnection;
@@ -13,7 +14,7 @@ import java.sql.SQLException;
 public class PlaceOrderModel {
     OrderDAO orderDAO = new OrderDAOImpl();
 
-    private ServiceDAOImpl serviceModel = new ServiceDAOImpl();
+    ServiceDAO serviceDAO = new ServiceDAOImpl();
 
     private OrderServiceModel orderServiceModel = new OrderServiceModel();
 
@@ -32,7 +33,7 @@ public class PlaceOrderModel {
             var dto = new OrderDto(orderId,guardianId,date);
             boolean isOrderSaved = orderDAO.save(dto);
             if(isOrderSaved) {
-                boolean isUpdated = serviceModel.updateService(placeOrderDto.getCartTmList());
+                boolean isUpdated = serviceDAO.updateService(placeOrderDto.getCartTmList());
                 if (isUpdated) {
                     boolean isOrderDetailsSaved = orderServiceModel.saveOrderDetails(placeOrderDto.getOrderId(),placeOrderDto.getCartTmList());
                     if (isOrderDetailsSaved) {

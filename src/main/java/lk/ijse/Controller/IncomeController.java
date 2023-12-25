@@ -10,8 +10,10 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
-import lk.ijse.DAO.ExpenditureModel;
-import lk.ijse.DAO.IncomeModel;
+import lk.ijse.DAO.Custom.ExpenditureDAO;
+import lk.ijse.DAO.Custom.IncomeDAO;
+import lk.ijse.DAO.Impl.ExpenditureDAOImpl;
+import lk.ijse.DAO.Impl.IncomeDAOImpl;
 import lk.ijse.dto.ExpenditureDto;
 import lk.ijse.dto.IncomeDto;
 import lk.ijse.dto.tm.ExpenditureTm;
@@ -52,9 +54,8 @@ public class IncomeController {
     private int year;
     private String month;
 
-    private IncomeModel incomeModel = new IncomeModel();
-    private ExpenditureModel expenditureModel = new ExpenditureModel();
-
+    IncomeDAO incomeDAO = new IncomeDAOImpl();
+    ExpenditureDAO expenditureDAO = new ExpenditureDAOImpl();
     private ObservableList<ExpenditureTm> ExobList = FXCollections.observableArrayList();
 
     private ObservableList<IncomeTm> InobList = FXCollections.observableArrayList();
@@ -184,11 +185,11 @@ public class IncomeController {
         System.out.println("Income Details: " + incomeTmList);
         var incomeDto = new IncomeDto(desc,amount,year,month,date);
         try {
-            boolean isSuccess = IncomeModel.addIncome(incomeDto);
+            boolean isSuccess = incomeDAO.save(incomeDto);
             if (isSuccess) {
                 new Alert(Alert.AlertType.CONFIRMATION, "Incomes Save Success!").show();
             }
-        } catch (SQLException e) {
+        } catch (SQLException | ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
     }
@@ -210,11 +211,11 @@ public class IncomeController {
         System.out.println("Expencive Details: " +expenditureTmList);
         var expenditureDto = new ExpenditureDto(desc,amount,year,month,date);
         try {
-            boolean isSuccess = ExpenditureModel.addExpenditure(expenditureDto);
+            boolean isSuccess = expenditureDAO.save(expenditureDto);
             if (isSuccess) {
                 new Alert(Alert.AlertType.CONFIRMATION, "Expenditure Payment Save Success!").show();
             }
-        } catch (SQLException e) {
+        } catch (SQLException | ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
     }
@@ -225,7 +226,7 @@ public class IncomeController {
             if (selectedMonth != null) {
                 month = selectedMonth.name();
             }
-            List<IncomeTm> dtoList = IncomeModel.searchIncome(year, month);
+            List<IncomeTm> dtoList = incomeDAO.searchIncome(year, month);
 
             for ( IncomeTm dto : dtoList) {
                 InobList.add(
@@ -239,7 +240,7 @@ public class IncomeController {
 
             tblIncome.setItems(InobList);
 
-            List<ExpenditureTm> dtoList1 = ExpenditureModel.searchExpenditure(year, month);
+            List<ExpenditureTm> dtoList1 = expenditureDAO.searchExpenditure(year, month);
 
             for ( ExpenditureTm dto : dtoList1) {
                 ExobList.add(

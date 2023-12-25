@@ -10,7 +10,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane fx:id="root" prefHeight="572.0" prefWidth="791.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.DAO.UpdateVehicleController">
+<AnchorPane fx:id="root" prefHeight="572.0" prefWidth="791.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.Controller.UpdateVehicleController">
    <children>
       <ImageView fitHeight="292.0" fitWidth="303.0" layoutX="436.0" layoutY="265.0" pickOnBounds="true" preserveRatio="true">
          <image>

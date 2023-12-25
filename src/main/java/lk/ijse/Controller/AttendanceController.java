@@ -10,7 +10,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
-import lk.ijse.DAO.AttendanceModel;
+import lk.ijse.DAO.Impl.AttendanceDAOImpl;
 import lk.ijse.dto.AttendanceDto;
 import lk.ijse.dto.tm.AttendaceViewTm;
 
@@ -34,7 +34,7 @@ public class AttendanceController {
     @FXML
     private TableView<AttendaceViewTm> tblAttendance;
 
-    private AttendanceModel attendanceModel = new AttendanceModel();
+    private AttendanceDAOImpl attendanceModel = new AttendanceDAOImpl();
 
     private ObservableList<AttendaceViewTm> obList =FXCollections.observableArrayList();
 
@@ -67,7 +67,7 @@ public class AttendanceController {
         try {
             String selectedDate = String.valueOf(txtDate.getValue());
             if (selectedDate != null) {
-                List<AttendanceDto> attendanceList = AttendanceModel.getAttendance(selectedDate);
+                List<AttendanceDto> attendanceList = AttendanceDAOImpl.getAttendance(selectedDate);
 
                 for (AttendanceDto dto : attendanceList) {
                     obList.add(

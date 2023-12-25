@@ -1,4 +1,4 @@
-package lk.ijse.DAO;
+package lk.ijse.Controller;
 
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;

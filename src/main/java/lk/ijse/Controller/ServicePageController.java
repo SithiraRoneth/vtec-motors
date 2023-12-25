@@ -10,8 +10,9 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import lk.ijse.DAO.Custom.ServiceDAO;
 import lk.ijse.dto.ServiceDto;
-import lk.ijse.DAO.ServiceModel;
+import lk.ijse.DAO.Impl.ServiceDAOImpl;
 import lk.ijse.dto.tm.ServiceTm;
 
 import java.sql.SQLException;
@@ -42,7 +43,7 @@ public class ServicePageController {
     @FXML
     private TableView<ServiceTm> tblService;
 
-    private ServiceModel serviceModel = new ServiceModel();
+    ServiceDAO serviceDAO = new ServiceDAOImpl();
 
     public void initialize(){
         setCellValueFactory();
@@ -52,9 +53,9 @@ public class ServicePageController {
 
     private void genarateNextServiceId() {
         try {
-            String employeeId = serviceModel.generateNextServiceId();
+            String employeeId = serviceDAO.generateNextId();
             lblServiceId.setText(employeeId);
-        } catch (SQLException e) {
+        } catch (SQLException | ClassNotFoundException e) {
             new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
         }
     }
@@ -66,12 +67,12 @@ public class ServicePageController {
         colAmountof.setCellValueFactory(new PropertyValueFactory<>("amount"));
     }
     private void loadAllService(){
-        var model = new ServiceModel();
+        var model = new ServiceDAOImpl();
 
         ObservableList<ServiceTm> obList = FXCollections.observableArrayList();
 
         try {
-            List<ServiceDto> dtoList = model.loadAllService();
+            List<ServiceDto> dtoList = serviceDAO.getAll();
 
             for (ServiceDto dto : dtoList){
                 obList.add(
@@ -84,7 +85,7 @@ public class ServicePageController {
                 );
             }
             tblService.setItems(obList);
-        } catch (SQLException e) {
+        } catch (SQLException | ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
     }
@@ -96,12 +97,12 @@ public class ServicePageController {
 
         var dto  = new ServiceDto(id,name,description,amount);
         try {
-            boolean isSaved = serviceModel.AddService(dto);
+            boolean isSaved = serviceDAO.save(dto);
             if (isSaved){
                 new Alert(Alert.AlertType.CONFIRMATION,"service added successfully !!").show();
                 clearField();
             }
-        }catch (SQLException e){
+        }catch (SQLException | ClassNotFoundException e){
             new Alert(Alert.AlertType.ERROR,e.getMessage()).show();
         }
         clearField();

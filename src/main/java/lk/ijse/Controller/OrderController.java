@@ -12,7 +12,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import lk.ijse.DAO.*;
-import lk.ijse.DAO.Custom.GuardianDAO;
+import lk.ijse.DAO.Custom.*;
 import lk.ijse.DAO.Impl.*;
 import lk.ijse.dto.*;
 import lk.ijse.dto.tm.CartTm;
@@ -64,10 +64,11 @@ public class OrderController {
     @FXML
     private TableView<CartTm> tblOrder;
 
-    private ServiceModel serviceModel = new ServiceModel();
-    private OrderModel orderModel = new OrderModel();
+    ServiceDAO serviceDAO = new ServiceDAOImpl();
+    OrderDAO orderDAO = new OrderDAOImpl();
     GuardianDAO guardianDAO = new GuardianDAOImpl();
-    private SparePartsModel sparePartsModel = new SparePartsModel();
+    SparePartsDAO sparePartsDAO = new SparePartsDAOImpl();
+    IncomeDAO incomeDAO = new IncomeDAOImpl();
     private PlaceOrderModel placeOrderModel = new PlaceOrderModel();
     private ObservableList<CartTm> obList = FXCollections.observableArrayList();
     private ObservableList<SpareOrderTm>spObList = FXCollections.observableArrayList();
@@ -99,14 +100,14 @@ public class OrderController {
         ObservableList<String> obList = FXCollections.observableArrayList();
 
         try {
-            List<ServiceDto> idList = serviceModel.loadAllService();
+            List<ServiceDto> idList = serviceDAO.getAll();
 
             for (ServiceDto dto : idList) {
                 obList.add(dto.getId());
             }
 
             cmbService_id.setItems(obList);
-        } catch (SQLException e) {
+        } catch (SQLException | ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
     }
@@ -128,9 +129,9 @@ public class OrderController {
 
     private void generateNextOrderId() {
         try {
-            String orderId = orderModel.generateNextOrderId();
+            String orderId = orderDAO.generateNextId();
             lblOrderId.setText(orderId);
-        } catch (SQLException e) {
+        } catch (SQLException | ClassNotFoundException e) {
             new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
         }
     }
@@ -155,10 +156,10 @@ public class OrderController {
         String id = cmbService_id.getValue();
 
         try {
-            ServiceDto serviceDto = serviceModel.searchService(id);
+            ServiceDto serviceDto = serviceDAO.search(id);
             lblService_name.setText(serviceDto.getName());
             lblAmount.setText(String.valueOf(serviceDto.getAmount()));
-        } catch (SQLException e) {
+        } catch (SQLException | ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
         loadAllSpare(id);
@@ -238,7 +239,7 @@ public class OrderController {
             if (isSuccess) {
                 new Alert(Alert.AlertType.CONFIRMATION, "Order success").show();
             }
-        } catch (SQLException e) {
+        } catch (SQLException | ClassNotFoundException e) {
             new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
         }
 
@@ -252,30 +253,16 @@ public class OrderController {
         String month = String.valueOf(currentDate.getMonth());
         String localDate = currentDate.toString();
 
-        var incomeDto = new IncomeDto(desc,amount,year,month,localDate);
+        var incomeDto = new IncomeDto(desc, amount, year, month, localDate);
         try {
-            boolean isSuccess = IncomeModel.addIncome(incomeDto);
+            boolean isSuccess = incomeDAO.save(incomeDto);
             if (isSuccess) {
                 new Alert(Alert.AlertType.CONFIRMATION, "Income Payment Save Success!").show();
             }
-        } catch (SQLException e) {
+        } catch (SQLException | ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
     }
-
-   /* public void btnPrintOnAction(ActionEvent actionEvent) throws JRException, SQLException {
-        InputStream resourceAsStream = getClass().getResourceAsStream("/report/Blank_A4_1.jrxml");
-        JasperDesign load = JRXmlLoader.load(resourceAsStream);
-        JasperReport jasperReport = JasperCompileManager.compileReport(load);
-        JasperPrint jasperPrint = JasperFillManager.fillReport(
-                jasperReport,
-                null,
-                DbConnection.getInstance().getConnection()
-        );
-
-        JasperViewer.viewReport(jasperPrint, false);
-    }*/
-
 
     public void btnAddOnAction(ActionEvent actionEvent) {
         String service_id = cmbService_id.getValue();
@@ -315,13 +302,13 @@ public class OrderController {
 
         ObservableList<String> obList = FXCollections.observableArrayList();
         try {
-            List<SpareDto> dtoList = sparePartsModel.searchSpareparts(id);
+            List<SpareDto> dtoList = sparePartsDAO.getAll();
             for (SpareDto dto : dtoList) {
                 obList.add(dto.getSpareId());
             }
             cmbSpareId.setItems(obList);
 
-        } catch (SQLException e) {
+        } catch (SQLException | ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
     }
@@ -329,10 +316,10 @@ public class OrderController {
     public void cmbSpareIdOnAction(ActionEvent actionEvent) {
         String id = (String) cmbSpareId.getValue();
         try {
-            SpareDto spareDto = sparePartsModel.searchSpare(id);
+            SpareDto spareDto = sparePartsDAO.search(id);
             lblSpareName.setText(spareDto.getSpareType());
             lblPrice.setText(String.valueOf(spareDto.getPrice()));
-        } catch (SQLException e) {
+        } catch (SQLException | ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
     }

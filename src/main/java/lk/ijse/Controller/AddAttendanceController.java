@@ -11,7 +11,7 @@ import javafx.scene.Cursor;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
-import lk.ijse.DAO.AttendanceModel;
+import lk.ijse.DAO.Impl.AttendanceDAOImpl;
 import lk.ijse.DAO.Custom.EmployeeDAO;
 import lk.ijse.DAO.Impl.EmployeeDAOImpl;
 import lk.ijse.dto.AttendanceDto;
@@ -58,7 +58,7 @@ public class AddAttendanceController {
     private DatePicker txtDate;
 
 
-    private AttendanceModel attendanceModel = new AttendanceModel();
+    private AttendanceDAOImpl attendanceModel = new AttendanceDAOImpl();
     EmployeeDAO employeeDAO = new EmployeeDAOImpl();
 
     private ObservableList<AttendanceTm> obList = FXCollections.observableArrayList();
@@ -95,7 +95,7 @@ public class AddAttendanceController {
         }
 
         try{
-            boolean isSuccess = AttendanceModel.addAttendanceList(attendanceDtoList);
+            boolean isSuccess = AttendanceDAOImpl.addAttendanceList(attendanceDtoList);
             if(isSuccess) {
                 new Alert(Alert.AlertType.CONFIRMATION,"Attendance save success!!!").show();
                 obList.clear();

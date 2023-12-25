@@ -1,20 +1,23 @@
 package lk.ijse.DAO;
 
+import lk.ijse.DAO.Custom.OrderDAO;
+import lk.ijse.DAO.Impl.OrderDAOImpl;
+import lk.ijse.DAO.Impl.ServiceDAOImpl;
 import lk.ijse.DB.DbConnection;
+import lk.ijse.dto.OrderDto;
 import lk.ijse.dto.PlaceOrderDto;
 
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.time.LocalDate;
 
 public class PlaceOrderModel {
-    private OrderModel orderModel = new OrderModel();
+    OrderDAO orderDAO = new OrderDAOImpl();
 
-    private ServiceModel serviceModel = new ServiceModel();
+    private ServiceDAOImpl serviceModel = new ServiceDAOImpl();
 
     private OrderServiceModel orderServiceModel = new OrderServiceModel();
 
-    public boolean placeOrder (PlaceOrderDto placeOrderDto) throws SQLException{
+    public boolean placeOrder (PlaceOrderDto placeOrderDto) throws SQLException, ClassNotFoundException {
         System.out.println(placeOrderDto);
 
         String orderId = placeOrderDto.getOrderId();
@@ -26,8 +29,8 @@ public class PlaceOrderModel {
         try{
             connection = DbConnection.getInstance().getConnection();
             connection.setAutoCommit(false);
-
-            boolean isOrderSaved = orderModel.saveOrder(orderId,guardianId, LocalDate.parse(date));
+            var dto = new OrderDto(orderId,guardianId,date);
+            boolean isOrderSaved = orderDAO.save(dto);
             if(isOrderSaved) {
                 boolean isUpdated = serviceModel.updateService(placeOrderDto.getCartTmList());
                 if (isUpdated) {

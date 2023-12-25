@@ -1,5 +1,6 @@
-package lk.ijse.DAO;
+package lk.ijse.DAO.Impl;
 
+import lk.ijse.DAO.Custom.AttendanceDAO;
 import lk.ijse.DB.DbConnection;
 import lk.ijse.dto.AttendanceDto;
 
@@ -11,7 +12,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class AttendanceModel {
+public class AttendanceDAOImpl{
     public List<AttendanceDto> getAllAttendance() throws SQLException {
         Connection connection = DbConnection.getInstance().getConnection();
         String sql = "SELECT * FROM attendance";

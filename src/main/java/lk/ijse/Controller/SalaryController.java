@@ -26,10 +26,12 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import lk.ijse.DAO.Custom.EmployeeDAO;
+import lk.ijse.DAO.Custom.ExpenditureDAO;
+import lk.ijse.DAO.Custom.SalaryDAO;
 import lk.ijse.DB.DbConnection;
 import lk.ijse.DAO.Impl.EmployeeDAOImpl;
-import lk.ijse.DAO.ExpenditureModel;
-import lk.ijse.DAO.SalaryModel;
+import lk.ijse.DAO.Impl.ExpenditureDAOImpl;
+import lk.ijse.DAO.Impl.SalaryDAOImpl;
 import lk.ijse.dto.EmployeeDto;
 import lk.ijse.dto.ExpenditureDto;
 import lk.ijse.dto.SalaryDto;
@@ -89,8 +91,8 @@ public class SalaryController {
     @FXML
     private JFXTextField txtSalary;
     private String month;
-    private SalaryModel salaryModel = new SalaryModel();
-    private ExpenditureModel expenditureModel = new ExpenditureModel();
+    SalaryDAO salaryDAO = new SalaryDAOImpl();
+    ExpenditureDAO expenditureDAO = new ExpenditureDAOImpl();
 
     EmployeeDAO employeeDAO = new EmployeeDAOImpl();
     private ObservableList<SalaryTm> obList = FXCollections.observableArrayList();
@@ -161,12 +163,12 @@ public class SalaryController {
 
         try {
             var dto = new SalaryDto(id, name, salary, bonus, etf, finalSalary, month);
-            boolean isSaved = salaryModel.saveSalary(dto);
+            boolean isSaved = salaryDAO.save(dto);
             if (isSaved) {
                 email();
                 new Alert(Alert.AlertType.CONFIRMATION, "Salary pay success").show();
             }
-        } catch (SQLException e) {
+        } catch (SQLException | ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
         goExpenditure();
@@ -183,11 +185,11 @@ public class SalaryController {
         var exDto = new ExpenditureDto(dese, amount, year, month, localDate);
 
         try {
-            boolean isSuccess = expenditureModel.addExpenditure(exDto);
+            boolean isSuccess = expenditureDAO.save(exDto);
             if (isSuccess) {
                 new Alert(Alert.AlertType.CONFIRMATION,"Expenditure added").show();
             }
-        } catch (SQLException e) {
+        } catch (SQLException | ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
     }
@@ -214,7 +216,7 @@ public class SalaryController {
                 month = selectMonth.name();
 
             }
-            List<SalaryTm> dtoList = salaryModel.searchSalary(month);
+            List<SalaryTm> dtoList = salaryDAO.searchSalary(month);
             for (SalaryTm dto : dtoList) {
                 obList.add(
                         new SalaryTm(

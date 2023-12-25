@@ -11,8 +11,9 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import lk.ijse.DAO.AddedSpareModel;
+import lk.ijse.DAO.Custom.SparePartsDAO;
 import lk.ijse.DAO.Custom.SupplierDAO;
-import lk.ijse.DAO.SparePartsModel;
+import lk.ijse.DAO.Impl.SparePartsDAOImpl;
 import lk.ijse.DAO.Impl.SupplierDAOImpl;
 import lk.ijse.dto.*;
 import lk.ijse.dto.tm.SpareCartTm;
@@ -50,7 +51,7 @@ public class AddSupplierController {
     public Label lblSpareType;
     public Label lblPrice;
     SupplierDAO supplierDAO = new SupplierDAOImpl();
-    private SparePartsModel sparePartsModel = new SparePartsModel();
+    SparePartsDAO sparePartsDAO = new SparePartsDAOImpl();
     private ObservableList<SpareCartTm> obList = FXCollections.observableArrayList();
 
     public void initialize(){
@@ -76,14 +77,14 @@ public class AddSupplierController {
         ObservableList<String> obList = FXCollections.observableArrayList();
 
         try {
-            List<SpareDto> idList = sparePartsModel.getAllSpare();
+            List<SpareDto> idList = sparePartsDAO.getAll();
 
             for (SpareDto dto: idList) {
                 obList.add(dto.getSpareId());
             }
 
             cmbSpareId.setItems(obList);
-        } catch (SQLException e) {
+        } catch (SQLException | ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
     }
@@ -160,11 +161,11 @@ public class AddSupplierController {
     public void cmbSpareIdOnAction(ActionEvent actionEvent) {
         String id = (String) cmbSpareId.getValue();
         try {
-            SpareDto spareDto = sparePartsModel.searchSpare(id);
+            SpareDto spareDto = sparePartsDAO.search(id);
             lblSpareType.setText(spareDto.getSpareType());
             lblPrice.setText(String.valueOf(spareDto.getPrice()));
 
-        } catch (SQLException e) {
+        } catch (SQLException | ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
     }

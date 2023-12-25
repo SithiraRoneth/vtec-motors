@@ -1,5 +1,6 @@
-package lk.ijse.DAO;
+package lk.ijse.DAO.Impl;
 
+import lk.ijse.DAO.Custom.ServiceDAO;
 import lk.ijse.DB.DbConnection;
 import lk.ijse.dto.ServiceDto;
 import lk.ijse.dto.tm.CartTm;
@@ -11,17 +12,18 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ServiceModel {
-    public static boolean deleteService(String id) throws SQLException {
-        Connection connection = DbConnection.getInstance().getConnection();
-        String sql = "DELETE FROM Service WHERE Service_id = ? ";
-        PreparedStatement pstm = connection.prepareStatement(sql);
+public class ServiceDAOImpl implements ServiceDAO {
+    @Override
+    public  boolean updateService(List<CartTm> cartTmList){
+        for(CartTm tm : cartTmList) {
+            System.out.println("Service: " + tm);
 
-        pstm.setString(1,id);
-        return pstm.executeUpdate()>0;
+        }
+        return true;
     }
 
-    public boolean AddService(ServiceDto dto) throws SQLException {
+    @Override
+    public boolean save(ServiceDto dto) throws SQLException, ClassNotFoundException {
         Connection connection = DbConnection.getInstance().getConnection();
         String sql = "INSERT INTO service VALUES(?,?,?,?)";
 
@@ -34,7 +36,19 @@ public class ServiceModel {
         return pstm.executeUpdate()>0;
     }
 
-    public List<ServiceDto> loadAllService() throws SQLException {
+    @Override
+    public boolean delete(String id) throws SQLException, ClassNotFoundException {
+        Connection connection = DbConnection.getInstance().getConnection();
+        String sql = "DELETE FROM Service WHERE Service_id = ? ";
+        PreparedStatement pstm = connection.prepareStatement(sql);
+
+        pstm.setString(1,id);
+
+        return pstm.executeUpdate()>0;
+    }
+
+    @Override
+    public List<ServiceDto> getAll() throws SQLException, ClassNotFoundException {
         Connection connection = DbConnection.getInstance().getConnection();
         String sql = "SELECT * FROM service";
         PreparedStatement pstm = connection.prepareStatement(sql);
@@ -54,7 +68,13 @@ public class ServiceModel {
         return dtoList;
     }
 
-    public ServiceDto searchService(String id) throws SQLException {
+    @Override
+    public boolean update(ServiceDto serviceDto) throws SQLException, ClassNotFoundException {
+        return false;
+    }
+
+    @Override
+    public ServiceDto search(String id) throws SQLException, ClassNotFoundException {
         Connection connection = DbConnection.getInstance().getConnection();
 
         String sql = "SELECT * FROM service WHERE Service_id = ? ";
@@ -68,17 +88,18 @@ public class ServiceModel {
 
         if (resultSet.next()){
             dto = new ServiceDto(
-                     resultSet.getString(1),
-                     resultSet.getString(2),
-                     resultSet.getString(3),
-                     resultSet.getDouble(4)
+                    resultSet.getString(1),
+                    resultSet.getString(2),
+                    resultSet.getString(3),
+                    resultSet.getDouble(4)
             );
 
         }
         return dto;
     }
 
-    public String generateNextServiceId() throws SQLException {
+    @Override
+    public String generateNextId() throws SQLException, ClassNotFoundException {
         Connection connection = DbConnection.getInstance().getConnection();
 
         String sql = "SELECT Service_id FROM service ORDER BY Service_id DESC LIMIT 1";
@@ -86,28 +107,21 @@ public class ServiceModel {
 
         ResultSet resultSet = pstm.executeQuery();
         if(resultSet.next()) {
-            return splitSerId(resultSet.getString(1));
+            return splitId(resultSet.getString(1));
         }
-        return splitSerId(null);
+        return splitId(null);
     }
 
-    private String splitSerId(String serId) {
-        if(serId != null) {
-            String[] split = serId.split("Service_0");
+    @Override
+    public String splitId(String id) {
+        if(id != null) {
+            String[] split = id.split("Service_0");
 
-            int id = Integer.parseInt(split[1]); //01
-            id++;
-            return "Service_00" + id;
+            int id1 = Integer.parseInt(split[1]); //01
+            id1++;
+            return "Service_00" + id1;
         } else {
             return "Service_001";
         }
-    }
-
-    public static boolean updateService(List<CartTm> cartTmList) throws SQLException {
-        for(CartTm tm : cartTmList) {
-            System.out.println("Service: " + tm);
-
-        }
-        return true;
     }
 }

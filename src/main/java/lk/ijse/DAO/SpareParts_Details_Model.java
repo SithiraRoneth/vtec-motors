@@ -8,7 +8,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.List;
 
-public class SpareParts_Details_Model {
+public class SpareParts_Details_Model{
     public boolean saveSpearPart(String supplierId,String supplierName, List<SpareCartTm>spareCartTmList) throws SQLException {
         for (SpareCartTm tm : spareCartTmList) {
             if(!saveSpearPart(supplierId,supplierName,tm)){

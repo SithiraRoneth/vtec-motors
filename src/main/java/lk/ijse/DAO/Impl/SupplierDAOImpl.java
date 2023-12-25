@@ -26,10 +26,7 @@ public class SupplierDAOImpl implements SupplierDAO {
 
     @Override
     public List<SupplierDto> getAll() throws SQLException, ClassNotFoundException {
-        Connection connection = DbConnection.getInstance().getConnection();
-        String sql = "SELECT * FROM supplier";
-        PreparedStatement pstm = connection.prepareStatement(sql);
-        ResultSet resultSet = pstm.executeQuery();
+        ResultSet resultSet = SQLUtil.execute("SELECT * FROM supplier");
 
         ArrayList<SupplierDto> dtoList = new ArrayList<>();
 
@@ -47,29 +44,18 @@ public class SupplierDAOImpl implements SupplierDAO {
 
     @Override
     public boolean update(SupplierDto dto) throws SQLException, ClassNotFoundException {
-        Connection connection = DbConnection.getInstance().getConnection();
-
-        String sql = "UPDATE supplier SET Supplier_name = ? , Supplier_ContactNo = ? WHERE Supplier_id = ? ";
-
-        PreparedStatement pstm = connection.prepareStatement(sql);
-        pstm.setString(1, dto.getName());
-        pstm.setString(2, dto.getContact());
-        pstm.setString(3, dto.getId());
-
-        return pstm.executeUpdate()>0;
+        return SQLUtil.execute("UPDATE supplier SET Supplier_name = ? , Supplier_ContactNo = ? WHERE Supplier_id = ? ",
+                dto.getName(),
+                dto.getContact(),
+                dto.getId()
+                );
     }
 
     @Override
     public SupplierDto search(String id) throws SQLException, ClassNotFoundException {
-        Connection connection = DbConnection.getInstance().getConnection();
 
-        String sql = "SELECT * FROM supplier WHERE Supplier_id = ? ";
-        PreparedStatement pstm = connection.prepareStatement(sql);
-        pstm.setString(1,id);
-        ResultSet resultSet = pstm.executeQuery();
-
+        ResultSet resultSet = SQLUtil.execute( "SELECT * FROM supplier WHERE Supplier_id = ? ",id);
         SupplierDto dto = null;
-
         if (resultSet.next()){
             String Supplier_id = resultSet.getString(1);
             String Supplier_name  = resultSet.getString(2);
@@ -83,12 +69,7 @@ public class SupplierDAOImpl implements SupplierDAO {
 
     @Override
     public String generateNextId() throws SQLException, ClassNotFoundException {
-        Connection connection = DbConnection.getInstance().getConnection();
-
-        String sql = "SELECT Supplier_id FROM supplier ORDER BY Supplier_id DESC LIMIT 1";
-        PreparedStatement pstm = connection.prepareStatement(sql);
-
-        ResultSet resultSet = pstm.executeQuery();
+        ResultSet resultSet = SQLUtil.execute("SELECT Supplier_id FROM supplier ORDER BY Supplier_id DESC LIMIT 1");
         if(resultSet.next()) {
             return splitId(resultSet.getString(1));
         }

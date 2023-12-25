@@ -1,6 +1,7 @@
 package lk.ijse.DAO.Impl;
 
 import lk.ijse.DAO.Custom.SalaryDAO;
+import lk.ijse.DAO.SQLUtil;
 import lk.ijse.DB.DbConnection;
 import lk.ijse.dto.SalaryDto;
 import lk.ijse.dto.tm.SalaryTm;
@@ -14,13 +15,9 @@ import java.util.List;
 
 public class SalaryDAOImpl implements SalaryDAO {
     @Override
-    public  List<SalaryTm>searchSalary(String month) throws SQLException {
-        Connection connection = DbConnection.getInstance().getConnection();
-        String sql = "SELECT * FROM salary WHERE month = ? ";
-        PreparedStatement pstm = connection.prepareStatement(sql);
-        pstm.setString(1,month);
+    public  List<SalaryTm>searchSalary(String month) throws SQLException, ClassNotFoundException {
 
-        ResultSet resultSet = pstm.executeQuery();
+        ResultSet resultSet = SQLUtil.execute("SELECT * FROM salary WHERE month = ? ",month);
 
         List<SalaryTm> salaryTm = new ArrayList<>();
         while (resultSet.next()){
@@ -40,20 +37,16 @@ public class SalaryDAOImpl implements SalaryDAO {
 
     @Override
     public boolean save(SalaryDto dto) throws SQLException, ClassNotFoundException {
-        Connection connection = DbConnection.getInstance().getConnection();
-        String sql = "INSERT INTO salary (Emp_id,Emp_name,salary_amount,bonus,etf,final_salary,month)VALUES(?,?,?,?,?,?,?)";
-        PreparedStatement pstm = connection.prepareStatement(sql);
+        return SQLUtil.execute("INSERT INTO salary (Emp_id,Emp_name,salary_amount,bonus,etf,final_salary,month)VALUES(?,?,?,?,?,?,?)",
+                dto.getId(),
+                dto.getName(),
+                dto.getSalary(),
+                dto.getBonus(),
+                dto.getEtf(),
+                dto.getFinalSalary(),
+                dto.getMonth()
 
-        pstm.setString(1,dto.getId());
-        pstm.setString(2, dto.getName());
-        pstm.setString(3, String.valueOf(dto.getSalary()));
-        pstm.setString(4, String.valueOf(dto.getBonus()));
-        pstm.setString(5, String.valueOf(dto.getEtf()));
-        pstm.setString(6, String.valueOf(dto.getFinalSalary()));
-        pstm.setString(7, dto.getMonth());
-
-        boolean isSaved =  pstm.executeUpdate()>0;
-        return isSaved;
+        );
     }
 
     @Override

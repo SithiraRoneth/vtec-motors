@@ -9,5 +9,5 @@ import java.util.List;
 
 public interface SparePartsDAO extends CrudDAO<SpareDto> {
     boolean updateSpare(List<SpareCartTm> spareCartTmList);
-    List<SpareDto>searchSpareparts(String id) throws SQLException;
+    List<SpareDto>searchSpareparts(String id) throws SQLException, ClassNotFoundException;
 }

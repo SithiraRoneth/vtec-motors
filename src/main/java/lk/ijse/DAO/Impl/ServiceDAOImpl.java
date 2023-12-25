@@ -1,6 +1,7 @@
 package lk.ijse.DAO.Impl;
 
 import lk.ijse.DAO.Custom.ServiceDAO;
+import lk.ijse.DAO.SQLUtil;
 import lk.ijse.DB.DbConnection;
 import lk.ijse.dto.ServiceDto;
 import lk.ijse.dto.tm.CartTm;
@@ -24,36 +25,22 @@ public class ServiceDAOImpl implements ServiceDAO {
 
     @Override
     public boolean save(ServiceDto dto) throws SQLException, ClassNotFoundException {
-        Connection connection = DbConnection.getInstance().getConnection();
-        String sql = "INSERT INTO service VALUES(?,?,?,?)";
-
-        PreparedStatement pstm = connection.prepareStatement(sql);
-        pstm.setString(1, dto.getId());
-        pstm.setString(2, dto.getName());
-        pstm.setString(3, dto.getDescription());
-        pstm.setString(4, String.valueOf(dto.getAmount()));
-
-        return pstm.executeUpdate()>0;
+        return SQLUtil.execute("INSERT INTO service VALUES(?,?,?,?)",
+                dto.getId(),
+                dto.getName(),
+                dto.getDescription(),
+                dto.getAmount()
+                );
     }
 
     @Override
     public boolean delete(String id) throws SQLException, ClassNotFoundException {
-        Connection connection = DbConnection.getInstance().getConnection();
-        String sql = "DELETE FROM Service WHERE Service_id = ? ";
-        PreparedStatement pstm = connection.prepareStatement(sql);
-
-        pstm.setString(1,id);
-
-        return pstm.executeUpdate()>0;
+        return SQLUtil.execute("DELETE FROM Service WHERE Service_id = ? ",id);
     }
 
     @Override
     public List<ServiceDto> getAll() throws SQLException, ClassNotFoundException {
-        Connection connection = DbConnection.getInstance().getConnection();
-        String sql = "SELECT * FROM service";
-        PreparedStatement pstm = connection.prepareStatement(sql);
-
-        ResultSet resultSet = pstm.executeQuery();
+        ResultSet resultSet = SQLUtil.execute("SELECT * FROM service");
         ArrayList<ServiceDto> dtoList = new ArrayList<>();
         while (resultSet.next()){
             dtoList.add(
@@ -75,17 +62,9 @@ public class ServiceDAOImpl implements ServiceDAO {
 
     @Override
     public ServiceDto search(String id) throws SQLException, ClassNotFoundException {
-        Connection connection = DbConnection.getInstance().getConnection();
 
-        String sql = "SELECT * FROM service WHERE Service_id = ? ";
-
-        PreparedStatement pstm = connection.prepareStatement(sql);
-        pstm.setString(1,id);
-
-        ResultSet resultSet = pstm.executeQuery();
-
+        ResultSet resultSet = SQLUtil.execute("SELECT * FROM service WHERE Service_id = ? ",id);
         ServiceDto dto = null;
-
         if (resultSet.next()){
             dto = new ServiceDto(
                     resultSet.getString(1),
@@ -93,19 +72,13 @@ public class ServiceDAOImpl implements ServiceDAO {
                     resultSet.getString(3),
                     resultSet.getDouble(4)
             );
-
         }
         return dto;
     }
 
     @Override
     public String generateNextId() throws SQLException, ClassNotFoundException {
-        Connection connection = DbConnection.getInstance().getConnection();
-
-        String sql = "SELECT Service_id FROM service ORDER BY Service_id DESC LIMIT 1";
-        PreparedStatement pstm = connection.prepareStatement(sql);
-
-        ResultSet resultSet = pstm.executeQuery();
+        ResultSet resultSet = SQLUtil.execute("SELECT Service_id FROM service ORDER BY Service_id DESC LIMIT 1");
         if(resultSet.next()) {
             return splitId(resultSet.getString(1));
         }

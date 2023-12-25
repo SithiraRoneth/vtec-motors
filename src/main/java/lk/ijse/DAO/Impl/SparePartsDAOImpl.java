@@ -1,6 +1,7 @@
 package lk.ijse.DAO.Impl;
 
 import lk.ijse.DAO.Custom.SparePartsDAO;
+import lk.ijse.DAO.SQLUtil;
 import lk.ijse.DB.DbConnection;
 import lk.ijse.dto.SpareDto;
 import lk.ijse.dto.tm.SpareCartTm;
@@ -21,14 +22,8 @@ public class SparePartsDAOImpl implements SparePartsDAO {
         return true;
     }
     @Override
-    public  List<SpareDto>searchSpareparts(String id) throws SQLException {
-        Connection connection = DbConnection.getInstance().getConnection();
-        String sql = "SELECT * FROM spareparts WHERE (Service_id = ? )";
-
-        PreparedStatement pstm = connection.prepareStatement(sql);
-        pstm.setString(1,id);
-
-        ResultSet resultSet = pstm.executeQuery();
+    public  List<SpareDto>searchSpareparts(String id) throws SQLException, ClassNotFoundException {
+        ResultSet resultSet = SQLUtil.execute("SELECT * FROM spareparts WHERE (Service_id = ? )",id);
 
         ArrayList<SpareDto> dto = new ArrayList<>();
         while (resultSet.next()){
@@ -48,39 +43,27 @@ public class SparePartsDAOImpl implements SparePartsDAO {
 
     @Override
     public boolean save(SpareDto dto) throws SQLException, ClassNotFoundException {
-        Connection connection = DbConnection.getInstance().getConnection();
 
-        String sql = "INSERT INTO spareparts VALUES(?,?,?,?,?,?)";
-        PreparedStatement pstm = connection.prepareStatement(sql);
-        pstm.setString(1, dto.getSpareId());
-        pstm.setString(2, dto.getSpareType());
-        pstm.setString(3, dto.getDescription());
-        pstm.setString(4, String.valueOf(dto.getPrice()));
-        pstm.setString(5, dto.getService_name());
-        pstm.setString(6, dto.getService_id());
-
-        return pstm.executeUpdate()>0;
+        return SQLUtil.execute("INSERT INTO spareparts VALUES(?,?,?,?,?,?)",
+                dto.getSpareId(),
+                dto.getSpareType(),
+                dto.getDescription(),
+                dto.getPrice(),
+                dto.getService_name(),
+                dto.getSpareId()
+                );
     }
 
     @Override
     public boolean delete(String id) throws SQLException, ClassNotFoundException {
-        Connection connection = DbConnection.getInstance().getConnection();
-        String sql = "DELETE FROM spareparts WHERE Spare_id = ? ";
-        PreparedStatement pstm = connection.prepareStatement(sql);
-        pstm.setString(1,id);
-        return pstm.executeUpdate()>0;
+        return SQLUtil.execute("DELETE FROM spareparts WHERE Spare_id = ? ",id);
     }
 
     @Override
     public List<SpareDto> getAll() throws SQLException, ClassNotFoundException {
-        Connection connection = DbConnection.getInstance().getConnection();
-
-        String sql = "SELECT * FROM spareparts";
-        PreparedStatement pstm = connection.prepareStatement(sql);
-        ResultSet resultSet = pstm.executeQuery();
+        ResultSet resultSet = SQLUtil.execute("SELECT * FROM spareparts");
 
         ArrayList<SpareDto> dtoList = new ArrayList<>();
-
         while (resultSet.next()){
             dtoList.add(
                     new SpareDto(
@@ -103,15 +86,9 @@ public class SparePartsDAOImpl implements SparePartsDAO {
 
     @Override
     public SpareDto search(String id) throws SQLException, ClassNotFoundException {
-        Connection connection = DbConnection.getInstance().getConnection();
-        String sql = "SELECT * FROM spareparts WHERE Spare_id = ? ";
 
-        PreparedStatement pstm = connection.prepareStatement(sql);
-        pstm.setString(1,id);
-
-        ResultSet resultSet = pstm.executeQuery();
+        ResultSet resultSet = SQLUtil.execute("SELECT * FROM spareparts WHERE Spare_id = ? ",id);
         SpareDto dto = null;
-
         if (resultSet.next()){
             dto = new SpareDto(
                     resultSet.getString(1),
@@ -127,12 +104,7 @@ public class SparePartsDAOImpl implements SparePartsDAO {
 
     @Override
     public String generateNextId() throws SQLException, ClassNotFoundException {
-        Connection connection = DbConnection.getInstance().getConnection();
-
-        String sql = "SELECT Spare_id FROM spareparts ORDER BY Spare_id DESC LIMIT 1";
-        PreparedStatement pstm = connection.prepareStatement(sql);
-
-        ResultSet resultSet = pstm.executeQuery();
+        ResultSet resultSet = SQLUtil.execute("SELECT Spare_id FROM spareparts ORDER BY Spare_id DESC LIMIT 1");
         if(resultSet.next()) {
             return splitId(resultSet.getString(1));
         }

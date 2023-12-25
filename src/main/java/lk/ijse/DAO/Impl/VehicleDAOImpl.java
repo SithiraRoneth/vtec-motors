@@ -2,11 +2,7 @@ package lk.ijse.DAO.Impl;
 
 import lk.ijse.DAO.Custom.VehicleDAO;
 import lk.ijse.DAO.SQLUtil;
-import lk.ijse.DB.DbConnection;
 import lk.ijse.dto.VehicleDto;
-
-import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;

@@ -7,5 +7,5 @@ import java.sql.SQLException;
 import java.util.List;
 
 public interface UserDAO extends CrudDAO<UserDto> {
-     List<UserDto> loginUser() throws SQLException;
+     List<UserDto> loginUser() throws SQLException, ClassNotFoundException;
 }

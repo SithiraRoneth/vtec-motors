@@ -11,8 +11,9 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import lk.ijse.DAO.Custom.EmployeeDAO;
+import lk.ijse.DAO.Custom.GuardianDAO;
 import lk.ijse.DAO.Impl.EmployeeDAOImpl;
-import lk.ijse.DAO.GuardianModel;
+import lk.ijse.DAO.Impl.GuardianDAOImpl;
 import lk.ijse.dto.EmployeeDto;
 import lk.ijse.dto.GuardianDto;
 import org.controlsfx.control.Notifications;
@@ -29,7 +30,7 @@ public class AddGuardianController {
     public JFXTextField txtContact;
     public JFXComboBox comboEmp_Id;
     public Label lblGuardianId;
-    private GuardianModel guardianModel = new GuardianModel();
+    GuardianDAO guardianDAO = new GuardianDAOImpl();
     EmployeeDAO employeeDAO = new EmployeeDAOImpl();
 
     public void initialize() {
@@ -39,9 +40,9 @@ public class AddGuardianController {
 
     private void generateNextGuardianId() {
         try {
-            String guardianId = guardianModel.generateNextGuardinaId();
+            String guardianId = guardianDAO.generateNextId();
             lblGuardianId.setText(guardianId);
-        } catch (SQLException e) {
+        } catch (SQLException | ClassNotFoundException e) {
             new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
         }
     }
@@ -58,7 +59,7 @@ public class AddGuardianController {
                 return;
             }
             var dto = new GuardianDto(id,name,contact,emp_id);
-            boolean isSaved = guardianModel.saveGuardian(dto);
+            boolean isSaved = guardianDAO.save(dto);
 
             if (isSaved){
                 ButtonType yes = new ButtonType("yes", ButtonBar.ButtonData.OK_DONE);
@@ -72,7 +73,7 @@ public class AddGuardianController {
                     stage.close();
                 }*/
             }
-        }catch (SQLException e){
+        }catch (SQLException | ClassNotFoundException e){
             new Alert(Alert.AlertType.ERROR,e.getMessage()).show();
         }
         clearFields();

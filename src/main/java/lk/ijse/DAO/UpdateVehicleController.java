@@ -1,4 +1,4 @@
-package lk.ijse.Controller;
+package lk.ijse.DAO;
 
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
@@ -7,8 +7,10 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Alert;
 import javafx.scene.layout.AnchorPane;
-import lk.ijse.DAO.GuardianModel;
-import lk.ijse.DAO.VehicleModel;
+import lk.ijse.DAO.Custom.GuardianDAO;
+import lk.ijse.DAO.Custom.VehicleDAO;
+import lk.ijse.DAO.Impl.GuardianDAOImpl;
+import lk.ijse.DAO.Impl.VehicleDAOImpl;
 import lk.ijse.dto.GuardianDto;
 import lk.ijse.dto.VehicleDto;
 import org.controlsfx.control.Notifications;
@@ -23,9 +25,8 @@ public class UpdateVehicleController {
     public JFXTextField txtVehicleType;
     public JFXComboBox comboVehicle_id;
     public JFXComboBox comboGuardian_id;
-
-    private VehicleModel vehicleModel = new VehicleModel();
-    private GuardianModel guardianModel = new GuardianModel();
+    VehicleDAO vehicleDAO = new VehicleDAOImpl();
+    GuardianDAO guardianDAO = new GuardianDAOImpl();
 
     public void initialize(){
         setValue();
@@ -35,13 +36,13 @@ public class UpdateVehicleController {
         ObservableList<String> obList = FXCollections.observableArrayList();
 
         try {
-            List<VehicleDto> idList = vehicleModel.getAllVehicles();
+            List<VehicleDto> idList = vehicleDAO.getAll();
 
             for ( VehicleDto dto : idList) {
                 obList.add(dto.getVehicle_id());
             }
             comboVehicle_id.setItems(obList);
-        } catch (SQLException e) {
+        } catch (SQLException | ClassNotFoundException e) {
             new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
         }
     }
@@ -57,12 +58,12 @@ public class UpdateVehicleController {
                 return;
             }
             var dto = new VehicleDto(id,vehicle_type,guardian_id);
-            boolean isUpdate = vehicleModel.updateVehicle(dto);
+            boolean isUpdate = vehicleDAO.update(dto);
             if (isUpdate){
                 new Alert(Alert.AlertType.CONFIRMATION,"Vehicle updated").show();
                 clearFields();
             }
-        }catch (SQLException e){
+        }catch (SQLException | ClassNotFoundException e){
             new Alert(Alert.AlertType.ERROR,e.getMessage()).show();
         }
     }
@@ -93,13 +94,13 @@ public class UpdateVehicleController {
         ObservableList<String> obList = FXCollections.observableArrayList();
 
         try {
-            List<GuardianDto> idList = guardianModel.GetAllGuardian();
+            List<GuardianDto> idList = guardianDAO.getAll();
 
             for ( GuardianDto dto : idList) {
                 obList.add(dto.getGuardian_id());
             }
             comboGuardian_id.setItems(obList);
-        } catch (SQLException e) {
+        } catch (SQLException | ClassNotFoundException e) {
             new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
         }
     }
@@ -107,9 +108,9 @@ public class UpdateVehicleController {
         String id = (String) comboGuardian_id.getValue();
 
         try{
-            GuardianDto dto = guardianModel.searchGuardian(id);
+            GuardianDto dto = guardianDAO.search(id);
            // comboGuardian_id.setValue(dto.getGuardian_id());
-        } catch (SQLException e) {
+        } catch (SQLException | ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
     }
@@ -118,9 +119,9 @@ public class UpdateVehicleController {
         String id = (String) comboVehicle_id.getValue();
 
         try {
-            VehicleDto dto = vehicleModel.searchVehicle(id);
+            VehicleDto dto = vehicleDAO.search(id);
             txtVehicleType.setText(dto.getVehicle_type());
-        } catch (SQLException e) {
+        } catch (SQLException | ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
     }

@@ -1,5 +1,7 @@
-package lk.ijse.DAO;
+package lk.ijse.DAO.Impl;
 
+import lk.ijse.DAO.Custom.SupplierDAO;
+import lk.ijse.DAO.SQLUtil;
 import lk.ijse.DB.DbConnection;
 import lk.ijse.dto.SupplierDto;
 
@@ -10,30 +12,20 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SupplierModel {
-    public static boolean deleteSupplier(String id) throws SQLException {
-        Connection connection = DbConnection.getInstance().getConnection();
-        String sql = "DELETE FROM supplier WHERE Supplier_id = ? ";
-        PreparedStatement pstm = connection.prepareStatement(sql);
-        pstm.setString(1,id);
-        return pstm.executeUpdate()>0;
+public class SupplierDAOImpl implements SupplierDAO {
+
+    @Override
+    public boolean save(SupplierDto dto) throws SQLException, ClassNotFoundException {
+        return SQLUtil.execute("INSERT INTO supplier VALUES(?,?,?)",dto.getId(),dto.getName(),dto.getContact());
     }
 
-    public static boolean savedSupplier(String id , String name , String contact) throws SQLException {
-        Connection connection = DbConnection.getInstance().getConnection();
-        String sql = "INSERT INTO supplier VALUES(?,?,?)";
-
-        PreparedStatement pstm = connection.prepareStatement(sql);
-        pstm.setString(1,id);
-        pstm.setString(2,name);
-        pstm.setString(3,contact);
-
-        /*boolean isSaved = pstm.executeUpdate()>0;
-        return isSaved;*/
-        return pstm.executeUpdate()>0;
+    @Override
+    public boolean delete(String id) throws SQLException, ClassNotFoundException {
+        return SQLUtil.execute("DELETE FROM supplier WHERE Supplier_id = ? ",id);
     }
 
-    public List<SupplierDto> getAllSupplier() throws SQLException {
+    @Override
+    public List<SupplierDto> getAll() throws SQLException, ClassNotFoundException {
         Connection connection = DbConnection.getInstance().getConnection();
         String sql = "SELECT * FROM supplier";
         PreparedStatement pstm = connection.prepareStatement(sql);
@@ -53,7 +45,8 @@ public class SupplierModel {
         return dtoList;
     }
 
-    public boolean updateSupplier(SupplierDto dto) throws SQLException {
+    @Override
+    public boolean update(SupplierDto dto) throws SQLException, ClassNotFoundException {
         Connection connection = DbConnection.getInstance().getConnection();
 
         String sql = "UPDATE supplier SET Supplier_name = ? , Supplier_ContactNo = ? WHERE Supplier_id = ? ";
@@ -66,7 +59,8 @@ public class SupplierModel {
         return pstm.executeUpdate()>0;
     }
 
-    public SupplierDto searchSupplier(String id) throws SQLException {
+    @Override
+    public SupplierDto search(String id) throws SQLException, ClassNotFoundException {
         Connection connection = DbConnection.getInstance().getConnection();
 
         String sql = "SELECT * FROM supplier WHERE Supplier_id = ? ";
@@ -87,7 +81,8 @@ public class SupplierModel {
         return dto;
     }
 
-    public String generateNextSupplierId() throws SQLException {
+    @Override
+    public String generateNextId() throws SQLException, ClassNotFoundException {
         Connection connection = DbConnection.getInstance().getConnection();
 
         String sql = "SELECT Supplier_id FROM supplier ORDER BY Supplier_id DESC LIMIT 1";
@@ -95,22 +90,22 @@ public class SupplierModel {
 
         ResultSet resultSet = pstm.executeQuery();
         if(resultSet.next()) {
-            return splitSupId(resultSet.getString(1));
+            return splitId(resultSet.getString(1));
         }
-        return splitSupId(null);
+        return splitId(null);
     }
 
-    private String splitSupId(String supId) {
-        if(supId != null) {
-            String[] split = supId.split("S0");
+    @Override
+    public String splitId(String id) {
+        if(id != null) {
+            String[] split = id.split("S0");
 
-            int id = Integer.parseInt(split[1]); //01
-            id++;
-            return "S00" + id;
+            int id1 = Integer.parseInt(split[1]); //01
+            id1++;
+            return "S00" + id1;
         } else {
             return "S001";
         }
     }
-
 }
 

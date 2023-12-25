@@ -1,5 +1,6 @@
-package lk.ijse.DAO;
+package lk.ijse.DAO.Impl;
 
+import lk.ijse.DAO.Custom.GuardianDAO;
 import lk.ijse.DB.DbConnection;
 import lk.ijse.dto.GuardianDto;
 
@@ -10,8 +11,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GuardianModel {
-    public boolean saveGuardian(GuardianDto dto) throws SQLException {
+public class GuardianDAOImpl implements GuardianDAO {
+    @Override
+    public boolean save(GuardianDto dto) throws SQLException, ClassNotFoundException {
         Connection connection = DbConnection.getInstance().getConnection();
         String sql = "INSERT INTO guardian VALUES(?,?,?,?)";
 
@@ -25,7 +27,17 @@ public class GuardianModel {
         return isAdded;
     }
 
-    public List<GuardianDto> GetAllGuardian() throws SQLException {
+    @Override
+    public boolean delete(String id) throws SQLException, ClassNotFoundException {
+        Connection connection = DbConnection.getInstance().getConnection();
+        String sql = "DELETE FROM guardian WHERE Guardian_id = ? ";
+        PreparedStatement pstm = connection.prepareStatement(sql);
+        pstm.setString(1,id);
+        return pstm.executeUpdate()>0;
+    }
+
+    @Override
+    public List<GuardianDto> getAll() throws SQLException, ClassNotFoundException {
         Connection connection = DbConnection.getInstance().getConnection();
 
         String sql = "SELECT * FROM guardian";
@@ -47,7 +59,21 @@ public class GuardianModel {
         return dtoList;
     }
 
-    public GuardianDto searchGuardian(String id) throws SQLException {
+    @Override
+    public boolean update(GuardianDto dto) throws SQLException, ClassNotFoundException {
+        Connection connection = DbConnection.getInstance().getConnection();
+        String sql = "UPDATE guardian SET Guardian_name = ? , Guardian_ContactNo = ? , Emp_id = ? WHERE Guardian_id = ? ";
+        PreparedStatement pstm = connection.prepareStatement(sql);
+        pstm.setString(1, dto.getGuardian_name());
+        pstm.setString(2, dto.getGuardian_contact());
+        pstm.setString(3, dto.getEmployee_id());
+        pstm.setString(4,dto.getGuardian_id());
+
+        return pstm.executeUpdate()>0;
+    }
+
+    @Override
+    public GuardianDto search(String id) throws SQLException, ClassNotFoundException {
         Connection connection = DbConnection.getInstance().getConnection();
 
         String sql = "SELECT * FROM guardian WHERE Guardian_id = ?";
@@ -68,27 +94,9 @@ public class GuardianModel {
         }
         return dto;
     }
-    public static boolean deleteGuardian(String id) throws SQLException {
-        Connection connection = DbConnection.getInstance().getConnection();
-        String sql = "DELETE FROM guardian WHERE Guardian_id = ? ";
-        PreparedStatement pstm = connection.prepareStatement(sql);
-        pstm.setString(1,id);
-        return pstm.executeUpdate()>0;
-    }
 
-    public boolean updateGuardian(GuardianDto dto) throws SQLException {
-        Connection connection = DbConnection.getInstance().getConnection();
-        String sql = "UPDATE guardian SET Guardian_name = ? , Guardian_ContactNo = ? , Emp_id = ? WHERE Guardian_id = ? ";
-        PreparedStatement pstm = connection.prepareStatement(sql);
-        pstm.setString(1, dto.getGuardian_name());
-        pstm.setString(2, dto.getGuardian_contact());
-        pstm.setString(3, dto.getEmployee_id());
-        pstm.setString(4,dto.getGuardian_id());
-
-        return pstm.executeUpdate()>0;
-    }
-
-    public String generateNextGuardinaId() throws SQLException {
+    @Override
+    public String generateNextId() throws SQLException, ClassNotFoundException {
         Connection connection = DbConnection.getInstance().getConnection();
 
         String sql = "SELECT Guardian_id FROM Guardian ORDER BY Guardian_id DESC LIMIT 1";
@@ -96,18 +104,19 @@ public class GuardianModel {
 
         ResultSet resultSet = pstm.executeQuery();
         if(resultSet.next()) {
-            return splitOrderId(resultSet.getString(1));
+            return splitId(resultSet.getString(1));
         }
-        return splitOrderId(null);
+        return splitId(null);
     }
 
-    private String splitOrderId(String string) {
-        if(string != null) {
-            String[] split = string.split("G0");
+    @Override
+    public String splitId(String id) {
+        if(id != null) {
+            String[] split = id.split("G0");
 
-            int id = Integer.parseInt(split[1]); //01
-            id++;
-            return "G00" + id;
+            int id1 = Integer.parseInt(split[1]); //01
+            id1++;
+            return "G00" + id1;
         } else {
             return "G001";
         }

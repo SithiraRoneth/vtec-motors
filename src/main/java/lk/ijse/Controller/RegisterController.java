@@ -20,7 +20,8 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-import lk.ijse.DAO.UserModel;
+import lk.ijse.DAO.Custom.UserDAO;
+import lk.ijse.DAO.Impl.UserDAOImpl;
 import lk.ijse.dto.UserDto;
 import org.controlsfx.control.Notifications;
 import java.io.IOException;
@@ -43,7 +44,7 @@ public class RegisterController {
     public Hyperlink hlSendOtp;
     public TextField txtOtp;
     public Label lblOtp;
-    private UserModel userModel = new UserModel();
+    UserDAO userDAO = new UserDAOImpl();
 
     private void updateTime() {
         SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm:ss");
@@ -87,7 +88,7 @@ public class RegisterController {
 
             HyperLinkSendOtpOnAction();
 
-            boolean isReg = userModel.checkRegister(dto);
+            boolean isReg = userDAO.save(dto);
             if (isReg){
                 new Alert(Alert.AlertType.CONFIRMATION,"Registered Successfully").show();
                 AnchorPane anchorPane = FXMLLoader.load(getClass().getResource("/view/login_form.fxml"));
@@ -99,6 +100,8 @@ public class RegisterController {
         }catch (SQLException e){
             new Alert(Alert.AlertType.ERROR,e.getMessage()).show();
         } catch (IOException e) {
+            throw new RuntimeException(e);
+        } catch (ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
     }

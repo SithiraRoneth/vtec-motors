@@ -11,7 +11,8 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
-import lk.ijse.DAO.SupplierModel;
+import lk.ijse.DAO.Custom.SupplierDAO;
+import lk.ijse.DAO.Impl.SupplierDAOImpl;
 import lk.ijse.dto.SupplierDto;
 import lk.ijse.dto.tm.SupplierTm;
 import javafx.scene.control.Button;
@@ -38,7 +39,7 @@ public class SupplierController {
     private TableView<SupplierTm> tblSupplier;
 
     private ObservableList<SupplierTm>obList = FXCollections.observableArrayList();
-    private SupplierModel supplierModel = new SupplierModel();
+    SupplierDAO supplierDAO = new SupplierDAOImpl();
 
     public void initialize(){
         setCellValueFactory();
@@ -52,12 +53,12 @@ public class SupplierController {
         colDelete.setCellValueFactory(new PropertyValueFactory<>("btn"));
     }
     private void loadAllSupplier(){
-        var model = new SupplierModel();
+        var model = new SupplierDAOImpl();
 
         ObservableList<SupplierTm> obList = FXCollections.observableArrayList();
 
         try {
-            List<SupplierDto> dtoList = model.getAllSupplier();
+            List<SupplierDto> dtoList = supplierDAO.getAll();
 
             for(SupplierDto dto : dtoList){
                 Button btn = new Button("Remove");
@@ -72,7 +73,7 @@ public class SupplierController {
                 );
             }
             tblSupplier.setItems(obList);
-        }catch (SQLException e){
+        }catch (SQLException | ClassNotFoundException e){
             throw new RuntimeException(e);
         }
     }
@@ -96,13 +97,13 @@ public class SupplierController {
 
     private void DeleteSupplier(String id) {
         try {
-            boolean isDeleted = SupplierModel.deleteSupplier(id);
+            boolean isDeleted = supplierDAO.delete(id);
             if(isDeleted) {
                 new Alert(Alert.AlertType.CONFIRMATION, "Supplier deleted!").show();
             } else {
                 new Alert(Alert.AlertType.CONFIRMATION, "Supplier not deleted!").show();
             }
-        } catch (SQLException e) {
+        } catch (SQLException | ClassNotFoundException e) {
             new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
         }
        // tblSupplier.refresh();
@@ -124,9 +125,9 @@ public class SupplierController {
     private void tableListener(){
         tblSupplier.getSelectionModel().selectedItemProperty().addListener((observable, oldValued, newValue) -> {
             try {
-                SupplierDto dto = supplierModel.searchSupplier(newValue.getId());
+                SupplierDto dto = supplierDAO.search(newValue.getId());
                 setData(newValue, dto.getId());
-            } catch (SQLException e) {
+            } catch (SQLException | ClassNotFoundException e) {
                 throw new RuntimeException(e);
             }
         });

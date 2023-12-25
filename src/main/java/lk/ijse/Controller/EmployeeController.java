@@ -155,7 +155,6 @@ public class EmployeeController {
         } catch (ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
-        //tblEmployee.refresh();
         loadAllEmployee();
     }
 

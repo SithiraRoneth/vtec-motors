@@ -9,8 +9,9 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.layout.AnchorPane;
 import lk.ijse.DAO.Custom.EmployeeDAO;
+import lk.ijse.DAO.Custom.GuardianDAO;
 import lk.ijse.DAO.Impl.EmployeeDAOImpl;
-import lk.ijse.DAO.GuardianModel;
+import lk.ijse.DAO.Impl.GuardianDAOImpl;
 import lk.ijse.dto.EmployeeDto;
 import lk.ijse.dto.GuardianDto;
 import org.controlsfx.control.Notifications;
@@ -35,7 +36,7 @@ public class UpdateGuardianController {
     @FXML
     private JFXTextField txtName;
 
-    private GuardianModel guardianModel = new GuardianModel();
+    GuardianDAO guardianDAO = new GuardianDAOImpl();
     EmployeeDAO employeeDAO = new EmployeeDAOImpl();
 
     public void initialize(){
@@ -46,13 +47,13 @@ public class UpdateGuardianController {
         ObservableList<String> obList = FXCollections.observableArrayList();
 
         try {
-            List<GuardianDto> idList = guardianModel.GetAllGuardian();
+            List<GuardianDto> idList = guardianDAO.getAll();
 
             for ( GuardianDto dto : idList) {
                 obList.add(dto.getGuardian_id());
             }
             comboGuardian_id.setItems(obList);
-        } catch (SQLException e) {
+        } catch (SQLException | ClassNotFoundException e) {
             new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
         }
     }
@@ -67,11 +68,11 @@ public class UpdateGuardianController {
                 return;
             }
             var dto = new GuardianDto(id,name,contact,emp_id);
-            boolean isUpdate = guardianModel.updateGuardian(dto);
+            boolean isUpdate = guardianDAO.update(dto);
             if (isUpdate){
                 new Alert(Alert.AlertType.CONFIRMATION,"Guardian updated").show();
             }
-        }catch (SQLException e){
+        }catch (SQLException | ClassNotFoundException e){
             new Alert(Alert.AlertType.ERROR,e.getMessage()).show();
         }
     }
@@ -101,11 +102,11 @@ public class UpdateGuardianController {
     public void comboGuardian_idOnAction(ActionEvent actionEvent) {
         String id = (String) comboGuardian_id.getValue();
         try {
-            GuardianDto dto = guardianModel.searchGuardian(id);
+            GuardianDto dto = guardianDAO.search(id);
             txtName.setText(dto.getGuardian_name());
             txtContact.setText(dto.getGuardian_contact());
            // comboEmployee_id.setItems(dto.getEmployee_id());
-        } catch (SQLException e) {
+        } catch (SQLException | ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
     }

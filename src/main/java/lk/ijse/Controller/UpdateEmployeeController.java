@@ -103,14 +103,12 @@ public class UpdateEmployeeController {
         }
         return isValidate;
     }
-
     private void showErrorNotification(String title, String text) {
         Notifications.create()
                 .title(title)
                 .text(text)
                 .showError();
     }
-
     private void clearFields() {
         comboEmployee_id.setValue("");
         txtName.setText("");
@@ -119,11 +117,8 @@ public class UpdateEmployeeController {
         txtJob.setText("");
         txtEmail.setText("");
     }
-
-
     public void comboEmployee_idOnAction(ActionEvent actionEvent) {
         String id = comboEmployee_id.getValue();
-
         try{
             EmployeeDto dto = employeeDAO.search(id);
             txtName.setText(dto.getName());
@@ -137,4 +132,5 @@ public class UpdateEmployeeController {
             throw new RuntimeException(e);
         }
     }
+
 }

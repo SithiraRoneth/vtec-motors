@@ -89,7 +89,7 @@ public class EmployeeDAOImpl implements EmployeeDAO {
             String[] split = id.split("E0");
             int S_id = Integer.parseInt(split[1]); //01
             S_id++;
-            return "E00" + id;
+            return "E00" + S_id;
         } else {
             return "E001";
         }

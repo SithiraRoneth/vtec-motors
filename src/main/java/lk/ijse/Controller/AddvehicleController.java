@@ -12,8 +12,10 @@ import javafx.scene.control.Label;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
-import lk.ijse.DAO.GuardianModel;
-import lk.ijse.DAO.VehicleModel;
+import lk.ijse.DAO.Custom.GuardianDAO;
+import lk.ijse.DAO.Custom.VehicleDAO;
+import lk.ijse.DAO.Impl.GuardianDAOImpl;
+import lk.ijse.DAO.Impl.VehicleDAOImpl;
 import lk.ijse.dto.GuardianDto;
 import lk.ijse.dto.VehicleDto;
 import org.controlsfx.control.Notifications;
@@ -32,8 +34,8 @@ public class AddvehicleController {
     public Label lblGuardian_name;
     public Label lblVehicleId;
 
-    private VehicleModel vehicleModel = new VehicleModel();
-    private GuardianModel guardianModel = new GuardianModel();
+    VehicleDAO vehicleDAO = new VehicleDAOImpl();
+    GuardianDAO guardianDAO = new GuardianDAOImpl();
 
     public void initialize(){
         loadGuardian();
@@ -48,9 +50,9 @@ public class AddvehicleController {
 
     private void generateVehicleId() {
         try {
-            String employeeId = vehicleModel.generateNextVehicleId();
+            String employeeId = vehicleDAO.generateNextId();
             lblVehicleId.setText(employeeId);
-        } catch (SQLException e) {
+        } catch (SQLException | ClassNotFoundException e) {
             new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
         }
     }
@@ -65,7 +67,7 @@ public class AddvehicleController {
                 return;
             }
             var dto = new VehicleDto(id, types, guardian_id);
-            boolean isAdded = vehicleModel.addVehicle(dto);
+            boolean isAdded = vehicleDAO.save(dto);
             if(isAdded){
                 ButtonType yes = new ButtonType("yes", ButtonBar.ButtonData.OK_DONE);
                // ButtonType no = new ButtonType("no", ButtonBar.ButtonData.CANCEL_CLOSE);
@@ -78,7 +80,7 @@ public class AddvehicleController {
                     stage.close();
                 }*/
             }
-        }catch (SQLException e){
+        }catch (SQLException | ClassNotFoundException e){
             new Alert(Alert.AlertType.ERROR,e.getMessage()).show();
         }
         clearFields();
@@ -106,7 +108,7 @@ public class AddvehicleController {
         ObservableList<String> obList = FXCollections.observableArrayList();
 
         try {
-            List<GuardianDto> idList = guardianModel.GetAllGuardian();
+            List<GuardianDto> idList = guardianDAO.getAll();
 
             for (GuardianDto dto: idList) {
                 obList.add(dto.getGuardian_id());
@@ -114,7 +116,7 @@ public class AddvehicleController {
 
             comboGuardian_id.setItems(obList);
            // lblGuardian_name.setText(obList.toString());
-        } catch (SQLException e) {
+        } catch (SQLException | ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
     }

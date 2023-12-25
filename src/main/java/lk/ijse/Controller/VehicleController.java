@@ -11,7 +11,8 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
-import lk.ijse.DAO.VehicleModel;
+import lk.ijse.DAO.Custom.VehicleDAO;
+import lk.ijse.DAO.Impl.VehicleDAOImpl;
 import lk.ijse.dto.VehicleDto;
 import lk.ijse.dto.tm.VehicleTm;
 
@@ -37,7 +38,7 @@ public class VehicleController {
 
     @FXML
     private TableView<VehicleTm> tblVehicle;
-    private VehicleModel vehicleModel = new VehicleModel();
+    VehicleDAO vehicleDAO = new VehicleDAOImpl();
     private ObservableList<VehicleTm> obList = FXCollections.observableArrayList();
 
     public void initialize(){
@@ -59,11 +60,9 @@ public class VehicleController {
         colGuardian_id.setCellValueFactory(new PropertyValueFactory<>("guardian_id"));
         colAction.setCellValueFactory(new PropertyValueFactory<>("remove"));
     }
-    private void loadAllVehicles(){
-        var model = new VehicleModel();
-
+    private void loadAllVehicles() {
         try {
-            List<VehicleDto> dtoList = model.getAllVehicles();
+            List<VehicleDto> dtoList = vehicleDAO.getAll();
 
             for (VehicleDto dto : dtoList) {
                 Button btn = new Button("Remove");
@@ -78,7 +77,7 @@ public class VehicleController {
                 );
             }
             tblVehicle.setItems(obList);
-        } catch (SQLException e) {
+        } catch (SQLException | ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
     }
@@ -93,8 +92,6 @@ public class VehicleController {
             if (type.orElse(no) == yes) {
                 obList.removeIf(VehicleTm -> VehicleTm.getVehicle_id().equals(id));
                 tblVehicle.refresh();
-
-                // Call the delete method
                 DeleteVehicle(id);
             }
         });
@@ -102,13 +99,13 @@ public class VehicleController {
 
     private void DeleteVehicle(String id) {
         try {
-            boolean isDeleted = VehicleModel.deleteVehicle(id);
+            boolean isDeleted = vehicleDAO.delete(id);
             if(isDeleted) {
                 new Alert(Alert.AlertType.CONFIRMATION, "Vehicle deleted!").show();
             } else {
                 new Alert(Alert.AlertType.CONFIRMATION, "Vehicle not deleted!").show();
             }
-        } catch (SQLException e) {
+        } catch (SQLException | ClassNotFoundException e) {
             new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
         }
         tblVehicle.refresh();
@@ -143,9 +140,9 @@ public class VehicleController {
     private void tableListener() {
         tblVehicle.getSelectionModel().selectedItemProperty().addListener((observable, oldValued, newValue) -> {
             try {
-                VehicleDto dto = vehicleModel.searchVehicle(newValue.getVehicle_id());
+                VehicleDto dto = vehicleDAO.search(newValue.getVehicle_id());
                 setData(newValue, dto.getVehicle_id());
-            } catch (SQLException e) {
+            } catch (SQLException | ClassNotFoundException e) {
                 throw new RuntimeException(e);
             }
         });

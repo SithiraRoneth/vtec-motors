@@ -12,6 +12,8 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import lk.ijse.DAO.*;
+import lk.ijse.DAO.Custom.GuardianDAO;
+import lk.ijse.DAO.Impl.*;
 import lk.ijse.dto.*;
 import lk.ijse.dto.tm.CartTm;
 import javafx.scene.control.Button;
@@ -64,7 +66,7 @@ public class OrderController {
 
     private ServiceModel serviceModel = new ServiceModel();
     private OrderModel orderModel = new OrderModel();
-    private GuardianModel guardianModel = new GuardianModel();
+    GuardianDAO guardianDAO = new GuardianDAOImpl();
     private SparePartsModel sparePartsModel = new SparePartsModel();
     private PlaceOrderModel placeOrderModel = new PlaceOrderModel();
     private ObservableList<CartTm> obList = FXCollections.observableArrayList();
@@ -114,12 +116,12 @@ public class OrderController {
         ObservableList<String> obList = FXCollections.observableArrayList();
 
         try {
-            List<GuardianDto> idList = guardianModel.GetAllGuardian();
+            List<GuardianDto> idList = guardianDAO.getAll();
             for (GuardianDto dto : idList) {
                 obList.add(dto.getGuardian_id());
             }
             cmbGuardian_Id.setItems(obList);
-        } catch (SQLException e) {
+        } catch (SQLException | ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
     }
@@ -141,10 +143,10 @@ public class OrderController {
         String id = cmbGuardian_Id.getValue();
 
         try {
-            GuardianDto guardianDto = guardianModel.searchGuardian(id);
+            GuardianDto guardianDto = guardianDAO.search(id);
             lblGuardianName.setText(guardianDto.getGuardian_name());
 
-        } catch (SQLException e) {
+        } catch (SQLException | ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
     }

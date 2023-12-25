@@ -7,7 +7,8 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.layout.AnchorPane;
-import lk.ijse.DAO.SupplierModel;
+import lk.ijse.DAO.Custom.SupplierDAO;
+import lk.ijse.DAO.Impl.SupplierDAOImpl;
 import lk.ijse.dto.SupplierDto;
 import org.controlsfx.control.Notifications;
 
@@ -27,7 +28,8 @@ public class UpdateSupplierController {
 
     @FXML
     private JFXTextField txtName;
-    private SupplierModel supplierModel = new SupplierModel();
+    SupplierDAO supplierDAO = new SupplierDAOImpl();
+
     public void initialize(){
         setValue();
     }
@@ -35,13 +37,13 @@ public class UpdateSupplierController {
         ObservableList<String>obList = FXCollections.observableArrayList();
 
         try{
-            List<SupplierDto> dtoList = supplierModel.getAllSupplier();
+            List<SupplierDto> dtoList = supplierDAO.getAll();
 
             for (SupplierDto dto : dtoList){
                 obList.add(dto.getId());
             }
             comboSupplier_id.setItems(obList);
-        } catch (SQLException e) {
+        } catch (SQLException | ClassNotFoundException e) {
             new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
         }
     }
@@ -57,11 +59,11 @@ public class UpdateSupplierController {
                 return;
             }
             var dto = new SupplierDto(id,name,contact);
-            boolean isUpdate = supplierModel.updateSupplier(dto);
+            boolean isUpdate = supplierDAO.update(dto);
             if (isUpdate){
                 new Alert(Alert.AlertType.CONFIRMATION,"Supplier updated").show();
             }
-        }catch (SQLException e){
+        }catch (SQLException | ClassNotFoundException e){
             new Alert(Alert.AlertType.ERROR,e.getMessage()).show();
         }
     }
@@ -92,10 +94,10 @@ public class UpdateSupplierController {
         String id = (String) comboSupplier_id.getValue();
 
         try {
-            SupplierDto dto = supplierModel.searchSupplier(id);
+            SupplierDto dto = supplierDAO.search(id);
             txtName.setText(dto.getName());
             txtContact.setText(dto.getContact());
-        }catch (SQLException e){
+        }catch (SQLException | ClassNotFoundException e){
             throw new RuntimeException(e);
         }
     }

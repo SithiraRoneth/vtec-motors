@@ -11,8 +11,9 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import lk.ijse.DAO.AddedSpareModel;
+import lk.ijse.DAO.Custom.SupplierDAO;
 import lk.ijse.DAO.SparePartsModel;
-import lk.ijse.DAO.SupplierModel;
+import lk.ijse.DAO.Impl.SupplierDAOImpl;
 import lk.ijse.dto.*;
 import lk.ijse.dto.tm.SpareCartTm;
 import org.controlsfx.control.Notifications;
@@ -48,7 +49,7 @@ public class AddSupplierController {
     public JFXComboBox cmbSpareId;
     public Label lblSpareType;
     public Label lblPrice;
-    private SupplierModel supplierModel = new SupplierModel();
+    SupplierDAO supplierDAO = new SupplierDAOImpl();
     private SparePartsModel sparePartsModel = new SparePartsModel();
     private ObservableList<SpareCartTm> obList = FXCollections.observableArrayList();
 
@@ -89,9 +90,9 @@ public class AddSupplierController {
 
     private void genarateSupplierId() {
         try {
-            String employeeId = supplierModel.generateNextSupplierId();
+            String employeeId = supplierDAO.generateNextId();
             lblSupplierId.setText(employeeId);
-        } catch (SQLException e) {
+        } catch (SQLException | ClassNotFoundException e) {
             new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
         }
     }
@@ -100,34 +101,12 @@ public class AddSupplierController {
         String name = txtName.getText();
         String contact = txtContact.getText();
 
-        /*try{
-            if (!validateSupplier()){
-                return;
-            }
-           // var dto = new SupplierDto(id,name,contact);
-            boolean isSaved = supplierModel.savedSupplier(id,name,contact);
-            if (isSaved){
-                ButtonType yes = new ButtonType("yes", ButtonBar.ButtonData.OK_DONE);
-               // ButtonType no = new ButtonType("no",ButtonBar.ButtonData.CANCEL_CLOSE);
-
-                Optional<ButtonType> type = new Alert(Alert.AlertType.CONFIRMATION,"Supplier added successfully..Do you want to add another Supplier",yes).showAndWait();
-                clearField();
-               *//* if (type.orElse(yes) ==no){
-                    Stage stage = (Stage) this.root.getScene().getWindow();
-                    stage.show();
-                }*//*
-            }
-        } catch (SQLException e) {
-                new Alert(Alert.AlertType.ERROR,e.getMessage()).show();
-        }*/
-
         List<SpareCartTm>spareCartTmList = new ArrayList<>();
         for (int i = 0 ;i < tblSpareCart.getItems().size(); i ++){
             SpareCartTm spareCartTm = obList.get(i);
             spareCartTmList.add(spareCartTm);
         }
         System.out.println("Spare cart Details" + spareCartTmList);
-
 
         try{
             if (!validateSupplier()){

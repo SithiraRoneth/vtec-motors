@@ -14,7 +14,8 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
-import lk.ijse.DAO.GuardianModel;
+import lk.ijse.DAO.Custom.GuardianDAO;
+import lk.ijse.DAO.Impl.GuardianDAOImpl;
 import lk.ijse.dto.GuardianDto;
 import lk.ijse.dto.tm.GuardianTm;
 import javafx.scene.control.Button;
@@ -46,10 +47,8 @@ public class GuardianController {
 
     @FXML
     private TableView<GuardianTm> tblGuardian;
-    
-
     private ObservableList<GuardianTm>obList = FXCollections.observableArrayList();
-    private GuardianModel guardianModel = new GuardianModel();
+    GuardianDAO guardianDAO = new GuardianDAOImpl();
 
     public void initialize(){
         setCellValueFactory();
@@ -60,9 +59,9 @@ public class GuardianController {
     private void tableListener() {
         tblGuardian.getSelectionModel().selectedItemProperty().addListener((observable, oldValued, newValue) -> {
             try {
-                GuardianDto dto =guardianModel.searchGuardian(newValue.getGuardian_id());
+                GuardianDto dto = guardianDAO.search(newValue.getGuardian_id());
                 setData(newValue, dto.getGuardian_id());
-            } catch (SQLException e) {
+            } catch (SQLException | ClassNotFoundException e) {
                 throw new RuntimeException(e);
             }
         });
@@ -85,11 +84,11 @@ public class GuardianController {
 
     }
     private void loadAllGuardian(){
-        var model = new GuardianModel();
+        var model = new GuardianDAOImpl();
 
         ObservableList<GuardianTm> obList = FXCollections.observableArrayList();
         try {
-            List<GuardianDto> dtoList = model.GetAllGuardian();
+            List<GuardianDto> dtoList = guardianDAO.getAll();
 
             for (GuardianDto dto : dtoList){
                 Button btn = new Button("remove");
@@ -107,7 +106,7 @@ public class GuardianController {
                 );
             }
             tblGuardian.setItems(obList);
-        }catch (SQLException e){
+        }catch (SQLException | ClassNotFoundException e){
             throw new RuntimeException(e);
         }
     }
@@ -129,13 +128,13 @@ public class GuardianController {
 
     private void DeleteGuardian(String id) {
         try {
-            boolean isDeleted = GuardianModel.deleteGuardian(id);
+            boolean isDeleted = guardianDAO.delete(id);
             if(isDeleted) {
                 new Alert(Alert.AlertType.CONFIRMATION, "Guardian deleted!").show();
             } else {
                 new Alert(Alert.AlertType.CONFIRMATION, "Guardian not deleted!").show();
             }
-        } catch (SQLException e) {
+        } catch (SQLException | ClassNotFoundException e) {
             new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
         }
         //tblEmployee.refresh();

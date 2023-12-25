@@ -9,7 +9,8 @@ import javafx.event.ActionEvent;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
-import lk.ijse.DAO.UserModel;
+import lk.ijse.DAO.Custom.UserDAO;
+import lk.ijse.DAO.Impl.UserDAOImpl;
 import lk.ijse.dto.UserDto;
 import lk.ijse.dto.tm.UserTm;
 
@@ -30,7 +31,7 @@ public class AccountController {
     public TableColumn colDelete;
     public Label lblUsername;
 
-    private UserModel userModel = new UserModel();
+    UserDAO userDAO = new UserDAOImpl();
     private ObservableList<UserTm>obList = FXCollections.observableArrayList();
 
     public void initialize() {
@@ -53,12 +54,10 @@ public class AccountController {
     }
 
     private void loadAllUser() {
-        var model = new UserModel();
-
         ObservableList<UserTm> obList = FXCollections.observableArrayList();
 
         try {
-            List<UserDto> dtoList = UserModel.getAllUser();
+            List<UserDto> dtoList = userDAO.getAll();
 
             for (UserDto dto : dtoList) {
                 Button deleteBtn = new Button("Delete");
@@ -75,7 +74,7 @@ public class AccountController {
             }
 
             tblAccount.setItems(obList);
-        } catch (SQLException e) {
+        } catch (SQLException | ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
     }
@@ -99,13 +98,13 @@ public class AccountController {
 
     private void DeleteUser(String id) {
         try {
-            boolean isDeleted = UserModel.deleteUser(id);
+            boolean isDeleted = userDAO.delete(id);
             if(isDeleted) {
                 new Alert(Alert.AlertType.CONFIRMATION, "User deleted!").show();
             } else {
                 new Alert(Alert.AlertType.CONFIRMATION, "User not deleted!").show();
             }
-        } catch (SQLException e) {
+        } catch (SQLException | ClassNotFoundException e) {
             new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
         }
         tblAccount.refresh();
@@ -139,11 +138,11 @@ public class AccountController {
         var dto = new UserDto(username,email,password);
 
         try{
-            boolean isUpdated = userModel.updateUser(dto);
+            boolean isUpdated = userDAO.update(dto);
             if (isUpdated){
                 new Alert(Alert.AlertType.CONFIRMATION,"User updated").show();
             }
-        }catch (SQLException e){
+        }catch (SQLException | ClassNotFoundException e){
             new Alert(Alert.AlertType.ERROR,e.getMessage()).show();
         }
     }

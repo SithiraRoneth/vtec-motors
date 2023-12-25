@@ -23,7 +23,8 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 //import lk.ijse.Mail.Mail;
-import lk.ijse.DAO.UserModel;
+import lk.ijse.DAO.Custom.UserDAO;
+import lk.ijse.DAO.Impl.UserDAOImpl;
 import lk.ijse.dto.UserDto;
 
 import java.io.IOException;
@@ -36,11 +37,13 @@ import java.util.Random;
 
 
 public class LoginController {
+
     public AnchorPane root;
     public TextField txtUsername;
     public TextField txtPassword;
     public JFXButton btnSigning;
     public Label lblTime;
+
     public JFXPasswordField txtEmail;
     public Label lblEmail;
     public Label lblUserNameInvalied;
@@ -48,7 +51,7 @@ public class LoginController {
     public Hyperlink hlSendOtp;
     public TextField txtOtp;
 
-    private UserModel userModel = new UserModel();
+    UserDAO userDAO = new UserDAOImpl();
     private void updateTime() {
         SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm:ss");
         String formattedTime = timeFormat.format(new Date());
@@ -93,7 +96,7 @@ public class LoginController {
         String password = txtPassword.getText();
 
         HyperLinkSendOtpOnActionLog();
-        List<UserDto> userDtoList = userModel.loginUser();
+        List<UserDto> userDtoList = userDAO.loginUser();
         for (UserDto userDto:userDtoList) {
             if (userDto.getUser_name().equals(username)) {
                 if (userDto.getEmail().equals(email)) {
@@ -116,14 +119,6 @@ public class LoginController {
             }
         }
     }
-
-    private void clearFields() {
-        txtUsername.setText("");
-        txtEmail.setText("");
-        txtPassword.setText("");
-
-    }
-
     public void btnSignupOnAction(ActionEvent actionEvent) throws IOException {
         AnchorPane anchorPane = FXMLLoader.load(getClass().getResource("/view/register_form.fxml"));
         Stage stage = (Stage) root.getScene().getWindow();

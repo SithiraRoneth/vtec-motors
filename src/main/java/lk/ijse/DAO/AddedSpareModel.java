@@ -1,8 +1,10 @@
 package lk.ijse.DAO;
 
 import lk.ijse.DAO.Custom.SparePartsDAO;
+import lk.ijse.DAO.Custom.SpareParts_Details_DAO;
 import lk.ijse.DAO.Custom.SupplierDAO;
 import lk.ijse.DAO.Impl.SparePartsDAOImpl;
+import lk.ijse.DAO.Impl.SpareParts_Details_DAOImpl;
 import lk.ijse.DAO.Impl.SupplierDAOImpl;
 import lk.ijse.DB.DbConnection;
 import lk.ijse.dto.SpareOrderDto;
@@ -14,7 +16,7 @@ import java.sql.SQLException;
 public class AddedSpareModel {
     static SparePartsDAO sparePartsDAO = new SparePartsDAOImpl();
     static SupplierDAO supplierDAO = new SupplierDAOImpl();
-    private static SpareParts_Details_Model sparePartsDetailsModel = new SpareParts_Details_Model();
+    static SpareParts_Details_DAO sparePartsDetailsDao = new SpareParts_Details_DAOImpl();
 
     public static boolean addSpare(SpareOrderDto spareOrderDto) throws SQLException {
         System.out.println(spareOrderDto);
@@ -36,7 +38,9 @@ public class AddedSpareModel {
             if (isSupplierSaved){
                 boolean isUpdate = sparePartsDAO.updateSpare(spareOrderDto.getSpareCartTmList());
                 if (isUpdate){
-                    boolean isSpareOrderSaved = sparePartsDetailsModel.saveSpearPart(spareOrderDto.getSupplier_id(),spareOrderDto.getSupplier_name(),spareOrderDto.getSpareCartTmList());
+                    var spare = new SpareOrderDto(spareOrderDto.getSupplier_id(),spareOrderDto.getSupplier_name(),spareOrderDto.getSpareCartTmList());
+                   // boolean isSpareOrderSaved = sparePartsDetailsModel.saveSpearPart(spareOrderDto.getSupplier_id(),spareOrderDto.getSupplier_name(),spareOrderDto.getSpareCartTmList());
+                    boolean isSpareOrderSaved = sparePartsDetailsDao.save(spare);
                     if (isSpareOrderSaved){
                         connection.commit();
                     }

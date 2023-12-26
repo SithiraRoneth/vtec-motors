@@ -15,7 +15,11 @@ public class SpareOrderDto {
     private String supplier_id;
     private String supplier_name;
     private String contact;
-   /* private String spare_id;
-    private String spare_name;*/
     private List<SpareCartTm>spareCartTmList = new ArrayList<>();
+
+    public SpareOrderDto(String id , String name , List<SpareCartTm>sp){
+        this.supplier_id = id;
+        this.supplier_name = name;
+        this.spareCartTmList = sp;
+    }
 }

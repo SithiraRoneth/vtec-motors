@@ -4,15 +4,12 @@
  * Project Name :vtec-motors
  * */
 package lk.ijse.DAO;
-
-import lk.ijse.DAO.Custom.SupplierDAO;
 import lk.ijse.DAO.Impl.*;
-
-import javax.swing.plaf.PanelUI;
 
 public class DAOFactory {
     private static DAOFactory daoFactory;
     private DAOFactory(){}
+
     public static DAOFactory getDaoFactory(){
         return daoFactory == null ? daoFactory = new DAOFactory() : daoFactory;
     }

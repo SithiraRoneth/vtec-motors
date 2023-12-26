@@ -12,6 +12,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import lk.ijse.DAO.Custom.EmployeeDAO;
 import lk.ijse.DAO.Custom.GuardianDAO;
+import lk.ijse.DAO.DAOFactory;
 import lk.ijse.DAO.Impl.EmployeeDAOImpl;
 import lk.ijse.DAO.Impl.GuardianDAOImpl;
 import lk.ijse.dto.EmployeeDto;
@@ -30,8 +31,8 @@ public class AddGuardianController {
     public JFXTextField txtContact;
     public JFXComboBox comboEmp_Id;
     public Label lblGuardianId;
-    GuardianDAO guardianDAO = new GuardianDAOImpl();
-    EmployeeDAO employeeDAO = new EmployeeDAOImpl();
+    GuardianDAO guardianDAO = (GuardianDAO) DAOFactory.getDaoFactory().getDAO(DAOFactory.DAOTypes.GUARDIAN);
+    EmployeeDAO employeeDAO = (EmployeeDAO) DAOFactory.getDaoFactory().getDAO(DAOFactory.DAOTypes.EMPLOYEE);
 
     public void initialize() {
         loadEmp();

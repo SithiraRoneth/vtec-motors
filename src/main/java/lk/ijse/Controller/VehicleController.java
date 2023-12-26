@@ -12,6 +12,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import lk.ijse.DAO.Custom.VehicleDAO;
+import lk.ijse.DAO.DAOFactory;
 import lk.ijse.DAO.Impl.VehicleDAOImpl;
 import lk.ijse.dto.VehicleDto;
 import lk.ijse.dto.tm.VehicleTm;
@@ -38,7 +39,7 @@ public class VehicleController {
 
     @FXML
     private TableView<VehicleTm> tblVehicle;
-    VehicleDAO vehicleDAO = new VehicleDAOImpl();
+    VehicleDAO vehicleDAO = (VehicleDAO) DAOFactory.getDaoFactory().getDAO(DAOFactory.DAOTypes.VEHICLE);
     private ObservableList<VehicleTm> obList = FXCollections.observableArrayList();
 
     public void initialize(){

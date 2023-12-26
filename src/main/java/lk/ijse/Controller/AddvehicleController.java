@@ -14,6 +14,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import lk.ijse.DAO.Custom.GuardianDAO;
 import lk.ijse.DAO.Custom.VehicleDAO;
+import lk.ijse.DAO.DAOFactory;
 import lk.ijse.DAO.Impl.GuardianDAOImpl;
 import lk.ijse.DAO.Impl.VehicleDAOImpl;
 import lk.ijse.dto.GuardianDto;
@@ -34,8 +35,8 @@ public class AddvehicleController {
     public Label lblGuardian_name;
     public Label lblVehicleId;
 
-    VehicleDAO vehicleDAO = new VehicleDAOImpl();
-    GuardianDAO guardianDAO = new GuardianDAOImpl();
+    VehicleDAO vehicleDAO = (VehicleDAO) DAOFactory.getDaoFactory().getDAO(DAOFactory.DAOTypes.VEHICLE);
+    GuardianDAO guardianDAO = (GuardianDAO) DAOFactory.getDaoFactory().getDAO(DAOFactory.DAOTypes.GUARDIAN);
 
     public void initialize(){
         loadGuardian();

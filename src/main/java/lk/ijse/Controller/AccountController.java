@@ -10,6 +10,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import lk.ijse.DAO.Custom.UserDAO;
+import lk.ijse.DAO.DAOFactory;
 import lk.ijse.DAO.Impl.UserDAOImpl;
 import lk.ijse.dto.UserDto;
 import lk.ijse.dto.tm.UserTm;
@@ -31,7 +32,7 @@ public class AccountController {
     public TableColumn colDelete;
     public Label lblUsername;
 
-    UserDAO userDAO = new UserDAOImpl();
+    UserDAO userDAO = (UserDAO) DAOFactory.getDaoFactory().getDAO(DAOFactory.DAOTypes.USER);
     private ObservableList<UserTm>obList = FXCollections.observableArrayList();
 
     public void initialize() {

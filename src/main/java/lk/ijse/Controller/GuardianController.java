@@ -15,6 +15,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import lk.ijse.DAO.Custom.GuardianDAO;
+import lk.ijse.DAO.DAOFactory;
 import lk.ijse.DAO.Impl.GuardianDAOImpl;
 import lk.ijse.dto.GuardianDto;
 import lk.ijse.dto.tm.GuardianTm;
@@ -48,7 +49,7 @@ public class GuardianController {
     @FXML
     private TableView<GuardianTm> tblGuardian;
     private ObservableList<GuardianTm>obList = FXCollections.observableArrayList();
-    GuardianDAO guardianDAO = new GuardianDAOImpl();
+    GuardianDAO guardianDAO = (GuardianDAO) DAOFactory.getDaoFactory().getDAO(DAOFactory.DAOTypes.GUARDIAN);
 
     public void initialize(){
         setCellValueFactory();

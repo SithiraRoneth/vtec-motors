@@ -11,6 +11,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import lk.ijse.DAO.Custom.EmployeeDAO;
+import lk.ijse.DAO.DAOFactory;
 import lk.ijse.DAO.Impl.EmployeeDAOImpl;
 import lk.ijse.dto.EmployeeDto;
 import org.controlsfx.control.Notifications;
@@ -33,7 +34,7 @@ public class AddEmployeeController {
 
     EmployeeController employeeController=null;
 
-    EmployeeDAO employeeDAO = new EmployeeDAOImpl();
+    EmployeeDAO employeeDAO = (EmployeeDAO) DAOFactory.getDaoFactory().getDAO(DAOFactory.DAOTypes.EMPLOYEE);
 
     public void initialize(){
         generateNextEmployeeId();

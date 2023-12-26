@@ -8,6 +8,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.layout.AnchorPane;
 import lk.ijse.DAO.Custom.SupplierDAO;
+import lk.ijse.DAO.DAOFactory;
 import lk.ijse.DAO.Impl.SupplierDAOImpl;
 import lk.ijse.dto.SupplierDto;
 import org.controlsfx.control.Notifications;
@@ -28,7 +29,7 @@ public class UpdateSupplierController {
 
     @FXML
     private JFXTextField txtName;
-    SupplierDAO supplierDAO = new SupplierDAOImpl();
+    SupplierDAO supplierDAO = (SupplierDAO) DAOFactory.getDaoFactory().getDAO(DAOFactory.DAOTypes.SUPPLIER);
 
     public void initialize(){
         setValue();

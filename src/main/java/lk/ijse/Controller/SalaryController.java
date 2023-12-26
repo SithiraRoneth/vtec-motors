@@ -28,6 +28,7 @@ import javafx.scene.layout.AnchorPane;
 import lk.ijse.DAO.Custom.EmployeeDAO;
 import lk.ijse.DAO.Custom.ExpenditureDAO;
 import lk.ijse.DAO.Custom.SalaryDAO;
+import lk.ijse.DAO.DAOFactory;
 import lk.ijse.DB.DbConnection;
 import lk.ijse.DAO.Impl.EmployeeDAOImpl;
 import lk.ijse.DAO.Impl.ExpenditureDAOImpl;
@@ -91,10 +92,9 @@ public class SalaryController {
     @FXML
     private JFXTextField txtSalary;
     private String month;
-    SalaryDAO salaryDAO = new SalaryDAOImpl();
-    ExpenditureDAO expenditureDAO = new ExpenditureDAOImpl();
-
-    EmployeeDAO employeeDAO = new EmployeeDAOImpl();
+    SalaryDAO salaryDAO = (SalaryDAO) DAOFactory.getDaoFactory().getDAO(DAOFactory.DAOTypes.SALARY);
+    ExpenditureDAO expenditureDAO = (ExpenditureDAO) DAOFactory.getDaoFactory().getDAO(DAOFactory.DAOTypes.EXPENDITURE);
+    EmployeeDAO employeeDAO = (EmployeeDAO) DAOFactory.getDaoFactory().getDAO(DAOFactory.DAOTypes.EMPLOYEE);
     private ObservableList<SalaryTm> obList = FXCollections.observableArrayList();
 
     public void initialize(){

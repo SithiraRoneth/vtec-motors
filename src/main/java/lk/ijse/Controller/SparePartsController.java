@@ -10,6 +10,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import lk.ijse.DAO.Custom.ServiceDAO;
 import lk.ijse.DAO.Custom.SparePartsDAO;
+import lk.ijse.DAO.DAOFactory;
 import lk.ijse.DAO.Impl.ServiceDAOImpl;
 import lk.ijse.DAO.Impl.SparePartsDAOImpl;
 import lk.ijse.dto.ServiceDto;
@@ -50,8 +51,8 @@ public class SparePartsController {
 
     @FXML
     private JFXTextField txtSpareType;
-    SparePartsDAO sparePartsDAO = new SparePartsDAOImpl();
-    ServiceDAO serviceDAO = new ServiceDAOImpl();
+    SparePartsDAO sparePartsDAO = (SparePartsDAO) DAOFactory.getDaoFactory().getDAO(DAOFactory.DAOTypes.SPAREPARTS);
+    ServiceDAO serviceDAO = (ServiceDAO) DAOFactory.getDaoFactory().getDAO(DAOFactory.DAOTypes.SERVICE);
     private ObservableList<SparePartTm>obList = FXCollections.observableArrayList();
 
 

@@ -11,6 +11,7 @@ import javafx.scene.Cursor;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
+import lk.ijse.DAO.DAOFactory;
 import lk.ijse.DAO.Impl.AttendanceDAOImpl;
 import lk.ijse.DAO.Custom.EmployeeDAO;
 import lk.ijse.DAO.Impl.EmployeeDAOImpl;
@@ -59,7 +60,7 @@ public class AddAttendanceController {
 
 
     private AttendanceDAOImpl attendanceModel = new AttendanceDAOImpl();
-    EmployeeDAO employeeDAO = new EmployeeDAOImpl();
+    EmployeeDAO employeeDAO = (EmployeeDAO) DAOFactory.getDaoFactory().getDAO(DAOFactory.DAOTypes.EMPLOYEE);
 
     private ObservableList<AttendanceTm> obList = FXCollections.observableArrayList();
 

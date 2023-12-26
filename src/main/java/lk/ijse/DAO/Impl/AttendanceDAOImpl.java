@@ -1,6 +1,5 @@
 package lk.ijse.DAO.Impl;
 
-import lk.ijse.DAO.Custom.AttendanceDAO;
 import lk.ijse.DB.DbConnection;
 import lk.ijse.dto.AttendanceDto;
 

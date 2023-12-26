@@ -8,6 +8,7 @@ import javafx.event.ActionEvent;
 import javafx.scene.control.Alert;
 import javafx.scene.layout.AnchorPane;
 import lk.ijse.DAO.Custom.EmployeeDAO;
+import lk.ijse.DAO.DAOFactory;
 import lk.ijse.DAO.Impl.EmployeeDAOImpl;
 import lk.ijse.dto.EmployeeDto;
 import org.controlsfx.control.Notifications;
@@ -28,7 +29,7 @@ public class UpdateEmployeeController {
     public JFXComboBox<String> comboEmployee_id;
 
     public JFXTextField txtEmail;
-    EmployeeDAO employeeDAO = new EmployeeDAOImpl();
+    EmployeeDAO employeeDAO = (EmployeeDAO) DAOFactory.getDaoFactory().getDAO(DAOFactory.DAOTypes.EMPLOYEE);
 
     public void initialize() {
         setValue();

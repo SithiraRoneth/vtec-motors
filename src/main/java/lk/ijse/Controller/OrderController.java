@@ -47,10 +47,6 @@ public class OrderController {
     public Label lblFullAmountOf;
     public TableColumn<?,?> colSpareId;
     public TableColumn<?,?> colServiceid;
-    public TableColumn<?,?> colSPrice;
-    public TableColumn<?,?> colSp_Price;
-    @FXML
-    private JFXTextField txtOrderId;
     public TableColumn<?, ?> colAction;
 
     public AnchorPane root;
@@ -64,11 +60,11 @@ public class OrderController {
     @FXML
     private TableView<CartTm> tblOrder;
 
-    ServiceDAO serviceDAO = new ServiceDAOImpl();
-    OrderDAO orderDAO = new OrderDAOImpl();
-    GuardianDAO guardianDAO = new GuardianDAOImpl();
-    SparePartsDAO sparePartsDAO = new SparePartsDAOImpl();
-    IncomeDAO incomeDAO = new IncomeDAOImpl();
+    ServiceDAO serviceDAO = (ServiceDAO) DAOFactory.getDaoFactory().getDAO(DAOFactory.DAOTypes.SERVICE);
+    OrderDAO orderDAO = (OrderDAO) DAOFactory.getDaoFactory().getDAO(DAOFactory.DAOTypes.ORDER);
+    GuardianDAO guardianDAO = (GuardianDAO) DAOFactory.getDaoFactory().getDAO(DAOFactory.DAOTypes.GUARDIAN);
+    SparePartsDAO sparePartsDAO = (SparePartsDAO) DAOFactory.getDaoFactory().getDAO(DAOFactory.DAOTypes.SPAREPARTS);
+    IncomeDAO incomeDAO = (IncomeDAO) DAOFactory.getDaoFactory().getDAO(DAOFactory.DAOTypes.INCOME);
     private PlaceOrderModel placeOrderModel = new PlaceOrderModel();
     private ObservableList<CartTm> obList = FXCollections.observableArrayList();
     private ObservableList<SpareOrderTm>spObList = FXCollections.observableArrayList();

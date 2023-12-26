@@ -11,6 +11,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import lk.ijse.DAO.Custom.ServiceDAO;
+import lk.ijse.DAO.DAOFactory;
 import lk.ijse.dto.ServiceDto;
 import lk.ijse.DAO.Impl.ServiceDAOImpl;
 import lk.ijse.dto.tm.ServiceTm;
@@ -43,7 +44,7 @@ public class ServicePageController {
     @FXML
     private TableView<ServiceTm> tblService;
 
-    ServiceDAO serviceDAO = new ServiceDAOImpl();
+    ServiceDAO serviceDAO = (ServiceDAO) DAOFactory.getDaoFactory().getDAO(DAOFactory.DAOTypes.SERVICE);
 
     public void initialize(){
         setCellValueFactory();

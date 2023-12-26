@@ -14,9 +14,9 @@ import java.sql.Connection;
 import java.sql.SQLException;
 
 public class PlaceOrderModel {
-    OrderDAO orderDAO = new OrderDAOImpl();
-    ServiceDAO serviceDAO = new ServiceDAOImpl();
-    OrderServiceDAO orderServiceDAO = new OrderServiceDAOImpl();
+    OrderDAO orderDAO = (OrderDAO) DAOFactory.getDaoFactory().getDAO(DAOFactory.DAOTypes.ORDER);
+    ServiceDAO serviceDAO = (ServiceDAO) DAOFactory.getDaoFactory().getDAO(DAOFactory.DAOTypes.SERVICE);
+    OrderServiceDAO orderServiceDAO = (OrderServiceDAO) DAOFactory.getDaoFactory().getDAO(DAOFactory.DAOTypes.ORDER_SERVICE);
     public boolean placeOrder (PlaceOrderDto placeOrderDto) throws SQLException, ClassNotFoundException {
         System.out.println(placeOrderDto);
 

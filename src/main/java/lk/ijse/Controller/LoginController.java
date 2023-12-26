@@ -24,6 +24,7 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 //import lk.ijse.Mail.Mail;
 import lk.ijse.DAO.Custom.UserDAO;
+import lk.ijse.DAO.DAOFactory;
 import lk.ijse.DAO.Impl.UserDAOImpl;
 import lk.ijse.dto.UserDto;
 
@@ -51,7 +52,7 @@ public class LoginController {
     public Hyperlink hlSendOtp;
     public TextField txtOtp;
 
-    UserDAO userDAO = new UserDAOImpl();
+    UserDAO userDAO = (UserDAO) DAOFactory.getDaoFactory().getDAO(DAOFactory.DAOTypes.USER);
     private void updateTime() {
         SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm:ss");
         String formattedTime = timeFormat.format(new Date());

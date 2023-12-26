@@ -13,6 +13,7 @@ import javafx.scene.layout.AnchorPane;
 import lk.ijse.DAO.AddedSpareModel;
 import lk.ijse.DAO.Custom.SparePartsDAO;
 import lk.ijse.DAO.Custom.SupplierDAO;
+import lk.ijse.DAO.DAOFactory;
 import lk.ijse.DAO.Impl.SparePartsDAOImpl;
 import lk.ijse.DAO.Impl.SupplierDAOImpl;
 import lk.ijse.dto.*;
@@ -50,8 +51,8 @@ public class AddSupplierController {
     public JFXComboBox cmbSpareId;
     public Label lblSpareType;
     public Label lblPrice;
-    SupplierDAO supplierDAO = new SupplierDAOImpl();
-    SparePartsDAO sparePartsDAO = new SparePartsDAOImpl();
+    SupplierDAO supplierDAO = (SupplierDAO) DAOFactory.getDaoFactory().getDAO(DAOFactory.DAOTypes.SUPPLIER);
+    SparePartsDAO sparePartsDAO = (SparePartsDAO) DAOFactory.getDaoFactory().getDAO(DAOFactory.DAOTypes.SPAREPARTS);
     private ObservableList<SpareCartTm> obList = FXCollections.observableArrayList();
 
     public void initialize(){

@@ -14,6 +14,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import lk.ijse.DAO.Custom.EmployeeDAO;
+import lk.ijse.DAO.DAOFactory;
 import lk.ijse.DAO.Impl.EmployeeDAOImpl;
 import lk.ijse.dto.EmployeeDto;
 import lk.ijse.dto.tm.EmployeeTm;
@@ -73,7 +74,7 @@ public class EmployeeController {
 
     @FXML
     private Label lblNIC;
-    EmployeeDAO employeeDAO = new EmployeeDAOImpl();
+    EmployeeDAO employeeDAO = (EmployeeDAO) DAOFactory.getDaoFactory().getDAO(DAOFactory.DAOTypes.EMPLOYEE);
 
     private ObservableList<EmployeeTm>obList = FXCollections.observableArrayList();
 

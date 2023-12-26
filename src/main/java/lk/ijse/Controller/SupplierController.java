@@ -12,6 +12,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import lk.ijse.DAO.Custom.SupplierDAO;
+import lk.ijse.DAO.DAOFactory;
 import lk.ijse.DAO.Impl.SupplierDAOImpl;
 import lk.ijse.dto.SupplierDto;
 import lk.ijse.dto.tm.SupplierTm;
@@ -39,7 +40,7 @@ public class SupplierController {
     private TableView<SupplierTm> tblSupplier;
 
     private ObservableList<SupplierTm>obList = FXCollections.observableArrayList();
-    SupplierDAO supplierDAO = new SupplierDAOImpl();
+    SupplierDAO supplierDAO = (SupplierDAO) DAOFactory.getDaoFactory().getDAO(DAOFactory.DAOTypes.SUPPLIER);
 
     public void initialize(){
         setCellValueFactory();

@@ -12,6 +12,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import lk.ijse.DAO.Custom.ExpenditureDAO;
 import lk.ijse.DAO.Custom.IncomeDAO;
+import lk.ijse.DAO.DAOFactory;
 import lk.ijse.DAO.Impl.ExpenditureDAOImpl;
 import lk.ijse.DAO.Impl.IncomeDAOImpl;
 import lk.ijse.dto.ExpenditureDto;
@@ -54,10 +55,9 @@ public class IncomeController {
     private int year;
     private String month;
 
-    IncomeDAO incomeDAO = new IncomeDAOImpl();
-    ExpenditureDAO expenditureDAO = new ExpenditureDAOImpl();
+    IncomeDAO incomeDAO = (IncomeDAO) DAOFactory.getDaoFactory().getDAO(DAOFactory.DAOTypes.INCOME);
+    ExpenditureDAO expenditureDAO = (ExpenditureDAO) DAOFactory.getDaoFactory().getDAO(DAOFactory.DAOTypes.EXPENDITURE);
     private ObservableList<ExpenditureTm> ExobList = FXCollections.observableArrayList();
-
     private ObservableList<IncomeTm> InobList = FXCollections.observableArrayList();
 
     public void initialize() {

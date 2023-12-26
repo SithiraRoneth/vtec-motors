@@ -14,9 +14,9 @@ import java.sql.Connection;
 import java.sql.SQLException;
 
 public class AddedSpareModel {
-    static SparePartsDAO sparePartsDAO = new SparePartsDAOImpl();
-    static SupplierDAO supplierDAO = new SupplierDAOImpl();
-    static SpareParts_Details_DAO sparePartsDetailsDao = new SpareParts_Details_DAOImpl();
+    static SparePartsDAO sparePartsDAO = (SparePartsDAO) DAOFactory.getDaoFactory().getDAO(DAOFactory.DAOTypes.SPAREPARTS);
+    static SupplierDAO supplierDAO = (SupplierDAO) DAOFactory.getDaoFactory().getDAO(DAOFactory.DAOTypes.SUPPLIER);
+    static SpareParts_Details_DAO sparePartsDetailsDao = (SpareParts_Details_DAO) DAOFactory.getDaoFactory().getDAO(DAOFactory.DAOTypes.SPAREPARTS_DETAILS);
 
     public static boolean addSpare(SpareOrderDto spareOrderDto) throws SQLException {
         System.out.println(spareOrderDto);

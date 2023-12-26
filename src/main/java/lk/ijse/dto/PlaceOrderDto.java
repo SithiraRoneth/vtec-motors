@@ -17,7 +17,11 @@ public class PlaceOrderDto {
     private String orderId;
     private String date;
     private String Guardian_id;
-    //private List<SpareOrderTm>spareOrderTmList = new ArrayList<>();
     private List<CartTm> cartTmList = new ArrayList<>();
+
+    public PlaceOrderDto(String orderId, List<CartTm> cartTmList){
+        this.orderId = orderId;
+        this.cartTmList = cartTmList;
+    }
 
 }

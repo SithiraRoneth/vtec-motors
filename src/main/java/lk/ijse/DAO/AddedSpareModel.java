@@ -3,13 +3,9 @@ package lk.ijse.DAO;
 import lk.ijse.DAO.Custom.SparePartsDAO;
 import lk.ijse.DAO.Custom.SpareParts_Details_DAO;
 import lk.ijse.DAO.Custom.SupplierDAO;
-import lk.ijse.DAO.Impl.SparePartsDAOImpl;
-import lk.ijse.DAO.Impl.SpareParts_Details_DAOImpl;
-import lk.ijse.DAO.Impl.SupplierDAOImpl;
 import lk.ijse.DB.DbConnection;
 import lk.ijse.dto.SpareOrderDto;
 import lk.ijse.dto.SupplierDto;
-
 import java.sql.Connection;
 import java.sql.SQLException;
 
@@ -24,8 +20,8 @@ public class AddedSpareModel {
         String supplier_id = spareOrderDto.getSupplier_id();
         String supplier_name = spareOrderDto.getSupplier_name();
         String contact = spareOrderDto.getContact();
-       /* String spare_id = spareOrderDto.getSpare_id();
-        String spare_type = spareOrderDto.getSpare_name();*/
+//        String spare_id = spareOrderDto.getSpare_id();
+//        String spare_type = spareOrderDto.getSpare_name();
 
         Connection connection = null;
 

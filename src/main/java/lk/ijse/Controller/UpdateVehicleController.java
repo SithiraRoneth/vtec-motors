@@ -7,11 +7,9 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Alert;
 import javafx.scene.layout.AnchorPane;
-import lk.ijse.DAO.Custom.GuardianDAO;
-import lk.ijse.DAO.Custom.VehicleDAO;
-import lk.ijse.DAO.DAOFactory;
-import lk.ijse.DAO.Impl.GuardianDAOImpl;
-import lk.ijse.DAO.Impl.VehicleDAOImpl;
+import lk.ijse.BO.BOFactory;
+import lk.ijse.BO.Custom.GuardianBO;
+import lk.ijse.BO.Custom.VehicleBO;
 import lk.ijse.dto.GuardianDto;
 import lk.ijse.dto.VehicleDto;
 import org.controlsfx.control.Notifications;
@@ -26,8 +24,8 @@ public class UpdateVehicleController {
     public JFXTextField txtVehicleType;
     public JFXComboBox comboVehicle_id;
     public JFXComboBox comboGuardian_id;
-    VehicleDAO vehicleDAO = (VehicleDAO) DAOFactory.getDaoFactory().getDAO(DAOFactory.DAOTypes.VEHICLE);
-    GuardianDAO guardianDAO = (GuardianDAO) DAOFactory.getDaoFactory().getDAO(DAOFactory.DAOTypes.GUARDIAN);
+    VehicleBO vehicleBO = (VehicleBO) BOFactory.getBoFactory().getBO(BOFactory.BOType.VEHICLE);
+    GuardianBO guardianBO = (GuardianBO) BOFactory.getBoFactory().getBO(BOFactory.BOType.GUARDIAN);
 
     public void initialize(){
         setValue();
@@ -37,7 +35,7 @@ public class UpdateVehicleController {
         ObservableList<String> obList = FXCollections.observableArrayList();
 
         try {
-            List<VehicleDto> idList = vehicleDAO.getAll();
+            List<VehicleDto> idList = vehicleBO.getAllVehicle();
 
             for ( VehicleDto dto : idList) {
                 obList.add(dto.getVehicle_id());
@@ -59,7 +57,7 @@ public class UpdateVehicleController {
                 return;
             }
             var dto = new VehicleDto(id,vehicle_type,guardian_id);
-            boolean isUpdate = vehicleDAO.update(dto);
+            boolean isUpdate = vehicleBO.updateVehicle(dto);
             if (isUpdate){
                 new Alert(Alert.AlertType.CONFIRMATION,"Vehicle updated").show();
                 clearFields();
@@ -95,7 +93,7 @@ public class UpdateVehicleController {
         ObservableList<String> obList = FXCollections.observableArrayList();
 
         try {
-            List<GuardianDto> idList = guardianDAO.getAll();
+            List<GuardianDto> idList = guardianBO.getAllGuardian();
 
             for ( GuardianDto dto : idList) {
                 obList.add(dto.getGuardian_id());
@@ -109,7 +107,7 @@ public class UpdateVehicleController {
         String id = (String) comboGuardian_id.getValue();
 
         try{
-            GuardianDto dto = guardianDAO.search(id);
+            GuardianDto dto = guardianBO.searchGuardian(id);
            // comboGuardian_id.setValue(dto.getGuardian_id());
         } catch (SQLException | ClassNotFoundException e) {
             throw new RuntimeException(e);
@@ -120,7 +118,7 @@ public class UpdateVehicleController {
         String id = (String) comboVehicle_id.getValue();
 
         try {
-            VehicleDto dto = vehicleDAO.search(id);
+            VehicleDto dto = vehicleBO.searchVehicle(id);
             txtVehicleType.setText(dto.getVehicle_type());
         } catch (SQLException | ClassNotFoundException e) {
             throw new RuntimeException(e);

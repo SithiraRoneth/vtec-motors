@@ -7,9 +7,8 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Alert;
 import javafx.scene.layout.AnchorPane;
-import lk.ijse.DAO.Custom.EmployeeDAO;
-import lk.ijse.DAO.DAOFactory;
-import lk.ijse.DAO.Impl.EmployeeDAOImpl;
+import lk.ijse.BO.BOFactory;
+import lk.ijse.BO.Custom.EmployeeBO;
 import lk.ijse.dto.EmployeeDto;
 import org.controlsfx.control.Notifications;
 
@@ -29,7 +28,7 @@ public class UpdateEmployeeController {
     public JFXComboBox<String> comboEmployee_id;
 
     public JFXTextField txtEmail;
-    EmployeeDAO employeeDAO = (EmployeeDAO) DAOFactory.getDaoFactory().getDAO(DAOFactory.DAOTypes.EMPLOYEE);
+    EmployeeBO employeeBO = (EmployeeBO) BOFactory.getBoFactory().getBO(BOFactory.BOType.EMPLOYEE);
 
     public void initialize() {
         setValue();
@@ -39,7 +38,7 @@ public class UpdateEmployeeController {
         ObservableList<String> obList = FXCollections.observableArrayList();
 
         try {
-            List<EmployeeDto> idList = employeeDAO.getAll();
+            List<EmployeeDto> idList = employeeBO.getAllEmployee();
 
             for ( EmployeeDto dto : idList) {
                 obList.add(dto.getId());
@@ -66,7 +65,7 @@ public class UpdateEmployeeController {
                 return;
             }
             var dto = new EmployeeDto(id,name,contact,nic,job,email);
-            boolean isUpdate = employeeDAO.update(dto);
+            boolean isUpdate = employeeBO.updateEmployee(dto);
 
             if (isUpdate){
                 new Alert(Alert.AlertType.CONFIRMATION,"Employee is updated").show();
@@ -121,7 +120,7 @@ public class UpdateEmployeeController {
     public void comboEmployee_idOnAction(ActionEvent actionEvent) {
         String id = comboEmployee_id.getValue();
         try{
-            EmployeeDto dto = employeeDAO.search(id);
+            EmployeeDto dto = employeeBO.searchEmployee(id);
             txtName.setText(dto.getName());
             txtContact.setText(dto.getContact());
             txtNic.setText(dto.getNic());

@@ -8,11 +8,9 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.layout.AnchorPane;
-import lk.ijse.DAO.Custom.EmployeeDAO;
-import lk.ijse.DAO.Custom.GuardianDAO;
-import lk.ijse.DAO.DAOFactory;
-import lk.ijse.DAO.Impl.EmployeeDAOImpl;
-import lk.ijse.DAO.Impl.GuardianDAOImpl;
+import lk.ijse.BO.BOFactory;
+import lk.ijse.BO.Custom.EmployeeBO;
+import lk.ijse.BO.Custom.GuardianBO;
 import lk.ijse.dto.EmployeeDto;
 import lk.ijse.dto.GuardianDto;
 import org.controlsfx.control.Notifications;
@@ -37,8 +35,8 @@ public class UpdateGuardianController {
     @FXML
     private JFXTextField txtName;
 
-    GuardianDAO guardianDAO = (GuardianDAO) DAOFactory.getDaoFactory().getDAO(DAOFactory.DAOTypes.GUARDIAN);
-    EmployeeDAO employeeDAO = (EmployeeDAO) DAOFactory.getDaoFactory().getDAO(DAOFactory.DAOTypes.EMPLOYEE);
+    GuardianBO guardianBO = (GuardianBO) BOFactory.getBoFactory().getBO(BOFactory.BOType.GUARDIAN);
+    EmployeeBO employeeBO = (EmployeeBO) BOFactory.getBoFactory().getBO(BOFactory.BOType.EMPLOYEE);
 
     public void initialize(){
         setValue();
@@ -48,7 +46,7 @@ public class UpdateGuardianController {
         ObservableList<String> obList = FXCollections.observableArrayList();
 
         try {
-            List<GuardianDto> idList = guardianDAO.getAll();
+            List<GuardianDto> idList = guardianBO.getAllGuardian();
 
             for ( GuardianDto dto : idList) {
                 obList.add(dto.getGuardian_id());
@@ -69,7 +67,7 @@ public class UpdateGuardianController {
                 return;
             }
             var dto = new GuardianDto(id,name,contact,emp_id);
-            boolean isUpdate = guardianDAO.update(dto);
+            boolean isUpdate = guardianBO.updateGuardian(dto);
             if (isUpdate){
                 new Alert(Alert.AlertType.CONFIRMATION,"Guardian updated").show();
             }
@@ -103,7 +101,7 @@ public class UpdateGuardianController {
     public void comboGuardian_idOnAction(ActionEvent actionEvent) {
         String id = (String) comboGuardian_id.getValue();
         try {
-            GuardianDto dto = guardianDAO.search(id);
+            GuardianDto dto = guardianBO.searchGuardian(id);
             txtName.setText(dto.getGuardian_name());
             txtContact.setText(dto.getGuardian_contact());
            // comboEmployee_id.setItems(dto.getEmployee_id());
@@ -115,7 +113,7 @@ public class UpdateGuardianController {
         ObservableList<String> obList = FXCollections.observableArrayList();
 
         try {
-            List<EmployeeDto> idList = employeeDAO.getAll();
+            List<EmployeeDto> idList = employeeBO.getAllEmployee();
 
             for ( EmployeeDto dto : idList) {
                 obList.add(dto.getId());
@@ -130,7 +128,7 @@ public class UpdateGuardianController {
     public void comboEmployee_idOnAction(ActionEvent actionEvent) {
         String id =(String) comboEmployee_id.getValue();
         try {
-            EmployeeDto dto = employeeDAO.search(id);
+            EmployeeDto dto = employeeBO.searchEmployee(id);
             //comboEmployee_id.setItems(dto.getId());
         } catch (SQLException e) {
             throw new RuntimeException(e);

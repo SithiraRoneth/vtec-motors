@@ -14,8 +14,8 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
-import lk.ijse.DAO.Custom.GuardianDAO;
-import lk.ijse.DAO.DAOFactory;
+import lk.ijse.BO.BOFactory;
+import lk.ijse.BO.Custom.GuardianBO;
 import lk.ijse.DAO.Impl.GuardianDAOImpl;
 import lk.ijse.dto.GuardianDto;
 import lk.ijse.dto.tm.GuardianTm;
@@ -49,7 +49,7 @@ public class GuardianController {
     @FXML
     private TableView<GuardianTm> tblGuardian;
     private ObservableList<GuardianTm>obList = FXCollections.observableArrayList();
-    GuardianDAO guardianDAO = (GuardianDAO) DAOFactory.getDaoFactory().getDAO(DAOFactory.DAOTypes.GUARDIAN);
+    GuardianBO guardianBO = (GuardianBO) BOFactory.getBoFactory().getBO(BOFactory.BOType.GUARDIAN);
 
     public void initialize(){
         setCellValueFactory();
@@ -60,7 +60,7 @@ public class GuardianController {
     private void tableListener() {
         tblGuardian.getSelectionModel().selectedItemProperty().addListener((observable, oldValued, newValue) -> {
             try {
-                GuardianDto dto = guardianDAO.search(newValue.getGuardian_id());
+                GuardianDto dto = guardianBO.searchGuardian(newValue.getGuardian_id());
                 setData(newValue, dto.getGuardian_id());
             } catch (SQLException | ClassNotFoundException e) {
                 throw new RuntimeException(e);
@@ -89,8 +89,7 @@ public class GuardianController {
 
         ObservableList<GuardianTm> obList = FXCollections.observableArrayList();
         try {
-            List<GuardianDto> dtoList = guardianDAO.getAll();
-
+            List<GuardianDto> dtoList = guardianBO.getAllGuardian();
             for (GuardianDto dto : dtoList){
                 Button btn = new Button("remove");
                 setDeleteBtnOnAction(btn,dto.getGuardian_id());
@@ -129,7 +128,7 @@ public class GuardianController {
 
     private void DeleteGuardian(String id) {
         try {
-            boolean isDeleted = guardianDAO.delete(id);
+            boolean isDeleted = guardianBO.deleteGuardian(id);
             if(isDeleted) {
                 new Alert(Alert.AlertType.CONFIRMATION, "Guardian deleted!").show();
             } else {

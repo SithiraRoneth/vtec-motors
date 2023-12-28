@@ -12,11 +12,9 @@ import javafx.scene.control.Label;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
-import lk.ijse.DAO.Custom.GuardianDAO;
-import lk.ijse.DAO.Custom.VehicleDAO;
-import lk.ijse.DAO.DAOFactory;
-import lk.ijse.DAO.Impl.GuardianDAOImpl;
-import lk.ijse.DAO.Impl.VehicleDAOImpl;
+import lk.ijse.BO.BOFactory;
+import lk.ijse.BO.Custom.GuardianBO;
+import lk.ijse.BO.Custom.VehicleBO;
 import lk.ijse.dto.GuardianDto;
 import lk.ijse.dto.VehicleDto;
 import org.controlsfx.control.Notifications;
@@ -35,8 +33,8 @@ public class AddvehicleController {
     public Label lblGuardian_name;
     public Label lblVehicleId;
 
-    VehicleDAO vehicleDAO = (VehicleDAO) DAOFactory.getDaoFactory().getDAO(DAOFactory.DAOTypes.VEHICLE);
-    GuardianDAO guardianDAO = (GuardianDAO) DAOFactory.getDaoFactory().getDAO(DAOFactory.DAOTypes.GUARDIAN);
+    VehicleBO vehicleBO = (VehicleBO) BOFactory.getBoFactory().getBO(BOFactory.BOType.VEHICLE);
+    GuardianBO guardianBO = (GuardianBO) BOFactory.getBoFactory().getBO(BOFactory.BOType.GUARDIAN);
 
     public void initialize(){
         loadGuardian();
@@ -51,7 +49,7 @@ public class AddvehicleController {
 
     private void generateVehicleId() {
         try {
-            String employeeId = vehicleDAO.generateNextId();
+            String employeeId = vehicleBO.generateNextVehicleId();
             lblVehicleId.setText(employeeId);
         } catch (SQLException | ClassNotFoundException e) {
             new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
@@ -68,7 +66,7 @@ public class AddvehicleController {
                 return;
             }
             var dto = new VehicleDto(id, types, guardian_id);
-            boolean isAdded = vehicleDAO.save(dto);
+            boolean isAdded = vehicleBO.saveVehicle(dto);
             if(isAdded){
                 ButtonType yes = new ButtonType("yes", ButtonBar.ButtonData.OK_DONE);
                // ButtonType no = new ButtonType("no", ButtonBar.ButtonData.CANCEL_CLOSE);
@@ -109,7 +107,7 @@ public class AddvehicleController {
         ObservableList<String> obList = FXCollections.observableArrayList();
 
         try {
-            List<GuardianDto> idList = guardianDAO.getAll();
+            List<GuardianDto> idList = guardianBO.getAllGuardian();
 
             for (GuardianDto dto: idList) {
                 obList.add(dto.getGuardian_id());

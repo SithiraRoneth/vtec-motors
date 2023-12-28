@@ -10,11 +10,9 @@ import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
-import lk.ijse.DAO.Custom.EmployeeDAO;
-import lk.ijse.DAO.Custom.GuardianDAO;
-import lk.ijse.DAO.DAOFactory;
-import lk.ijse.DAO.Impl.EmployeeDAOImpl;
-import lk.ijse.DAO.Impl.GuardianDAOImpl;
+import lk.ijse.BO.BOFactory;
+import lk.ijse.BO.Custom.EmployeeBO;
+import lk.ijse.BO.Custom.GuardianBO;
 import lk.ijse.dto.EmployeeDto;
 import lk.ijse.dto.GuardianDto;
 import org.controlsfx.control.Notifications;
@@ -31,8 +29,8 @@ public class AddGuardianController {
     public JFXTextField txtContact;
     public JFXComboBox comboEmp_Id;
     public Label lblGuardianId;
-    GuardianDAO guardianDAO = (GuardianDAO) DAOFactory.getDaoFactory().getDAO(DAOFactory.DAOTypes.GUARDIAN);
-    EmployeeDAO employeeDAO = (EmployeeDAO) DAOFactory.getDaoFactory().getDAO(DAOFactory.DAOTypes.EMPLOYEE);
+    GuardianBO guardianBO = (GuardianBO) BOFactory.getBoFactory().getBO(BOFactory.BOType.GUARDIAN);
+    EmployeeBO employeeBO = (EmployeeBO) BOFactory.getBoFactory().getBO(BOFactory.BOType.EMPLOYEE);
 
     public void initialize() {
         loadEmp();
@@ -41,7 +39,7 @@ public class AddGuardianController {
 
     private void generateNextGuardianId() {
         try {
-            String guardianId = guardianDAO.generateNextId();
+            String guardianId = guardianBO.generateNextGuardianId();
             lblGuardianId.setText(guardianId);
         } catch (SQLException | ClassNotFoundException e) {
             new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
@@ -60,7 +58,7 @@ public class AddGuardianController {
                 return;
             }
             var dto = new GuardianDto(id,name,contact,emp_id);
-            boolean isSaved = guardianDAO.save(dto);
+            boolean isSaved = guardianBO.saveGuardian(dto);
 
             if (isSaved){
                 ButtonType yes = new ButtonType("yes", ButtonBar.ButtonData.OK_DONE);
@@ -108,7 +106,7 @@ public class AddGuardianController {
         ObservableList<String> obList = FXCollections.observableArrayList();
 
         try {
-            List<EmployeeDto> idList = employeeDAO.getAll();
+            List<EmployeeDto> idList = employeeBO.getAllEmployee();
 
             for (EmployeeDto dto: idList) {
                 obList.add(dto.getId());

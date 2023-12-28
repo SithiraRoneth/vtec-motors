@@ -11,9 +11,8 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
-import lk.ijse.DAO.Custom.VehicleDAO;
-import lk.ijse.DAO.DAOFactory;
-import lk.ijse.DAO.Impl.VehicleDAOImpl;
+import lk.ijse.BO.BOFactory;
+import lk.ijse.BO.Custom.VehicleBO;
 import lk.ijse.dto.VehicleDto;
 import lk.ijse.dto.tm.VehicleTm;
 
@@ -39,7 +38,7 @@ public class VehicleController {
 
     @FXML
     private TableView<VehicleTm> tblVehicle;
-    VehicleDAO vehicleDAO = (VehicleDAO) DAOFactory.getDaoFactory().getDAO(DAOFactory.DAOTypes.VEHICLE);
+    VehicleBO vehicleBO = (VehicleBO) BOFactory.getBoFactory().getBO(BOFactory.BOType.VEHICLE);
     private ObservableList<VehicleTm> obList = FXCollections.observableArrayList();
 
     public void initialize(){
@@ -63,7 +62,7 @@ public class VehicleController {
     }
     private void loadAllVehicles() {
         try {
-            List<VehicleDto> dtoList = vehicleDAO.getAll();
+            List<VehicleDto> dtoList = vehicleBO.getAllVehicle();
 
             for (VehicleDto dto : dtoList) {
                 Button btn = new Button("Remove");
@@ -100,7 +99,7 @@ public class VehicleController {
 
     private void DeleteVehicle(String id) {
         try {
-            boolean isDeleted = vehicleDAO.delete(id);
+            boolean isDeleted = vehicleBO.deleteVehicle(id);
             if(isDeleted) {
                 new Alert(Alert.AlertType.CONFIRMATION, "Vehicle deleted!").show();
             } else {
@@ -141,7 +140,7 @@ public class VehicleController {
     private void tableListener() {
         tblVehicle.getSelectionModel().selectedItemProperty().addListener((observable, oldValued, newValue) -> {
             try {
-                VehicleDto dto = vehicleDAO.search(newValue.getVehicle_id());
+                VehicleDto dto = vehicleBO.searchVehicle(newValue.getVehicle_id());
                 setData(newValue, dto.getVehicle_id());
             } catch (SQLException | ClassNotFoundException e) {
                 throw new RuntimeException(e);

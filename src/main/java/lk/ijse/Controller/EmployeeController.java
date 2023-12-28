@@ -13,8 +13,8 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
-import lk.ijse.DAO.Custom.EmployeeDAO;
-import lk.ijse.DAO.DAOFactory;
+import lk.ijse.BO.BOFactory;
+import lk.ijse.BO.Custom.EmployeeBO;
 import lk.ijse.DAO.Impl.EmployeeDAOImpl;
 import lk.ijse.dto.EmployeeDto;
 import lk.ijse.dto.tm.EmployeeTm;
@@ -74,7 +74,7 @@ public class EmployeeController {
 
     @FXML
     private Label lblNIC;
-    EmployeeDAO employeeDAO = (EmployeeDAO) DAOFactory.getDaoFactory().getDAO(DAOFactory.DAOTypes.EMPLOYEE);
+    EmployeeBO employeeBO = (EmployeeBO) BOFactory.getBoFactory().getBO(BOFactory.BOType.EMPLOYEE);
 
     private ObservableList<EmployeeTm>obList = FXCollections.observableArrayList();
 
@@ -103,7 +103,7 @@ public class EmployeeController {
 
 
         try {
-            List<EmployeeDto> dtoList = employeeDAO.getAll();
+            List<EmployeeDto> dtoList = employeeBO.getAllEmployee();
 
             for (EmployeeDto dto : dtoList) {
                 Button btn = new Button("Remove");
@@ -145,7 +145,7 @@ public class EmployeeController {
 
     private void DeleteEmployee(String id) {
         try {
-            boolean isDeleted = employeeDAO.delete(id);
+            boolean isDeleted = employeeBO.deleteEmployee(id);
             if(isDeleted) {
                 new Alert(Alert.AlertType.CONFIRMATION, "Employee deleted!").show();
             } else {
@@ -175,7 +175,7 @@ public class EmployeeController {
 
         tblEmployee.getSelectionModel().selectedItemProperty().addListener((observable, oldValued, newValue) -> {
             try {
-                EmployeeDto dto =employeeDAO.search(newValue.getId());
+                EmployeeDto dto =employeeBO.searchEmployee(newValue.getId());
                 setData(newValue, dto.getId());
             } catch (SQLException e) {
                 throw new RuntimeException(e);

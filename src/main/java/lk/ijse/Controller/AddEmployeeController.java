@@ -3,6 +3,7 @@ package lk.ijse.Controller;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ButtonType;
@@ -10,9 +11,8 @@ import javafx.scene.control.Label;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
-import lk.ijse.DAO.Custom.EmployeeDAO;
-import lk.ijse.DAO.DAOFactory;
-import lk.ijse.DAO.Impl.EmployeeDAOImpl;
+import lk.ijse.BO.BOFactory;
+import lk.ijse.BO.Custom.EmployeeBO;
 import lk.ijse.dto.EmployeeDto;
 import org.controlsfx.control.Notifications;
 
@@ -23,18 +23,26 @@ import java.util.regex.Pattern;
 
 public class AddEmployeeController {
    // public JFXTextField txtEmployee_id;
+    @FXML
     public JFXTextField txtName;
+    @FXML
     public JFXTextField txtContact;
+    @FXML
     public JFXTextField txtNic;
+    @FXML
     public JFXTextField txtJob;
+    @FXML
     public AnchorPane root;
+    @FXML
     public Label lblEmployeeId;
+    @FXML
     public JFXButton add;
+    @FXML
     public JFXTextField txtEmail;
 
-    EmployeeController employeeController=null;
+    //EmployeeController employeeController=null;
 
-    EmployeeDAO employeeDAO = (EmployeeDAO) DAOFactory.getDaoFactory().getDAO(DAOFactory.DAOTypes.EMPLOYEE);
+    EmployeeBO employeeBO = (EmployeeBO) BOFactory.getBoFactory().getBO(BOFactory.BOType.EMPLOYEE);
 
     public void initialize(){
         generateNextEmployeeId();
@@ -48,7 +56,7 @@ public class AddEmployeeController {
 
     private void generateNextEmployeeId() {
         try {
-            String employeeId = employeeDAO.generateNextId();
+            String employeeId = employeeBO.generateNextEmpId();
             lblEmployeeId.setText(employeeId);
         } catch (SQLException e) {
             new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
@@ -72,7 +80,7 @@ public class AddEmployeeController {
 
             clearFields();
             var dto = new EmployeeDto(id,name,contact,nic,job,email);
-            boolean isSaved = employeeDAO.save(dto);
+            boolean isSaved = employeeBO.saveEmployee(dto);
             if (isSaved){
                 ButtonType yes = new ButtonType("yes", ButtonBar.ButtonData.OK_DONE);
 
@@ -128,7 +136,7 @@ public class AddEmployeeController {
         txtEmail.setText("");
     }
 
-    public void setController(EmployeeController employeeController) {
+    /*public void setController(EmployeeController employeeController) {
         this.employeeController=employeeController;
-    }
+    }*/
 }

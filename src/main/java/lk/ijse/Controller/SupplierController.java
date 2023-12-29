@@ -11,6 +11,8 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
+import lk.ijse.BO.BOFactory;
+import lk.ijse.BO.Custom.SupplierBO;
 import lk.ijse.DAO.Custom.SupplierDAO;
 import lk.ijse.DAO.DAOFactory;
 import lk.ijse.DAO.Impl.SupplierDAOImpl;
@@ -40,7 +42,7 @@ public class SupplierController {
     private TableView<SupplierTm> tblSupplier;
 
     private ObservableList<SupplierTm>obList = FXCollections.observableArrayList();
-    SupplierDAO supplierDAO = (SupplierDAO) DAOFactory.getDaoFactory().getDAO(DAOFactory.DAOTypes.SUPPLIER);
+    SupplierBO supplierBO = (SupplierBO) BOFactory.getBoFactory().getBO(BOFactory.BOType.SUPPLIER);
 
     public void initialize(){
         setCellValueFactory();
@@ -59,7 +61,7 @@ public class SupplierController {
         ObservableList<SupplierTm> obList = FXCollections.observableArrayList();
 
         try {
-            List<SupplierDto> dtoList = supplierDAO.getAll();
+            List<SupplierDto> dtoList = supplierBO.getAllSupplier();
 
             for(SupplierDto dto : dtoList){
                 Button btn = new Button("Remove");
@@ -98,7 +100,7 @@ public class SupplierController {
 
     private void DeleteSupplier(String id) {
         try {
-            boolean isDeleted = supplierDAO.delete(id);
+            boolean isDeleted = supplierBO.deleteSupplier(id);
             if(isDeleted) {
                 new Alert(Alert.AlertType.CONFIRMATION, "Supplier deleted!").show();
             } else {
@@ -126,7 +128,7 @@ public class SupplierController {
     private void tableListener(){
         tblSupplier.getSelectionModel().selectedItemProperty().addListener((observable, oldValued, newValue) -> {
             try {
-                SupplierDto dto = supplierDAO.search(newValue.getId());
+                SupplierDto dto = supplierBO.searchSupplier(newValue.getId());
                 setData(newValue, dto.getId());
             } catch (SQLException | ClassNotFoundException e) {
                 throw new RuntimeException(e);

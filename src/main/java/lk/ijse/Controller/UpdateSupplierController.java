@@ -7,6 +7,8 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.layout.AnchorPane;
+import lk.ijse.BO.BOFactory;
+import lk.ijse.BO.Custom.SupplierBO;
 import lk.ijse.DAO.Custom.SupplierDAO;
 import lk.ijse.DAO.DAOFactory;
 import lk.ijse.DAO.Impl.SupplierDAOImpl;
@@ -29,7 +31,7 @@ public class UpdateSupplierController {
 
     @FXML
     private JFXTextField txtName;
-    SupplierDAO supplierDAO = (SupplierDAO) DAOFactory.getDaoFactory().getDAO(DAOFactory.DAOTypes.SUPPLIER);
+    SupplierBO supplierBO = (SupplierBO) BOFactory.getBoFactory().getBO(BOFactory.BOType.SUPPLIER);
 
     public void initialize(){
         setValue();
@@ -38,7 +40,7 @@ public class UpdateSupplierController {
         ObservableList<String>obList = FXCollections.observableArrayList();
 
         try{
-            List<SupplierDto> dtoList = supplierDAO.getAll();
+            List<SupplierDto> dtoList = supplierBO.getAllSupplier();
 
             for (SupplierDto dto : dtoList){
                 obList.add(dto.getId());
@@ -60,7 +62,7 @@ public class UpdateSupplierController {
                 return;
             }
             var dto = new SupplierDto(id,name,contact);
-            boolean isUpdate = supplierDAO.update(dto);
+            boolean isUpdate = supplierBO.updateSupplier(dto);
             if (isUpdate){
                 new Alert(Alert.AlertType.CONFIRMATION,"Supplier updated").show();
             }
@@ -95,7 +97,7 @@ public class UpdateSupplierController {
         String id = (String) comboSupplier_id.getValue();
 
         try {
-            SupplierDto dto = supplierDAO.search(id);
+            SupplierDto dto = supplierBO.searchSupplier(id);
             txtName.setText(dto.getName());
             txtContact.setText(dto.getContact());
         }catch (SQLException | ClassNotFoundException e){

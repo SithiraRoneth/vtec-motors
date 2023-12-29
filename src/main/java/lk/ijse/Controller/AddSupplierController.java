@@ -10,6 +10,8 @@ import javafx.scene.Cursor;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
+import lk.ijse.BO.BOFactory;
+import lk.ijse.BO.Custom.SupplierBO;
 import lk.ijse.DAO.AddedSpareModel;
 import lk.ijse.DAO.Custom.SparePartsDAO;
 import lk.ijse.DAO.Custom.SupplierDAO;
@@ -51,7 +53,7 @@ public class AddSupplierController {
     public JFXComboBox cmbSpareId;
     public Label lblSpareType;
     public Label lblPrice;
-    SupplierDAO supplierDAO = (SupplierDAO) DAOFactory.getDaoFactory().getDAO(DAOFactory.DAOTypes.SUPPLIER);
+    SupplierBO supplierBO = (SupplierBO) BOFactory.getBoFactory().getBO(BOFactory.BOType.SUPPLIER);
     SparePartsDAO sparePartsDAO = (SparePartsDAO) DAOFactory.getDaoFactory().getDAO(DAOFactory.DAOTypes.SPAREPARTS);
     private ObservableList<SpareCartTm> obList = FXCollections.observableArrayList();
 
@@ -92,7 +94,7 @@ public class AddSupplierController {
 
     private void genarateSupplierId() {
         try {
-            String employeeId = supplierDAO.generateNextId();
+            String employeeId = supplierBO.generateNextSupId();
             lblSupplierId.setText(employeeId);
         } catch (SQLException | ClassNotFoundException e) {
             new Alert(Alert.AlertType.ERROR, e.getMessage()).show();

@@ -7,6 +7,7 @@ package lk.ijse.BO;
 
 import lk.ijse.BO.Impl.EmployeeBOImpl;
 import lk.ijse.BO.Impl.GuardianBOImpl;
+import lk.ijse.BO.Impl.SupplierBOImpl;
 import lk.ijse.BO.Impl.VehicleBOImpl;
 
 public class BOFactory {
@@ -16,7 +17,7 @@ public class BOFactory {
         return boFactory == null ? boFactory = new BOFactory() : boFactory;
     }
     public enum BOType{
-        EMPLOYEE,GUARDIAN,VEHICLE
+        EMPLOYEE,GUARDIAN,VEHICLE,SUPPLIER
     }
     public SuperBO getBO(BOType boType){
         switch (boType){
@@ -26,6 +27,8 @@ public class BOFactory {
                 return new GuardianBOImpl();
             case VEHICLE:
                 return new VehicleBOImpl();
+            case SUPPLIER:
+                return new SupplierBOImpl();
             default:
                 return null;
         }

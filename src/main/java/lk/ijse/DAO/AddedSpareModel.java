@@ -1,5 +1,7 @@
 package lk.ijse.DAO;
 
+import lk.ijse.BO.BOFactory;
+import lk.ijse.BO.Custom.SupplierBO;
 import lk.ijse.DAO.Custom.SparePartsDAO;
 import lk.ijse.DAO.Custom.SpareParts_Details_DAO;
 import lk.ijse.DAO.Custom.SupplierDAO;
@@ -11,7 +13,7 @@ import java.sql.SQLException;
 
 public class AddedSpareModel {
     static SparePartsDAO sparePartsDAO = (SparePartsDAO) DAOFactory.getDaoFactory().getDAO(DAOFactory.DAOTypes.SPAREPARTS);
-    static SupplierDAO supplierDAO = (SupplierDAO) DAOFactory.getDaoFactory().getDAO(DAOFactory.DAOTypes.SUPPLIER);
+    static SupplierBO supplierBO = (SupplierBO) BOFactory.getBoFactory().getBO(BOFactory.BOType.SUPPLIER);
     static SpareParts_Details_DAO sparePartsDetailsDao = (SpareParts_Details_DAO) DAOFactory.getDaoFactory().getDAO(DAOFactory.DAOTypes.SPAREPARTS_DETAILS);
 
     public static boolean addSpare(SpareOrderDto spareOrderDto) throws SQLException {
@@ -30,7 +32,7 @@ public class AddedSpareModel {
             connection.setAutoCommit(false);
 
             var dto = new SupplierDto(supplier_id,supplier_name,contact);
-            boolean isSupplierSaved = supplierDAO.save(dto);
+            boolean isSupplierSaved = supplierBO.saveSupplier(dto);
             if (isSupplierSaved){
                 boolean isUpdate = sparePartsDAO.updateSpare(spareOrderDto.getSpareCartTmList());
                 if (isUpdate){

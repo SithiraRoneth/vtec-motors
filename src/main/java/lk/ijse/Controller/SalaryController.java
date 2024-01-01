@@ -25,6 +25,9 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
+import lk.ijse.BO.BOFactory;
+import lk.ijse.BO.Custom.EmployeeBO;
+import lk.ijse.BO.Custom.SalaryBO;
 import lk.ijse.DAO.Custom.EmployeeDAO;
 import lk.ijse.DAO.Custom.ExpenditureDAO;
 import lk.ijse.DAO.Custom.SalaryDAO;
@@ -92,9 +95,9 @@ public class SalaryController {
     @FXML
     private JFXTextField txtSalary;
     private String month;
-    SalaryDAO salaryDAO = (SalaryDAO) DAOFactory.getDaoFactory().getDAO(DAOFactory.DAOTypes.SALARY);
+    SalaryBO salaryBO = (SalaryBO) BOFactory.getBoFactory().getBO(BOFactory.BOType.SALARY);
     ExpenditureDAO expenditureDAO = (ExpenditureDAO) DAOFactory.getDaoFactory().getDAO(DAOFactory.DAOTypes.EXPENDITURE);
-    EmployeeDAO employeeDAO = (EmployeeDAO) DAOFactory.getDaoFactory().getDAO(DAOFactory.DAOTypes.EMPLOYEE);
+    EmployeeBO employeeBO = (EmployeeBO) BOFactory.getBoFactory().getBO(BOFactory.BOType.EMPLOYEE);
     private ObservableList<SalaryTm> obList = FXCollections.observableArrayList();
 
     public void initialize(){
@@ -107,7 +110,7 @@ public class SalaryController {
     private void loadEmployee() {
         ObservableList<String>obList = FXCollections.observableArrayList();
         try {
-            List<EmployeeDto>dtoList = employeeDAO.getAll();
+            List<EmployeeDto>dtoList = employeeBO.getAllEmployee();
             for (EmployeeDto dto : dtoList){
                 obList.add(dto.getId());
             }
@@ -140,7 +143,7 @@ public class SalaryController {
         String id = cmbEmpId.getValue();
 
         try {
-            EmployeeDto dto = employeeDAO.search(id);
+            EmployeeDto dto = employeeBO.searchEmployee(id);
             lblEmpName.setText(dto.getName());
             lblEmail.setText(dto.getEmail());
         } catch (SQLException e) {
@@ -163,7 +166,7 @@ public class SalaryController {
 
         try {
             var dto = new SalaryDto(id, name, salary, bonus, etf, finalSalary, month);
-            boolean isSaved = salaryDAO.save(dto);
+            boolean isSaved = salaryBO.saveSalary(dto);
             if (isSaved) {
                 email();
                 new Alert(Alert.AlertType.CONFIRMATION, "Salary pay success").show();
@@ -216,7 +219,7 @@ public class SalaryController {
                 month = selectMonth.name();
 
             }
-            List<SalaryTm> dtoList = salaryDAO.searchSalary(month);
+            List<SalaryTm> dtoList = salaryBO.searchSalaryPerMonth(month);
             for (SalaryTm dto : dtoList) {
                 obList.add(
                         new SalaryTm(

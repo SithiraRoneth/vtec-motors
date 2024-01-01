@@ -5,20 +5,20 @@
  * */
 package lk.ijse.BO;
 
-import lk.ijse.BO.Impl.EmployeeBOImpl;
-import lk.ijse.BO.Impl.GuardianBOImpl;
-import lk.ijse.BO.Impl.SupplierBOImpl;
-import lk.ijse.BO.Impl.VehicleBOImpl;
+import lk.ijse.BO.Impl.*;
 
 public class BOFactory {
     private static BOFactory boFactory;
     private BOFactory(){}
+
     public static BOFactory getBoFactory(){
         return boFactory == null ? boFactory = new BOFactory() : boFactory;
     }
+
     public enum BOType{
-        EMPLOYEE,GUARDIAN,VEHICLE,SUPPLIER
+        EMPLOYEE,GUARDIAN,VEHICLE,SUPPLIER,SALARY
     }
+
     public SuperBO getBO(BOType boType){
         switch (boType){
             case EMPLOYEE:
@@ -29,9 +29,10 @@ public class BOFactory {
                 return new VehicleBOImpl();
             case SUPPLIER:
                 return new SupplierBOImpl();
+            case SALARY:
+                return new SalaryBOImpl();
             default:
                 return null;
         }
     }
-
 }

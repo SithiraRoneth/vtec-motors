@@ -1,5 +1,6 @@
 package lk.ijse.dto;
 
+import lk.ijse.dto.Factory.SuperDTO;
 import lombok.*;
 
 @NoArgsConstructor
@@ -8,7 +9,7 @@ import lombok.*;
 @Setter
 @ToString
 
-public class ExpenditureDto {
+public class ExpenditureDto implements SuperDTO {
     private String desc;
     private double amount;
     private int year;

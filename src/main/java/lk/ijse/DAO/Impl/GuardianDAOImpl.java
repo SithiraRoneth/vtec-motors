@@ -1,6 +1,7 @@
 package lk.ijse.DAO.Impl;
 
 import lk.ijse.DAO.Custom.GuardianDAO;
+import lk.ijse.DAO.SQLUtil;
 import lk.ijse.DB.DbConnection;
 import lk.ijse.dto.GuardianDto;
 
@@ -14,35 +15,22 @@ import java.util.List;
 public class GuardianDAOImpl implements GuardianDAO {
     @Override
     public boolean save(GuardianDto dto) throws SQLException, ClassNotFoundException {
-        Connection connection = DbConnection.getInstance().getConnection();
-        String sql = "INSERT INTO guardian VALUES(?,?,?,?)";
-
-        PreparedStatement pstm = connection.prepareStatement(sql);
-        pstm.setString(1, dto.getGuardian_id());
-        pstm.setString(2, dto.getGuardian_name());
-        pstm.setString(3, dto.getGuardian_contact());
-        pstm.setString(4, dto.getEmployee_id());
-
-        boolean isAdded = pstm.executeUpdate()>0;
-        return isAdded;
+        return SQLUtil.execute("INSERT INTO guardian VALUES(?,?,?,?)",
+                dto.getGuardian_id(),
+                dto.getGuardian_name(),
+                dto.getGuardian_contact(),
+                dto.getEmployee_id()
+                );
     }
 
     @Override
     public boolean delete(String id) throws SQLException, ClassNotFoundException {
-        Connection connection = DbConnection.getInstance().getConnection();
-        String sql = "DELETE FROM guardian WHERE Guardian_id = ? ";
-        PreparedStatement pstm = connection.prepareStatement(sql);
-        pstm.setString(1,id);
-        return pstm.executeUpdate()>0;
+        return SQLUtil.execute("DELETE FROM guardian WHERE Guardian_id = ? ",id);
     }
 
     @Override
     public List<GuardianDto> getAll() throws SQLException, ClassNotFoundException {
-        Connection connection = DbConnection.getInstance().getConnection();
-
-        String sql = "SELECT * FROM guardian";
-        PreparedStatement pstm = connection.prepareStatement(sql);
-        ResultSet resultSet = pstm.executeQuery();
+        ResultSet resultSet = SQLUtil.execute("SELECT * FROM guardian");
 
         ArrayList<GuardianDto> dtoList = new ArrayList<>();
 
@@ -61,26 +49,18 @@ public class GuardianDAOImpl implements GuardianDAO {
 
     @Override
     public boolean update(GuardianDto dto) throws SQLException, ClassNotFoundException {
-        Connection connection = DbConnection.getInstance().getConnection();
-        String sql = "UPDATE guardian SET Guardian_name = ? , Guardian_ContactNo = ? , Emp_id = ? WHERE Guardian_id = ? ";
-        PreparedStatement pstm = connection.prepareStatement(sql);
-        pstm.setString(1, dto.getGuardian_name());
-        pstm.setString(2, dto.getGuardian_contact());
-        pstm.setString(3, dto.getEmployee_id());
-        pstm.setString(4,dto.getGuardian_id());
 
-        return pstm.executeUpdate()>0;
+        return SQLUtil.execute("UPDATE guardian SET Guardian_name = ? , Guardian_ContactNo = ? , Emp_id = ? WHERE Guardian_id = ? ",
+                dto.getGuardian_name(),
+                dto.getGuardian_contact(),
+                dto.getEmployee_id(),
+                dto.getGuardian_id()
+                );
     }
 
     @Override
     public GuardianDto search(String id) throws SQLException, ClassNotFoundException {
-        Connection connection = DbConnection.getInstance().getConnection();
-
-        String sql = "SELECT * FROM guardian WHERE Guardian_id = ?";
-        PreparedStatement pstm = connection.prepareStatement(sql);
-        pstm.setString(1, id);
-
-        ResultSet resultSet = pstm.executeQuery();
+        ResultSet resultSet = SQLUtil.execute("SELECT * FROM guardian WHERE Guardian_id = ?",id);
 
         GuardianDto dto = null;
 
@@ -97,12 +77,8 @@ public class GuardianDAOImpl implements GuardianDAO {
 
     @Override
     public String generateNextId() throws SQLException, ClassNotFoundException {
-        Connection connection = DbConnection.getInstance().getConnection();
 
-        String sql = "SELECT Guardian_id FROM Guardian ORDER BY Guardian_id DESC LIMIT 1";
-        PreparedStatement pstm = connection.prepareStatement(sql);
-
-        ResultSet resultSet = pstm.executeQuery();
+        ResultSet resultSet = SQLUtil.execute("SELECT Guardian_id FROM Guardian ORDER BY Guardian_id DESC LIMIT 1");
         if(resultSet.next()) {
             return splitId(resultSet.getString(1));
         }

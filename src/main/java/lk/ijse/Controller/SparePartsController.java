@@ -8,6 +8,9 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import lk.ijse.BO.BOFactory;
+import lk.ijse.BO.Custom.ServiceBO;
+import lk.ijse.BO.Custom.SparePartsBO;
 import lk.ijse.DAO.Custom.ServiceDAO;
 import lk.ijse.DAO.Custom.SparePartsDAO;
 import lk.ijse.DAO.DAOFactory;
@@ -51,8 +54,8 @@ public class SparePartsController {
 
     @FXML
     private JFXTextField txtSpareType;
-    SparePartsDAO sparePartsDAO = (SparePartsDAO) DAOFactory.getDaoFactory().getDAO(DAOFactory.DAOTypes.SPAREPARTS);
-    ServiceDAO serviceDAO = (ServiceDAO) DAOFactory.getDaoFactory().getDAO(DAOFactory.DAOTypes.SERVICE);
+    SparePartsBO sparePartsBO = (SparePartsBO) BOFactory.getBoFactory().getBO(BOFactory.BOType.SPARE_PARTS);
+    ServiceBO serviceBO = (ServiceBO) BOFactory.getBoFactory().getBO(BOFactory.BOType.SERVICE);
     private ObservableList<SparePartTm>obList = FXCollections.observableArrayList();
 
 
@@ -69,7 +72,7 @@ public class SparePartsController {
         ObservableList<SparePartTm>obList = FXCollections.observableArrayList();
 
         try{
-            List<SpareDto>dtoList = sparePartsDAO.getAll();
+            List<SpareDto>dtoList = sparePartsBO.getAllSpare();
 
             for (SpareDto dto : dtoList){
                 Button btn = new Button("Delete");
@@ -109,7 +112,7 @@ public class SparePartsController {
 
     private void DeleteSpare(String spareId) {
         try {
-            boolean isDeleted = sparePartsDAO.delete(spareId);
+            boolean isDeleted = sparePartsBO.deleteSpare(spareId);
             if(isDeleted) {
                 new Alert(Alert.AlertType.CONFIRMATION, "SpareParts deleted!").show();
             } else {
@@ -132,7 +135,7 @@ public class SparePartsController {
 
     private void generateNextId() {
         try {
-            String serviceId = sparePartsDAO.generateNextId();
+            String serviceId = sparePartsBO.generateNextSpareId();
             lblSpareId.setText(serviceId);
         } catch (SQLException | ClassNotFoundException e) {
             new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
@@ -143,7 +146,7 @@ public class SparePartsController {
         ObservableList<String>obList = FXCollections.observableArrayList();
 
         try {
-            List<ServiceDto>dtoList = serviceDAO.getAll();
+            List<ServiceDto>dtoList = serviceBO.getAllService();
 
             for (ServiceDto dto : dtoList){
                 obList.add(dto.getId());
@@ -167,7 +170,7 @@ public class SparePartsController {
         var dto = new SpareDto(id,spare_type,description,price,service_name,service_id);
 
         try{
-            boolean isAdded = sparePartsDAO.save(dto);
+            boolean isAdded = sparePartsBO.saveSpare(dto);
             if (isAdded){
                 new Alert(Alert.AlertType.CONFIRMATION,"spare parts added").show();
                 clearFiled();
@@ -191,7 +194,7 @@ public class SparePartsController {
         String id = cmbService.getValue();
 
         try {
-            ServiceDto serviceDto = serviceDAO.search(id);
+            ServiceDto serviceDto = serviceBO.searchService(id);
             lblServiceName.setText(serviceDto.getName());
 
         }catch (SQLException | ClassNotFoundException e){

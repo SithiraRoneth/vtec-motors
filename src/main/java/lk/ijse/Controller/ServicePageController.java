@@ -10,6 +10,8 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import lk.ijse.BO.BOFactory;
+import lk.ijse.BO.Custom.ServiceBO;
 import lk.ijse.DAO.Custom.ServiceDAO;
 import lk.ijse.DAO.DAOFactory;
 import lk.ijse.dto.ServiceDto;
@@ -44,7 +46,7 @@ public class ServicePageController {
     @FXML
     private TableView<ServiceTm> tblService;
 
-    ServiceDAO serviceDAO = (ServiceDAO) DAOFactory.getDaoFactory().getDAO(DAOFactory.DAOTypes.SERVICE);
+    ServiceBO serviceBO = (ServiceBO) BOFactory.getBoFactory().getBO(BOFactory.BOType.SERVICE);
 
     public void initialize(){
         setCellValueFactory();
@@ -54,7 +56,7 @@ public class ServicePageController {
 
     private void genarateNextServiceId() {
         try {
-            String employeeId = serviceDAO.generateNextId();
+            String employeeId = serviceBO.generateNextSerId();
             lblServiceId.setText(employeeId);
         } catch (SQLException | ClassNotFoundException e) {
             new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
@@ -73,7 +75,7 @@ public class ServicePageController {
         ObservableList<ServiceTm> obList = FXCollections.observableArrayList();
 
         try {
-            List<ServiceDto> dtoList = serviceDAO.getAll();
+            List<ServiceDto> dtoList = serviceBO.getAllService();
 
             for (ServiceDto dto : dtoList){
                 obList.add(
@@ -98,7 +100,7 @@ public class ServicePageController {
 
         var dto  = new ServiceDto(id,name,description,amount);
         try {
-            boolean isSaved = serviceDAO.save(dto);
+            boolean isSaved = serviceBO.saveService(dto);
             if (isSaved){
                 new Alert(Alert.AlertType.CONFIRMATION,"service added successfully !!").show();
                 clearField();

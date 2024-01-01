@@ -1,6 +1,7 @@
 package lk.ijse.dto;
 
 import javafx.scene.Parent;
+import lk.ijse.dto.Factory.SuperDTO;
 import lombok.*;
 
 @AllArgsConstructor
@@ -9,7 +10,7 @@ import lombok.*;
 @Setter
 @ToString
 
-public class EmployeeDto {
+public class EmployeeDto implements SuperDTO {
     private String id;
     private String name;
     private String contact;

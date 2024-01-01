@@ -1,6 +1,7 @@
 package lk.ijse.DAO.Impl;
 
 import lk.ijse.DAO.Custom.ExpenditureDAO;
+import lk.ijse.DAO.SQLUtil;
 import lk.ijse.DB.DbConnection;
 import lk.ijse.dto.ExpenditureDto;
 import lk.ijse.dto.tm.ExpenditureTm;
@@ -14,15 +15,8 @@ import java.util.List;
 
 public class ExpenditureDAOImpl implements ExpenditureDAO {
     @Override
-    public  List<ExpenditureTm> searchExpenditure(int year, String month) throws SQLException {
-        Connection connection = DbConnection.getInstance().getConnection();
-
-        String sql = "SELECT * FROM Expenditure WHERE Year = ? AND Month = ?";
-        PreparedStatement pstm = connection.prepareStatement(sql);
-        pstm.setInt(1, year);
-        pstm.setString(2, month);
-
-        ResultSet resultSet = pstm.executeQuery();
+    public  List<ExpenditureTm> searchExpenditure(int year, String month) throws SQLException, ClassNotFoundException {
+        ResultSet resultSet = SQLUtil.execute("SELECT * FROM Expenditure WHERE Year = ? AND Month = ?",year,month);
 
         List<ExpenditureTm> expenditureTmList = new ArrayList<>();
 
@@ -40,19 +34,13 @@ public class ExpenditureDAOImpl implements ExpenditureDAO {
 
     @Override
     public boolean save(ExpenditureDto dto) throws SQLException, ClassNotFoundException {
-        Connection connection = DbConnection.getInstance().getConnection();
-
-        String sql = "INSERT INTO Expenditure (Description,Amount,Year,Month,Date) VALUES(?,?,?,?,?)";
-
-        PreparedStatement pstm = connection.prepareStatement(sql);
-        pstm.setString(1, dto.getDesc());
-        pstm.setString(2, String.valueOf(dto.getAmount()));
-        pstm.setString(3, String.valueOf(dto.getYear()));
-        pstm.setString(4, dto.getMonth());
-        pstm.setString(5, dto.getDate());
-
-        boolean isSaved = pstm.executeUpdate()>0;
-        return isSaved;
+        return SQLUtil.execute("INSERT INTO Expenditure (Description,Amount,Year,Month,Date) VALUES(?,?,?,?,?)",
+                dto.getDesc(),
+                dto.getAmount(),
+                dto.getYear(),
+                dto.getMonth(),
+                dto.getDate()
+                );
     }
 
     @Override

@@ -11,6 +11,11 @@ import javafx.scene.Cursor;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
+import lk.ijse.BO.BOFactory;
+import lk.ijse.BO.Custom.GuardianBO;
+import lk.ijse.BO.Custom.IncomeBO;
+import lk.ijse.BO.Custom.ServiceBO;
+import lk.ijse.BO.Custom.SparePartsBO;
 import lk.ijse.DAO.*;
 import lk.ijse.DAO.Custom.*;
 import lk.ijse.DAO.Impl.*;
@@ -60,11 +65,11 @@ public class OrderController {
     @FXML
     private TableView<CartTm> tblOrder;
 
-    ServiceDAO serviceDAO = (ServiceDAO) DAOFactory.getDaoFactory().getDAO(DAOFactory.DAOTypes.SERVICE);
+    ServiceBO serviceBO = (ServiceBO) BOFactory.getBoFactory().getBO(BOFactory.BOType.SERVICE);
     OrderDAO orderDAO = (OrderDAO) DAOFactory.getDaoFactory().getDAO(DAOFactory.DAOTypes.ORDER);
-    GuardianDAO guardianDAO = (GuardianDAO) DAOFactory.getDaoFactory().getDAO(DAOFactory.DAOTypes.GUARDIAN);
-    SparePartsDAO sparePartsDAO = (SparePartsDAO) DAOFactory.getDaoFactory().getDAO(DAOFactory.DAOTypes.SPAREPARTS);
-    IncomeDAO incomeDAO = (IncomeDAO) DAOFactory.getDaoFactory().getDAO(DAOFactory.DAOTypes.INCOME);
+    GuardianBO guardianBO = (GuardianBO) BOFactory.getBoFactory().getBO(BOFactory.BOType.GUARDIAN);
+    SparePartsBO sparePartsBO = (SparePartsBO) BOFactory.getBoFactory().getBO(BOFactory.BOType.SPARE_PARTS);
+    IncomeBO incomeBO = (IncomeBO) BOFactory.getBoFactory().getBO(BOFactory.BOType.INCOME);
     private PlaceOrderModel placeOrderModel = new PlaceOrderModel();
     private ObservableList<CartTm> obList = FXCollections.observableArrayList();
     private ObservableList<SpareOrderTm>spObList = FXCollections.observableArrayList();
@@ -96,7 +101,7 @@ public class OrderController {
         ObservableList<String> obList = FXCollections.observableArrayList();
 
         try {
-            List<ServiceDto> idList = serviceDAO.getAll();
+            List<ServiceDto> idList = serviceBO.getAllService();
 
             for (ServiceDto dto : idList) {
                 obList.add(dto.getId());
@@ -113,7 +118,7 @@ public class OrderController {
         ObservableList<String> obList = FXCollections.observableArrayList();
 
         try {
-            List<GuardianDto> idList = guardianDAO.getAll();
+            List<GuardianDto> idList = guardianBO.getAllGuardian();
             for (GuardianDto dto : idList) {
                 obList.add(dto.getGuardian_id());
             }
@@ -140,7 +145,7 @@ public class OrderController {
         String id = cmbGuardian_Id.getValue();
 
         try {
-            GuardianDto guardianDto = guardianDAO.search(id);
+            GuardianDto guardianDto = guardianBO.searchGuardian(id);
             lblGuardianName.setText(guardianDto.getGuardian_name());
 
         } catch (SQLException | ClassNotFoundException e) {
@@ -152,7 +157,7 @@ public class OrderController {
         String id = cmbService_id.getValue();
 
         try {
-            ServiceDto serviceDto = serviceDAO.search(id);
+            ServiceDto serviceDto = serviceBO.searchService(id);
             lblService_name.setText(serviceDto.getName());
             lblAmount.setText(String.valueOf(serviceDto.getAmount()));
         } catch (SQLException | ClassNotFoundException e) {
@@ -251,7 +256,7 @@ public class OrderController {
 
         var incomeDto = new IncomeDto(desc, amount, year, month, localDate);
         try {
-            boolean isSuccess = incomeDAO.save(incomeDto);
+            boolean isSuccess = incomeBO.saveIncome(incomeDto);
             if (isSuccess) {
                 new Alert(Alert.AlertType.CONFIRMATION, "Income Payment Save Success!").show();
             }
@@ -298,7 +303,7 @@ public class OrderController {
 
         ObservableList<String> obList = FXCollections.observableArrayList();
         try {
-            List<SpareDto> dtoList = sparePartsDAO.getAll();
+            List<SpareDto> dtoList = sparePartsBO.getAllSpare();
             for (SpareDto dto : dtoList) {
                 obList.add(dto.getSpareId());
             }
@@ -312,7 +317,7 @@ public class OrderController {
     public void cmbSpareIdOnAction(ActionEvent actionEvent) {
         String id = (String) cmbSpareId.getValue();
         try {
-            SpareDto spareDto = sparePartsDAO.search(id);
+            SpareDto spareDto = sparePartsBO.searchSpare(id);
             lblSpareName.setText(spareDto.getSpareType());
             lblPrice.setText(String.valueOf(spareDto.getPrice()));
         } catch (SQLException | ClassNotFoundException e) {

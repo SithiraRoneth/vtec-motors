@@ -10,6 +10,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
+import lk.ijse.BO.BOFactory;
+import lk.ijse.BO.Custom.IncomeBO;
 import lk.ijse.DAO.Custom.ExpenditureDAO;
 import lk.ijse.DAO.Custom.IncomeDAO;
 import lk.ijse.DAO.DAOFactory;
@@ -55,8 +57,7 @@ public class IncomeController {
     private int year;
     private String month;
 
-    IncomeDAO incomeDAO = (IncomeDAO) DAOFactory.getDaoFactory().getDAO(DAOFactory.DAOTypes.INCOME);
-    ExpenditureDAO expenditureDAO = (ExpenditureDAO) DAOFactory.getDaoFactory().getDAO(DAOFactory.DAOTypes.EXPENDITURE);
+    IncomeBO incomeBO = (IncomeBO) BOFactory.getBoFactory().getBO(BOFactory.BOType.INCOME);
     private ObservableList<ExpenditureTm> ExobList = FXCollections.observableArrayList();
     private ObservableList<IncomeTm> InobList = FXCollections.observableArrayList();
 
@@ -73,7 +74,6 @@ public class IncomeController {
         YearMonth currentYearMonth = YearMonth.now();
         int year = currentYearMonth.getYear();
         String monthName = currentYearMonth.getMonth().name();
-
     }
 
     private void setCellValueFactoryEx() {
@@ -185,7 +185,7 @@ public class IncomeController {
         System.out.println("Income Details: " + incomeTmList);
         var incomeDto = new IncomeDto(desc,amount,year,month,date);
         try {
-            boolean isSuccess = incomeDAO.save(incomeDto);
+            boolean isSuccess = incomeBO.saveIncome(incomeDto);
             if (isSuccess) {
                 new Alert(Alert.AlertType.CONFIRMATION, "Incomes Save Success!").show();
             }
@@ -211,7 +211,7 @@ public class IncomeController {
         System.out.println("Expencive Details: " +expenditureTmList);
         var expenditureDto = new ExpenditureDto(desc,amount,year,month,date);
         try {
-            boolean isSuccess = expenditureDAO.save(expenditureDto);
+            boolean isSuccess = incomeBO.saveExpenditure(expenditureDto);
             if (isSuccess) {
                 new Alert(Alert.AlertType.CONFIRMATION, "Expenditure Payment Save Success!").show();
             }
@@ -226,7 +226,7 @@ public class IncomeController {
             if (selectedMonth != null) {
                 month = selectedMonth.name();
             }
-            List<IncomeTm> dtoList = incomeDAO.searchIncome(year, month);
+            List<IncomeTm> dtoList = incomeBO.searchIncome(year,month);
 
             for ( IncomeTm dto : dtoList) {
                 InobList.add(
@@ -240,7 +240,7 @@ public class IncomeController {
 
             tblIncome.setItems(InobList);
 
-            List<ExpenditureTm> dtoList1 = expenditureDAO.searchExpenditure(year, month);
+            List<ExpenditureTm> dtoList1 = incomeBO.searchExpenditure(year,month);
 
             for ( ExpenditureTm dto : dtoList1) {
                 ExobList.add(

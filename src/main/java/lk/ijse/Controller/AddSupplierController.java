@@ -9,8 +9,11 @@ import javafx.fxml.FXML;
 import javafx.scene.Cursor;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import lk.ijse.BO.BOFactory;
+import lk.ijse.BO.Custom.SparePartsBO;
 import lk.ijse.BO.Custom.SupplierBO;
 import lk.ijse.DAO.AddedSpareModel;
 import lk.ijse.DAO.Custom.SparePartsDAO;
@@ -54,7 +57,7 @@ public class AddSupplierController {
     public Label lblSpareType;
     public Label lblPrice;
     SupplierBO supplierBO = (SupplierBO) BOFactory.getBoFactory().getBO(BOFactory.BOType.SUPPLIER);
-    SparePartsDAO sparePartsDAO = (SparePartsDAO) DAOFactory.getDaoFactory().getDAO(DAOFactory.DAOTypes.SPAREPARTS);
+    SparePartsBO sparePartsBO = (SparePartsBO) BOFactory.getBoFactory().getBO(BOFactory.BOType.SPARE_PARTS);
     private ObservableList<SpareCartTm> obList = FXCollections.observableArrayList();
 
     public void initialize(){
@@ -62,11 +65,11 @@ public class AddSupplierController {
         loadAllSpareParts();
         setCellValueFactory();
 
-        /*root.addEventFilter(KeyEvent.KEY_PRESSED, event -> {
+        root.addEventFilter(KeyEvent.KEY_PRESSED, event -> {
             if (event.getCode() == KeyCode.ENTER) {
                 btnAddSupOnAction(new ActionEvent());
             }
-        });*/
+        });
     }
 
     private void setCellValueFactory() {
@@ -80,7 +83,7 @@ public class AddSupplierController {
         ObservableList<String> obList = FXCollections.observableArrayList();
 
         try {
-            List<SpareDto> idList = sparePartsDAO.getAll();
+            List<SpareDto> idList = sparePartsBO.getAllSpare();
 
             for (SpareDto dto: idList) {
                 obList.add(dto.getSpareId());
@@ -164,7 +167,7 @@ public class AddSupplierController {
     public void cmbSpareIdOnAction(ActionEvent actionEvent) {
         String id = (String) cmbSpareId.getValue();
         try {
-            SpareDto spareDto = sparePartsDAO.search(id);
+            SpareDto spareDto = sparePartsBO.searchSpare(id);
             lblSpareType.setText(spareDto.getSpareType());
             lblPrice.setText(String.valueOf(spareDto.getPrice()));
 

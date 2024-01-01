@@ -8,5 +8,5 @@ import java.sql.SQLException;
 import java.util.List;
 
 public interface IncomeDAO extends CrudDAO<IncomeDto> {
-    List<IncomeTm> searchIncome(int year, String month) throws SQLException;
+    List<IncomeTm> searchIncome(int year, String month) throws SQLException, ClassNotFoundException;
 }

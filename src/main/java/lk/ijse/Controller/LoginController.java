@@ -23,6 +23,8 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 //import lk.ijse.Mail.Mail;
+import lk.ijse.BO.BOFactory;
+import lk.ijse.BO.Custom.UserBO;
 import lk.ijse.DAO.Custom.UserDAO;
 import lk.ijse.DAO.DAOFactory;
 import lk.ijse.DAO.Impl.UserDAOImpl;
@@ -52,7 +54,7 @@ public class LoginController {
     public Hyperlink hlSendOtp;
     public TextField txtOtp;
 
-    UserDAO userDAO = (UserDAO) DAOFactory.getDaoFactory().getDAO(DAOFactory.DAOTypes.USER);
+    UserBO userBO = (UserBO) BOFactory.getBoFactory().getBO(BOFactory.BOType.USER);
     private void updateTime() {
         SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm:ss");
         String formattedTime = timeFormat.format(new Date());
@@ -99,7 +101,7 @@ public class LoginController {
         String password = txtPassword.getText();
 
         HyperLinkSendOtpOnActionLog();
-        List<UserDto> userDtoList = userDAO.loginUser();
+        List<UserDto> userDtoList = userBO.loginUserDetails();
         for (UserDto userDto:userDtoList) {
             if (userDto.getUser_name().equals(username)) {
                 if (userDto.getEmail().equals(email)) {

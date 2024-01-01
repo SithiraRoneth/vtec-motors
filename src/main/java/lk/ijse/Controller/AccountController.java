@@ -9,6 +9,8 @@ import javafx.event.ActionEvent;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
+import lk.ijse.BO.BOFactory;
+import lk.ijse.BO.Custom.UserBO;
 import lk.ijse.DAO.Custom.UserDAO;
 import lk.ijse.DAO.DAOFactory;
 import lk.ijse.DAO.Impl.UserDAOImpl;
@@ -32,7 +34,7 @@ public class AccountController {
     public TableColumn colDelete;
     public Label lblUsername;
 
-    UserDAO userDAO = (UserDAO) DAOFactory.getDaoFactory().getDAO(DAOFactory.DAOTypes.USER);
+    UserBO userBO = (UserBO) BOFactory.getBoFactory().getBO(BOFactory.BOType.USER);
     private ObservableList<UserTm>obList = FXCollections.observableArrayList();
 
     public void initialize() {
@@ -58,7 +60,7 @@ public class AccountController {
         ObservableList<UserTm> obList = FXCollections.observableArrayList();
 
         try {
-            List<UserDto> dtoList = userDAO.getAll();
+            List<UserDto> dtoList = userBO.getAllUser();
 
             for (UserDto dto : dtoList) {
                 Button deleteBtn = new Button("Delete");
@@ -99,7 +101,7 @@ public class AccountController {
 
     private void DeleteUser(String id) {
         try {
-            boolean isDeleted = userDAO.delete(id);
+            boolean isDeleted = userBO.deleteUser(id);
             if(isDeleted) {
                 new Alert(Alert.AlertType.CONFIRMATION, "User deleted!").show();
             } else {
@@ -139,7 +141,7 @@ public class AccountController {
         var dto = new UserDto(username,email,password);
 
         try{
-            boolean isUpdated = userDAO.update(dto);
+            boolean isUpdated = userBO.updateUser(dto);
             if (isUpdated){
                 new Alert(Alert.AlertType.CONFIRMATION,"User updated").show();
             }

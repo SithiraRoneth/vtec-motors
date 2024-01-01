@@ -10,7 +10,6 @@ import lk.ijse.DAO.Custom.SalaryDAO;
 import lk.ijse.DAO.DAOFactory;
 import lk.ijse.dto.SalaryDto;
 import lk.ijse.dto.tm.SalaryTm;
-
 import java.sql.SQLException;
 import java.util.List;
 
@@ -20,7 +19,6 @@ public class SalaryBOImpl implements SalaryBO {
     public List<SalaryTm> searchSalaryPerMonth(String month) throws SQLException, ClassNotFoundException {
         return salaryDAO.searchSalary(month);
     }
-
     @Override
     public boolean saveSalary(SalaryDto dto) throws SQLException, ClassNotFoundException {
         return salaryDAO.save(dto);

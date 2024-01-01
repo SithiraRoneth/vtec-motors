@@ -9,8 +9,8 @@ import java.sql.SQLException;
 import java.util.List;
 
 public interface IncomeBO extends SuperBO {
-    List<IncomeTm> searchIncome(int year, String month) throws SQLException;
+    List<IncomeTm> searchIncome(int year, String month) throws SQLException, ClassNotFoundException;
     boolean saveIncome(IncomeDto dto) throws SQLException, ClassNotFoundException;
-    List<ExpenditureTm> searchExpenditure(int year, String month) throws SQLException;
+    List<ExpenditureTm> searchExpenditure(int year, String month) throws SQLException, ClassNotFoundException;
     boolean saveExpenditure(ExpenditureDto dto) throws SQLException, ClassNotFoundException;
 }

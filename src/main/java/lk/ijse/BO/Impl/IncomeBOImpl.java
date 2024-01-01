@@ -22,7 +22,7 @@ public class IncomeBOImpl implements IncomeBO {
     ExpenditureDAO expenditureDAO = (ExpenditureDAO) DAOFactory.getDaoFactory().getDAO(DAOFactory.DAOTypes.EXPENDITURE);
 
     @Override
-    public List<IncomeTm> searchIncome(int year, String month) throws SQLException {
+    public List<IncomeTm> searchIncome(int year, String month) throws SQLException, ClassNotFoundException {
         return incomeDAO.searchIncome(year,month);
     }
 
@@ -32,7 +32,7 @@ public class IncomeBOImpl implements IncomeBO {
     }
 
     @Override
-    public List<ExpenditureTm> searchExpenditure(int year, String month) throws SQLException {
+    public List<ExpenditureTm> searchExpenditure(int year, String month) throws SQLException, ClassNotFoundException {
         return expenditureDAO.searchExpenditure(year,month);
     }
 

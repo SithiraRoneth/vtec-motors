@@ -6,7 +6,6 @@
 package lk.ijse.dto.Factory;
 
 import lk.ijse.dto.EmployeeDto;
-import lk.ijse.dto.ExpenditureDto;
 
 public class DtoFactory {
     private static DtoFactory dtoFactory;

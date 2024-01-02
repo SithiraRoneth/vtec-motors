@@ -8,6 +8,7 @@ package lk.ijse.BO.Impl;
 import lk.ijse.BO.Custom.EmployeeBO;
 import lk.ijse.DAO.Custom.EmployeeDAO;
 import lk.ijse.DAO.DAOFactory;
+import lk.ijse.Entity.Employee;
 import lk.ijse.dto.EmployeeDto;
 
 import java.sql.SQLException;
@@ -37,7 +38,8 @@ public class EmployeeBOImpl implements EmployeeBO {
 
     @Override
     public EmployeeDto searchEmployee(String id) throws SQLException, ClassNotFoundException {
-        return employeeDAO.search(id);
+        return employeeDAO.search(String.valueOf(new Employee(id)));
+
     }
 
     @Override

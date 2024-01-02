@@ -1,6 +1,5 @@
 package lk.ijse.dto;
 
-import javafx.scene.Parent;
 import lk.ijse.dto.Factory.SuperDTO;
 import lombok.*;
 

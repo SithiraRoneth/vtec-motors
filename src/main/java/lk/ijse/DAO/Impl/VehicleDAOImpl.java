@@ -47,7 +47,7 @@ public  class VehicleDAOImpl implements VehicleDAO{
 
     @Override
     public VehicleDto search(String id) throws SQLException, ClassNotFoundException {
-        ResultSet resultSet = SQLUtil.execute("SELECT * FROM vehicles WHERE Vehicle_id = ? ");
+        ResultSet resultSet = SQLUtil.execute("SELECT * FROM vehicles WHERE Vehicle_id = ? ",id);
         resultSet.next();
         return new VehicleDto(
                 resultSet.getString(1),

@@ -256,6 +256,8 @@ public class IncomeController {
 
         } catch (SQLException e) {
             throw new RuntimeException();
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
         }
         calIncome();
         calIExpenditure();

@@ -37,7 +37,7 @@ public class EmployeeBOImpl implements EmployeeBO {
 
     @Override
     public EmployeeDto searchEmployee(String id) throws SQLException, ClassNotFoundException {
-        return employeeDAO.search(String.valueOf(new Employee(id)));
+        return employeeDAO.search(id);
 
     }
 

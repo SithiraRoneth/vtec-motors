@@ -208,7 +208,7 @@ public class IncomeController {
             expenditureTmList.add(expenditureTm);
         }
 
-        System.out.println("Expencive Details: " +expenditureTmList);
+        System.out.println("Expensive Details: " +expenditureTmList);
         var expenditureDto = new ExpenditureDto(desc,amount,year,month,date);
         try {
             boolean isSuccess = incomeBO.saveExpenditure(expenditureDto);

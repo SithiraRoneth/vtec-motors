@@ -12,10 +12,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import lk.ijse.BO.BOFactory;
-import lk.ijse.BO.Custom.GuardianBO;
-import lk.ijse.BO.Custom.IncomeBO;
-import lk.ijse.BO.Custom.ServiceBO;
-import lk.ijse.BO.Custom.SparePartsBO;
+import lk.ijse.BO.Custom.*;
 import lk.ijse.DAO.*;
 import lk.ijse.DAO.Custom.*;
 import lk.ijse.DAO.Impl.*;
@@ -70,7 +67,7 @@ public class OrderController {
     GuardianBO guardianBO = (GuardianBO) BOFactory.getBoFactory().getBO(BOFactory.BOType.GUARDIAN);
     SparePartsBO sparePartsBO = (SparePartsBO) BOFactory.getBoFactory().getBO(BOFactory.BOType.SPARE_PARTS);
     IncomeBO incomeBO = (IncomeBO) BOFactory.getBoFactory().getBO(BOFactory.BOType.INCOME);
-    private PlaceOrderModel placeOrderModel = new PlaceOrderModel();
+    OrdersBO ordersBO = (OrdersBO) BOFactory.getBoFactory().getBO(BOFactory.BOType.ORDERS);
     private ObservableList<CartTm> obList = FXCollections.observableArrayList();
     private ObservableList<SpareOrderTm>spObList = FXCollections.observableArrayList();
 
@@ -236,7 +233,7 @@ public class OrderController {
         System.out.println("Place order form controller : " + cartTmList);
         var placeOrderDto = new PlaceOrderDto(orderId, date, guardianId,cartTmList);
         try {
-            boolean isSuccess = placeOrderModel.placeOrder(placeOrderDto);
+            boolean isSuccess = ordersBO.placeOrder(placeOrderDto);
             if (isSuccess) {
                 new Alert(Alert.AlertType.CONFIRMATION, "Order success").show();
             }

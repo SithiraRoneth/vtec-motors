@@ -16,7 +16,7 @@ public class BOFactory {
     }
 
     public enum BOType{
-        EMPLOYEE,GUARDIAN,VEHICLE,SUPPLIER,SALARY,INCOME,SERVICE,USER,SPARE_PARTS
+        EMPLOYEE,GUARDIAN,VEHICLE,SUPPLIER,SALARY,INCOME,SERVICE,USER,SPARE_PARTS,ORDERS
     }
 
     public SuperBO getBO(BOType boType){
@@ -39,6 +39,8 @@ public class BOFactory {
                 return new UserBOImpl();
             case SPARE_PARTS:
                 return new SparePartsBOImpl();
+            case ORDERS:
+                return new OrderBOImpl();
             default:
                 return null;
         }

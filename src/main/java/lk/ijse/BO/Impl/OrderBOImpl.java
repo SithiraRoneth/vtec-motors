@@ -1,11 +1,15 @@
-package lk.ijse.DAO;
+/* Created By Sithira Roneth
+ * Date :1/5/24
+ * Time :23:56
+ * Project Name :vtec-motors
+ * */
+package lk.ijse.BO.Impl;
 
+import lk.ijse.BO.Custom.OrdersBO;
 import lk.ijse.DAO.Custom.OrderDAO;
 import lk.ijse.DAO.Custom.OrderServiceDAO;
 import lk.ijse.DAO.Custom.ServiceDAO;
-import lk.ijse.DAO.Impl.OrderDAOImpl;
-import lk.ijse.DAO.Impl.OrderServiceDAOImpl;
-import lk.ijse.DAO.Impl.ServiceDAOImpl;
+import lk.ijse.DAO.DAOFactory;
 import lk.ijse.DB.DbConnection;
 import lk.ijse.dto.OrderDto;
 import lk.ijse.dto.PlaceOrderDto;
@@ -13,11 +17,13 @@ import lk.ijse.dto.PlaceOrderDto;
 import java.sql.Connection;
 import java.sql.SQLException;
 
-public class PlaceOrderModel {
+public class OrderBOImpl implements OrdersBO {
     OrderDAO orderDAO = (OrderDAO) DAOFactory.getDaoFactory().getDAO(DAOFactory.DAOTypes.ORDER);
     ServiceDAO serviceDAO = (ServiceDAO) DAOFactory.getDaoFactory().getDAO(DAOFactory.DAOTypes.SERVICE);
     OrderServiceDAO orderServiceDAO = (OrderServiceDAO) DAOFactory.getDaoFactory().getDAO(DAOFactory.DAOTypes.ORDER_SERVICE);
-    public boolean placeOrder (PlaceOrderDto placeOrderDto) throws SQLException, ClassNotFoundException {
+    @Override
+    public boolean placeOrder(PlaceOrderDto placeOrderDto) throws SQLException, ClassNotFoundException {
+
         System.out.println(placeOrderDto);
 
         String orderId = placeOrderDto.getOrderId();

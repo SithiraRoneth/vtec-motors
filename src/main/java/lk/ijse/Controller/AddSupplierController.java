@@ -31,6 +31,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.regex.Pattern;
 
+import static lk.ijse.DAO.AddedSpareModel.addSpare;
+
 public class AddSupplierController {
     public JFXTextField txtSupplier_id;
     public TableView<SpareCartTm> tblSpareCart;
@@ -58,6 +60,7 @@ public class AddSupplierController {
     public Label lblPrice;
     SupplierBO supplierBO = (SupplierBO) BOFactory.getBoFactory().getBO(BOFactory.BOType.SUPPLIER);
     SparePartsBO sparePartsBO = (SparePartsBO) BOFactory.getBoFactory().getBO(BOFactory.BOType.SPARE_PARTS);
+     AddedSpareModel addedSpareModel = new AddedSpareModel();
     private ObservableList<SpareCartTm> obList = FXCollections.observableArrayList();
 
     public void initialize(){
@@ -121,7 +124,7 @@ public class AddSupplierController {
             }
 
             var spareOrderDto = new SpareOrderDto(id,name,contact,spareCartTmList);
-            boolean isSuccess = AddedSpareModel.addSpare(spareOrderDto);
+            boolean isSuccess = addedSpareModel.addSpare(spareOrderDto);
             if (isSuccess){
                 new Alert(Alert.AlertType.CONFIRMATION,"success").show();
             }

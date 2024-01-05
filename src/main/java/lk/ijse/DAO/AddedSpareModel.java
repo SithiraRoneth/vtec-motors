@@ -1,18 +1,18 @@
 package lk.ijse.DAO;
 
 import lk.ijse.BO.BOFactory;
+import lk.ijse.BO.Custom.SparePartsBO;
 import lk.ijse.BO.Custom.SupplierBO;
-import lk.ijse.DAO.Custom.SparePartsDAO;
 import lk.ijse.DAO.Custom.SpareParts_Details_DAO;
-import lk.ijse.DAO.Custom.SupplierDAO;
 import lk.ijse.DB.DbConnection;
+import lk.ijse.dto.SpareDto;
 import lk.ijse.dto.SpareOrderDto;
 import lk.ijse.dto.SupplierDto;
 import java.sql.Connection;
 import java.sql.SQLException;
 
 public class AddedSpareModel {
-    static SparePartsDAO sparePartsDAO = (SparePartsDAO) DAOFactory.getDaoFactory().getDAO(DAOFactory.DAOTypes.SPAREPARTS);
+    static SparePartsBO sparePartsBO = (SparePartsBO) BOFactory.getBoFactory().getBO(BOFactory.BOType.SPARE_PARTS);
     static SupplierBO supplierBO = (SupplierBO) BOFactory.getBoFactory().getBO(BOFactory.BOType.SUPPLIER);
     static SpareParts_Details_DAO sparePartsDetailsDao = (SpareParts_Details_DAO) DAOFactory.getDaoFactory().getDAO(DAOFactory.DAOTypes.SPAREPARTS_DETAILS);
 
@@ -34,7 +34,7 @@ public class AddedSpareModel {
             var dto = new SupplierDto(supplier_id,supplier_name,contact);
             boolean isSupplierSaved = supplierBO.saveSupplier(dto);
             if (isSupplierSaved){
-                boolean isUpdate = sparePartsDAO.updateSpare(spareOrderDto.getSpareCartTmList());
+                boolean isUpdate = sparePartsBO.updateSpare((SpareDto) spareOrderDto.getSpareCartTmList());
                 if (isUpdate){
                     var spare = new SpareOrderDto(spareOrderDto.getSupplier_id(),spareOrderDto.getSupplier_name(),spareOrderDto.getSpareCartTmList());
                    // boolean isSpareOrderSaved = sparePartsDetailsModel.saveSpearPart(spareOrderDto.getSupplier_id(),spareOrderDto.getSupplier_name(),spareOrderDto.getSpareCartTmList());

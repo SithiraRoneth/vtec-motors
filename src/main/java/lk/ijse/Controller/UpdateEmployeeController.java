@@ -11,7 +11,6 @@ import lk.ijse.BO.BOFactory;
 import lk.ijse.BO.Custom.EmployeeBO;
 import lk.ijse.dto.EmployeeDto;
 import org.controlsfx.control.Notifications;
-
 import java.sql.SQLException;
 import java.util.List;
 import java.util.regex.Pattern;
@@ -69,8 +68,8 @@ public class UpdateEmployeeController {
 
             if (isUpdate){
                 new Alert(Alert.AlertType.CONFIRMATION,"Employee is updated").show();
-                clearFields();
             }
+            clearFields();
         }catch (SQLException e){
             new Alert(Alert.AlertType.ERROR,e.getMessage()).show();
         } catch (ClassNotFoundException e) {

@@ -118,6 +118,7 @@ public class AddSupplierController {
         }
         System.out.println("Spare cart Details" + spareCartTmList);
 
+
         try{
             if (!validateSupplier()){
                 return;

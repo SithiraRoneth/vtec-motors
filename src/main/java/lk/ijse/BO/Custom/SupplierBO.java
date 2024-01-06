@@ -1,6 +1,7 @@
 package lk.ijse.BO.Custom;
 
 import lk.ijse.BO.SuperBO;
+import lk.ijse.dto.SpareOrderDto;
 import lk.ijse.dto.SupplierDto;
 import lk.ijse.dto.VehicleDto;
 
@@ -14,4 +15,5 @@ public interface SupplierBO extends SuperBO {
     boolean updateSupplier(SupplierDto dto) throws SQLException, ClassNotFoundException;
     SupplierDto searchSupplier(String id) throws SQLException, ClassNotFoundException ;
     String generateNextSupId() throws SQLException, ClassNotFoundException;
+    boolean addSpare(SpareOrderDto spareOrderDto) throws SQLException, ClassNotFoundException;
 }

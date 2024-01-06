@@ -15,23 +15,15 @@ import javafx.scene.layout.AnchorPane;
 import lk.ijse.BO.BOFactory;
 import lk.ijse.BO.Custom.SparePartsBO;
 import lk.ijse.BO.Custom.SupplierBO;
-import lk.ijse.DAO.AddedSpareModel;
-import lk.ijse.DAO.Custom.SparePartsDAO;
-import lk.ijse.DAO.Custom.SupplierDAO;
-import lk.ijse.DAO.DAOFactory;
-import lk.ijse.DAO.Impl.SparePartsDAOImpl;
-import lk.ijse.DAO.Impl.SupplierDAOImpl;
 import lk.ijse.dto.*;
 import lk.ijse.dto.tm.SpareCartTm;
 import org.controlsfx.control.Notifications;
-
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.regex.Pattern;
 
-import static lk.ijse.DAO.AddedSpareModel.addSpare;
 
 public class AddSupplierController {
     public JFXTextField txtSupplier_id;
@@ -60,7 +52,6 @@ public class AddSupplierController {
     public Label lblPrice;
     SupplierBO supplierBO = (SupplierBO) BOFactory.getBoFactory().getBO(BOFactory.BOType.SUPPLIER);
     SparePartsBO sparePartsBO = (SparePartsBO) BOFactory.getBoFactory().getBO(BOFactory.BOType.SPARE_PARTS);
-     AddedSpareModel addedSpareModel = new AddedSpareModel();
     private ObservableList<SpareCartTm> obList = FXCollections.observableArrayList();
 
     public void initialize(){
@@ -125,12 +116,14 @@ public class AddSupplierController {
             }
 
             var spareOrderDto = new SpareOrderDto(id,name,contact,spareCartTmList);
-            boolean isSuccess = addedSpareModel.addSpare(spareOrderDto);
+            boolean isSuccess = supplierBO.addSpare(spareOrderDto);
             if (isSuccess){
                 new Alert(Alert.AlertType.CONFIRMATION,"success").show();
             }
         } catch (SQLException e) {
             new Alert(Alert.AlertType.ERROR,e.getMessage()).show();
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
         }
 
         clearField();
@@ -160,12 +153,9 @@ public class AddSupplierController {
     }
 
     private void clearField() {
-        //txtSupplier_id.setText("");
         txtName.setText("");
         txtContact.setText("");
         cmbSpareId.setValue("");
-      //  lblSpareType.setText("");
-      //  lblPrice.setText("");
     }
 
     public void cmbSpareIdOnAction(ActionEvent actionEvent) {
@@ -203,7 +193,7 @@ public class AddSupplierController {
         var spareCartTm = new SpareCartTm(id,spare_type,spare_price,btn);
         obList.add(spareCartTm);
         tblSpareCart.setItems(obList);
-        clearField();
+       // clearField();
     }
 
     private void setDeleteBtnOnAction(Button btn) {

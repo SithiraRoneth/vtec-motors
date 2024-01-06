@@ -24,35 +24,34 @@ import java.util.List;
 import java.util.Optional;
 import java.util.regex.Pattern;
 
-
 public class AddSupplierController {
-    public JFXTextField txtSupplier_id;
-    public TableView<SpareCartTm> tblSpareCart;
+    @FXML
+    private TableView<SpareCartTm> tblSpareCart;
     @FXML
     private TableColumn<?, ?> colDelete;
-
     @FXML
     private TableColumn<?, ?> colSpareId;
-
     @FXML
     private TableColumn<?, ?> colSpareName;
-
     @FXML
     private TableColumn<?, ?> colprice;
-
-
-    public JFXTextField txtName;
-
-    public JFXTextField txtContact;
-
-    public AnchorPane root;
-    public Label lblSupplierId;
-    public JFXComboBox cmbSpareId;
-    public Label lblSpareType;
-    public Label lblPrice;
+    @FXML
+    private JFXTextField txtName;
+    @FXML
+    private JFXTextField txtContact;
+    @FXML
+    private AnchorPane root;
+    @FXML
+    private Label lblSupplierId;
+    @FXML
+    private JFXComboBox cmbSpareId;
+    @FXML
+    private Label lblSpareType;
+    @FXML
+    private Label lblPrice;
+    private ObservableList<SpareCartTm> obList = FXCollections.observableArrayList();
     SupplierBO supplierBO = (SupplierBO) BOFactory.getBoFactory().getBO(BOFactory.BOType.SUPPLIER);
     SparePartsBO sparePartsBO = (SparePartsBO) BOFactory.getBoFactory().getBO(BOFactory.BOType.SPARE_PARTS);
-    private ObservableList<SpareCartTm> obList = FXCollections.observableArrayList();
 
     public void initialize(){
         genarateSupplierId();
@@ -108,7 +107,6 @@ public class AddSupplierController {
             spareCartTmList.add(spareCartTm);
         }
         System.out.println("Spare cart Details" + spareCartTmList);
-
 
         try{
             if (!validateSupplier()){

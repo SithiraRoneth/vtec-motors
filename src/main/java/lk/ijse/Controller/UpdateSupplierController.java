@@ -9,12 +9,8 @@ import javafx.scene.control.Alert;
 import javafx.scene.layout.AnchorPane;
 import lk.ijse.BO.BOFactory;
 import lk.ijse.BO.Custom.SupplierBO;
-import lk.ijse.DAO.Custom.SupplierDAO;
-import lk.ijse.DAO.DAOFactory;
-import lk.ijse.DAO.Impl.SupplierDAOImpl;
 import lk.ijse.dto.SupplierDto;
 import org.controlsfx.control.Notifications;
-
 import java.sql.SQLException;
 import java.util.List;
 import java.util.regex.Pattern;

@@ -22,14 +22,9 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-//import lk.ijse.Mail.Mail;
 import lk.ijse.BO.BOFactory;
 import lk.ijse.BO.Custom.UserBO;
-import lk.ijse.DAO.Custom.UserDAO;
-import lk.ijse.DAO.DAOFactory;
-import lk.ijse.DAO.Impl.UserDAOImpl;
 import lk.ijse.dto.UserDto;
-
 import java.io.IOException;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;

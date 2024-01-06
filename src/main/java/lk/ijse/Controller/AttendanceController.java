@@ -13,7 +13,6 @@ import javafx.scene.layout.AnchorPane;
 import lk.ijse.DAO.Impl.AttendanceDAOImpl;
 import lk.ijse.dto.AttendanceDto;
 import lk.ijse.dto.tm.AttendaceViewTm;
-
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;

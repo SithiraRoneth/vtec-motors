@@ -16,11 +16,9 @@ import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import lk.ijse.BO.BOFactory;
 import lk.ijse.BO.Custom.GuardianBO;
-import lk.ijse.DAO.Impl.GuardianDAOImpl;
 import lk.ijse.dto.GuardianDto;
 import lk.ijse.dto.tm.GuardianTm;
 import javafx.scene.control.Button;
-
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
@@ -85,7 +83,6 @@ public class GuardianController {
 
     }
     private void loadAllGuardian(){
-        var model = new GuardianDAOImpl();
 
         ObservableList<GuardianTm> obList = FXCollections.observableArrayList();
         try {

@@ -13,8 +13,6 @@ import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import lk.ijse.BO.BOFactory;
 import lk.ijse.BO.Custom.SupplierBO;
-import lk.ijse.DAO.Custom.SupplierDAO;
-import lk.ijse.DAO.DAOFactory;
 import lk.ijse.DAO.Impl.SupplierDAOImpl;
 import lk.ijse.dto.SupplierDto;
 import lk.ijse.dto.tm.SupplierTm;

@@ -12,12 +12,9 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import lk.ijse.BO.BOFactory;
 import lk.ijse.BO.Custom.ServiceBO;
-import lk.ijse.DAO.Custom.ServiceDAO;
-import lk.ijse.DAO.DAOFactory;
 import lk.ijse.dto.ServiceDto;
 import lk.ijse.DAO.Impl.ServiceDAOImpl;
 import lk.ijse.dto.tm.ServiceTm;
-
 import java.sql.SQLException;
 import java.util.List;
 

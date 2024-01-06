@@ -12,16 +12,10 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import lk.ijse.BO.BOFactory;
 import lk.ijse.BO.Custom.IncomeBO;
-import lk.ijse.DAO.Custom.ExpenditureDAO;
-import lk.ijse.DAO.Custom.IncomeDAO;
-import lk.ijse.DAO.DAOFactory;
-import lk.ijse.DAO.Impl.ExpenditureDAOImpl;
-import lk.ijse.DAO.Impl.IncomeDAOImpl;
 import lk.ijse.dto.ExpenditureDto;
 import lk.ijse.dto.IncomeDto;
 import lk.ijse.dto.tm.ExpenditureTm;
 import lk.ijse.dto.tm.IncomeTm;
-
 import java.io.IOException;
 import java.sql.SQLException;
 import java.time.LocalDate;

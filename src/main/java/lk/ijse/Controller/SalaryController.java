@@ -3,9 +3,6 @@ package lk.ijse.Controller;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
-
-
-
 import jakarta.mail.Message;
 import jakarta.mail.MessagingException;
 import jakarta.mail.PasswordAuthentication;
@@ -28,14 +25,9 @@ import javafx.scene.layout.AnchorPane;
 import lk.ijse.BO.BOFactory;
 import lk.ijse.BO.Custom.EmployeeBO;
 import lk.ijse.BO.Custom.SalaryBO;
-import lk.ijse.DAO.Custom.EmployeeDAO;
 import lk.ijse.DAO.Custom.ExpenditureDAO;
-import lk.ijse.DAO.Custom.SalaryDAO;
 import lk.ijse.DAO.DAOFactory;
 import lk.ijse.DB.DbConnection;
-import lk.ijse.DAO.Impl.EmployeeDAOImpl;
-import lk.ijse.DAO.Impl.ExpenditureDAOImpl;
-import lk.ijse.DAO.Impl.SalaryDAOImpl;
 import lk.ijse.dto.EmployeeDto;
 import lk.ijse.dto.ExpenditureDto;
 import lk.ijse.dto.SalaryDto;
@@ -44,8 +36,6 @@ import net.sf.jasperreports.engine.*;
 import net.sf.jasperreports.engine.design.JasperDesign;
 import net.sf.jasperreports.engine.xml.JRXmlLoader;
 import net.sf.jasperreports.view.JasperViewer;
-
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.SQLException;

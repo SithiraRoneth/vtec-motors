@@ -11,12 +11,8 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import lk.ijse.BO.BOFactory;
 import lk.ijse.BO.Custom.UserBO;
-import lk.ijse.DAO.Custom.UserDAO;
-import lk.ijse.DAO.DAOFactory;
-import lk.ijse.DAO.Impl.UserDAOImpl;
 import lk.ijse.dto.UserDto;
 import lk.ijse.dto.tm.UserTm;
-
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;

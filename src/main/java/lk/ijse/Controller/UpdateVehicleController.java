@@ -13,7 +13,6 @@ import lk.ijse.BO.Custom.VehicleBO;
 import lk.ijse.dto.GuardianDto;
 import lk.ijse.dto.VehicleDto;
 import org.controlsfx.control.Notifications;
-
 import java.sql.SQLException;
 import java.util.List;
 import java.util.regex.Pattern;

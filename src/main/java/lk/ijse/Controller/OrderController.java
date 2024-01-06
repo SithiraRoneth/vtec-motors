@@ -2,7 +2,6 @@ package lk.ijse.Controller;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
-import com.jfoenix.controls.JFXTextField;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -15,12 +14,10 @@ import lk.ijse.BO.BOFactory;
 import lk.ijse.BO.Custom.*;
 import lk.ijse.DAO.*;
 import lk.ijse.DAO.Custom.*;
-import lk.ijse.DAO.Impl.*;
 import lk.ijse.dto.*;
 import lk.ijse.dto.tm.CartTm;
 import javafx.scene.control.Button;
 import lk.ijse.dto.tm.SpareOrderTm;
-
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;

@@ -11,15 +11,10 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import lk.ijse.BO.BOFactory;
 import lk.ijse.BO.Custom.ServiceBO;
 import lk.ijse.BO.Custom.SparePartsBO;
-import lk.ijse.DAO.Custom.ServiceDAO;
-import lk.ijse.DAO.Custom.SparePartsDAO;
-import lk.ijse.DAO.DAOFactory;
-import lk.ijse.DAO.Impl.ServiceDAOImpl;
 import lk.ijse.DAO.Impl.SparePartsDAOImpl;
 import lk.ijse.dto.ServiceDto;
 import lk.ijse.dto.SpareDto;
 import lk.ijse.dto.tm.SparePartTm;
-
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;

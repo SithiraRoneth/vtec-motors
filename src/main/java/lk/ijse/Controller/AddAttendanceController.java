@@ -14,7 +14,6 @@ import javafx.scene.layout.AnchorPane;
 import lk.ijse.DAO.DAOFactory;
 import lk.ijse.DAO.Impl.AttendanceDAOImpl;
 import lk.ijse.DAO.Custom.EmployeeDAO;
-import lk.ijse.DAO.Impl.EmployeeDAOImpl;
 import lk.ijse.dto.AttendanceDto;
 import lk.ijse.dto.EmployeeDto;
 import lk.ijse.dto.tm.AttendanceTm;

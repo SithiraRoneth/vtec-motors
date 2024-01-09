@@ -3,6 +3,7 @@ package lk.ijse.DAO.Impl;
 import lk.ijse.DAO.Custom.ServiceDAO;
 import lk.ijse.DAO.SQLUtil;
 import lk.ijse.DB.DbConnection;
+import lk.ijse.Entity.Service;
 import lk.ijse.dto.ServiceDto;
 import lk.ijse.dto.tm.CartTm;
 
@@ -24,12 +25,12 @@ public class ServiceDAOImpl implements ServiceDAO {
     }
 
     @Override
-    public boolean save(ServiceDto dto) throws SQLException, ClassNotFoundException {
+    public boolean save(Service entity) throws SQLException, ClassNotFoundException {
         return SQLUtil.execute("INSERT INTO service VALUES(?,?,?,?)",
-                dto.getId(),
-                dto.getName(),
-                dto.getDescription(),
-                dto.getAmount()
+                entity.getId(),
+                entity.getName(),
+                entity.getDescription(),
+                entity.getAmount()
                 );
     }
 
@@ -39,32 +40,31 @@ public class ServiceDAOImpl implements ServiceDAO {
     }
 
     @Override
-    public List<ServiceDto> getAll() throws SQLException, ClassNotFoundException {
+    public List<Service> getAll() throws SQLException, ClassNotFoundException {
         ResultSet resultSet = SQLUtil.execute("SELECT * FROM service");
-        ArrayList<ServiceDto> dtoList = new ArrayList<>();
+        ArrayList<Service> getAllService = new ArrayList<>();
         while (resultSet.next()){
-            dtoList.add(
-                    new ServiceDto(
+            Service service = new Service(
                             resultSet.getString(1),
                             resultSet.getString(2),
                             resultSet.getString(3),
                             resultSet.getDouble(4)
-                    )
-            );
+                    );
+            getAllService.add(service);
         }
-        return dtoList;
+        return getAllService;
     }
 
     @Override
-    public boolean update(ServiceDto serviceDto) throws SQLException, ClassNotFoundException {
+    public boolean update(Service serviceDto) throws SQLException, ClassNotFoundException {
         return false;
     }
 
     @Override
-    public ServiceDto search(String id) throws SQLException, ClassNotFoundException {
+    public Service search(String id) throws SQLException, ClassNotFoundException {
 
         ResultSet resultSet = SQLUtil.execute("SELECT * FROM service WHERE Service_id = ? ",id);
-        ServiceDto dto = null;
+       /* ServiceDto dto = null;
         if (resultSet.next()){
             dto = new ServiceDto(
                     resultSet.getString(1),
@@ -73,7 +73,8 @@ public class ServiceDAOImpl implements ServiceDAO {
                     resultSet.getDouble(4)
             );
         }
-        return dto;
+        return dto;*/
+        return null;
     }
 
     @Override

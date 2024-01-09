@@ -2,6 +2,7 @@ package lk.ijse.DAO.Impl;
 
 import lk.ijse.DAO.Custom.VehicleDAO;
 import lk.ijse.DAO.SQLUtil;
+import lk.ijse.Entity.Vehicle;
 import lk.ijse.dto.VehicleDto;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -10,9 +11,9 @@ import java.util.List;
 
 public  class VehicleDAOImpl implements VehicleDAO{
     @Override
-    public boolean save(VehicleDto dto) throws SQLException, ClassNotFoundException {
+    public boolean save(Vehicle entity) throws SQLException, ClassNotFoundException {
         return SQLUtil.execute("INSERT INTO vehicles VALUES(?,?,?)",
-                dto.getVehicle_id(),dto.getVehicle_type(),dto.getGuardian_id()
+                entity.getVehicle_id(),entity.getVehicle_type(),entity.getGuardian_id()
         );
     }
 
@@ -22,22 +23,22 @@ public  class VehicleDAOImpl implements VehicleDAO{
     }
 
     @Override
-    public List<VehicleDto> getAll() throws SQLException, ClassNotFoundException {
+    public List<Vehicle> getAll() throws SQLException, ClassNotFoundException {
         ResultSet resultSet = SQLUtil.execute("SELECT * FROM vehicles");
-        ArrayList<VehicleDto>getAllVehicle = new ArrayList<>();
+        ArrayList<Vehicle>getAllVehicle = new ArrayList<>();
         while (resultSet.next()){
-            VehicleDto vehicleDto = new VehicleDto(
+            Vehicle vehicle = new Vehicle(
                     resultSet.getString(1),
                     resultSet.getString(2),
                     resultSet.getString(3)
             );
-            getAllVehicle.add(vehicleDto);
+            getAllVehicle.add(vehicle);
         }
         return getAllVehicle;
     }
 
     @Override
-    public boolean update(VehicleDto dto) throws SQLException, ClassNotFoundException {
+    public boolean update(Vehicle dto) throws SQLException, ClassNotFoundException {
         return SQLUtil.execute("UPDATE vehicles SET Vehicle_type = ?, Guardian_id = ? WHERE Vehicle_id = ?",
                 dto.getVehicle_type(),
                 dto.getGuardian_id(),
@@ -46,14 +47,24 @@ public  class VehicleDAOImpl implements VehicleDAO{
     }
 
     @Override
-    public VehicleDto search(String id) throws SQLException, ClassNotFoundException {
+    public Vehicle search(String id) throws SQLException, ClassNotFoundException {
         ResultSet resultSet = SQLUtil.execute("SELECT * FROM vehicles WHERE Vehicle_id = ? ",id);
-        resultSet.next();
+        /*resultSet.next();
         return new VehicleDto(
                 resultSet.getString(1),
                 resultSet.getString(2),
                 resultSet.getString(3)
-        );
+        );*/
+        ArrayList<Vehicle>getAllVehicle = new ArrayList<>();
+        while (resultSet.next()){
+            Vehicle vehicle = new Vehicle(
+                    resultSet.getString(1),
+                    resultSet.getString(2),
+                    resultSet.getString(3)
+            );
+            getAllVehicle.add(vehicle);
+        }
+        return null;
     }
 
     @Override

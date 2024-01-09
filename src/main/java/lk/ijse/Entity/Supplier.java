@@ -5,5 +5,15 @@
  * */
 package lk.ijse.Entity;
 
+import lombok.*;
+
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
+@ToString
 public class Supplier {
+    private String id;
+    private String name;
+    private String contact;
 }

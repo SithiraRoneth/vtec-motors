@@ -1,5 +1,6 @@
 package lk.ijse.DAO.Impl;
 
+import lk.ijse.DAO.SQLUtil;
 import lk.ijse.DB.DbConnection;
 import lk.ijse.dto.AttendanceDto;
 
@@ -87,14 +88,8 @@ public class AttendanceDAOImpl{
         return dtoList;
     }
 
-    public static List<AttendanceDto> getAttendance(String date) throws SQLException {
-        Connection connection = DbConnection.getInstance().getConnection();
-
-        String sql = "SELECT * FROM Attendance WHERE Date = ?";
-        PreparedStatement pstm = connection.prepareStatement(sql);
-        pstm.setString(1, date); // Set the parameter value
-
-        ResultSet resultSet = pstm.executeQuery();
+    public static List<AttendanceDto> getAttendance(String date) throws SQLException, ClassNotFoundException {
+        ResultSet resultSet = SQLUtil.execute( "SELECT * FROM Attendance WHERE Date = ?",date);
 
         List<AttendanceDto> dtoList = new ArrayList<>();
 

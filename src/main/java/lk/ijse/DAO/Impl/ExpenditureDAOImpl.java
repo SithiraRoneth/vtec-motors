@@ -3,6 +3,7 @@ package lk.ijse.DAO.Impl;
 import lk.ijse.DAO.Custom.ExpenditureDAO;
 import lk.ijse.DAO.SQLUtil;
 import lk.ijse.DB.DbConnection;
+import lk.ijse.Entity.Expenditure;
 import lk.ijse.dto.ExpenditureDto;
 import lk.ijse.dto.tm.ExpenditureTm;
 
@@ -33,13 +34,13 @@ public class ExpenditureDAOImpl implements ExpenditureDAO {
     }
 
     @Override
-    public boolean save(ExpenditureDto dto) throws SQLException, ClassNotFoundException {
+    public boolean save(Expenditure entity) throws SQLException, ClassNotFoundException {
         return SQLUtil.execute("INSERT INTO Expenditure (Description,Amount,Year,Month,Date) VALUES(?,?,?,?,?)",
-                dto.getDesc(),
-                dto.getAmount(),
-                dto.getYear(),
-                dto.getMonth(),
-                dto.getDate()
+                entity.getDesc(),
+                entity.getAmount(),
+                entity.getYear(),
+                entity.getMonth(),
+                entity.getDate()
                 );
     }
 
@@ -49,17 +50,17 @@ public class ExpenditureDAOImpl implements ExpenditureDAO {
     }
 
     @Override
-    public List<ExpenditureDto> getAll() throws SQLException, ClassNotFoundException {
+    public List<Expenditure> getAll() throws SQLException, ClassNotFoundException {
         return null;
     }
 
     @Override
-    public boolean update(ExpenditureDto expenditureDto) throws SQLException, ClassNotFoundException {
+    public boolean update(Expenditure expenditureDto) throws SQLException, ClassNotFoundException {
         return false;
     }
 
     @Override
-    public ExpenditureDto search(String id) throws SQLException, ClassNotFoundException {
+    public Expenditure search(String id) throws SQLException, ClassNotFoundException {
         return null;
     }
 

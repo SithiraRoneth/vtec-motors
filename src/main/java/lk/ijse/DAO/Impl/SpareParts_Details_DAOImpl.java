@@ -3,6 +3,7 @@ package lk.ijse.DAO.Impl;
 import lk.ijse.DAO.Custom.SpareParts_Details_DAO;
 import lk.ijse.DAO.SQLUtil;
 import lk.ijse.DB.DbConnection;
+import lk.ijse.Entity.SpareOrder;
 import lk.ijse.dto.SpareOrderDto;
 import lk.ijse.dto.tm.SpareCartTm;
 
@@ -31,7 +32,7 @@ public class SpareParts_Details_DAOImpl implements SpareParts_Details_DAO {
     }
 
     @Override
-    public boolean save(SpareOrderDto spareOrderDto) throws SQLException, ClassNotFoundException {
+    public boolean save(SpareOrder spareOrderDto) throws SQLException, ClassNotFoundException {
         for (SpareCartTm tm : spareOrderDto.getSpareCartTmList()) {
             if(!saveSpearPart(spareOrderDto.getSupplier_id(),spareOrderDto.getSupplier_name(),tm)){
                 return false;
@@ -46,17 +47,17 @@ public class SpareParts_Details_DAOImpl implements SpareParts_Details_DAO {
     }
 
     @Override
-    public List<SpareOrderDto> getAll() throws SQLException, ClassNotFoundException {
+    public List<SpareOrder> getAll() throws SQLException, ClassNotFoundException {
         return null;
     }
 
     @Override
-    public boolean update(SpareOrderDto spareOrderDto) throws SQLException, ClassNotFoundException {
+    public boolean update(SpareOrder spareOrderDto) throws SQLException, ClassNotFoundException {
         return false;
     }
 
     @Override
-    public SpareOrderDto search(String id) throws SQLException, ClassNotFoundException {
+    public SpareOrder search(String id) throws SQLException, ClassNotFoundException {
         return null;
     }
 

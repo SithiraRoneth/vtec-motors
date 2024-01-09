@@ -11,6 +11,8 @@ import javafx.scene.Cursor;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
+import lk.ijse.BO.BOFactory;
+import lk.ijse.BO.Custom.EmployeeBO;
 import lk.ijse.DAO.DAOFactory;
 import lk.ijse.DAO.Impl.AttendanceDAOImpl;
 import lk.ijse.DAO.Custom.EmployeeDAO;
@@ -59,7 +61,7 @@ public class AddAttendanceController {
 
 
     private AttendanceDAOImpl attendanceModel = new AttendanceDAOImpl();
-    EmployeeDAO employeeDAO = (EmployeeDAO) DAOFactory.getDaoFactory().getDAO(DAOFactory.DAOTypes.EMPLOYEE);
+    EmployeeBO employeeBO = (EmployeeBO) BOFactory.getBoFactory().getBO(BOFactory.BOType.EMPLOYEE);
 
     private ObservableList<AttendanceTm> obList = FXCollections.observableArrayList();
 
@@ -149,7 +151,7 @@ public class AddAttendanceController {
 
     private void DeleteEmployee(String employeeId){
         try {
-            boolean isDeleted = employeeDAO.delete(employeeId);
+            boolean isDeleted = employeeBO.deleteEmployee(employeeId);
             if(isDeleted) {
                 new Alert(Alert.AlertType.CONFIRMATION, "Employee remove!").show();
             } else {
@@ -169,7 +171,7 @@ public class AddAttendanceController {
         String id = cmbEmpId.getValue();
 
         try {
-            EmployeeDto dto = employeeDAO.search(id);
+            EmployeeDto dto = employeeBO.searchEmployee(id);
             lblEmployeeName.setText(dto.getName());
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -179,7 +181,7 @@ public class AddAttendanceController {
     private void loadAllEmployee() {
         ObservableList<String> obList = FXCollections.observableArrayList();
         try {
-            List<EmployeeDto> employeeDtos = employeeDAO.getAll();
+            List<EmployeeDto> employeeDtos = employeeBO.getAllEmployee();
 
             for (EmployeeDto dto : employeeDtos) {
                 obList.add(dto.getId());

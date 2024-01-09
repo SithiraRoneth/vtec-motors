@@ -24,6 +24,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import lk.ijse.BO.BOFactory;
 import lk.ijse.BO.Custom.EmployeeBO;
+import lk.ijse.BO.Custom.IncomeBO;
 import lk.ijse.BO.Custom.SalaryBO;
 import lk.ijse.DAO.Custom.ExpenditureDAO;
 import lk.ijse.DAO.DAOFactory;
@@ -86,7 +87,7 @@ public class SalaryController {
     private JFXTextField txtSalary;
     private String month;
     SalaryBO salaryBO = (SalaryBO) BOFactory.getBoFactory().getBO(BOFactory.BOType.SALARY);
-    ExpenditureDAO expenditureDAO = (ExpenditureDAO) DAOFactory.getDaoFactory().getDAO(DAOFactory.DAOTypes.EXPENDITURE);
+    IncomeBO incomeBO = (IncomeBO) BOFactory.getBoFactory().getBO(BOFactory.BOType.INCOME);
     EmployeeBO employeeBO = (EmployeeBO) BOFactory.getBoFactory().getBO(BOFactory.BOType.EMPLOYEE);
     private ObservableList<SalaryTm> obList = FXCollections.observableArrayList();
 
@@ -178,7 +179,7 @@ public class SalaryController {
         var exDto = new ExpenditureDto(dese, amount, year, month, localDate);
 
         try {
-            boolean isSuccess = expenditureDAO.save(exDto);
+            boolean isSuccess = incomeBO.saveExpenditure(exDto);
             if (isSuccess) {
                 new Alert(Alert.AlertType.CONFIRMATION,"Expenditure added").show();
             }

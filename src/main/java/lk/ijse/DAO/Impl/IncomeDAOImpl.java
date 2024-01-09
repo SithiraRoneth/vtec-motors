@@ -3,6 +3,7 @@ package lk.ijse.DAO.Impl;
 import lk.ijse.DAO.Custom.IncomeDAO;
 import lk.ijse.DAO.SQLUtil;
 import lk.ijse.DB.DbConnection;
+import lk.ijse.Entity.Income;
 import lk.ijse.dto.IncomeDto;
 import lk.ijse.dto.tm.IncomeTm;
 
@@ -34,13 +35,13 @@ public class IncomeDAOImpl implements IncomeDAO {
     }
 
     @Override
-    public boolean save(IncomeDto dto) throws SQLException, ClassNotFoundException {
+    public boolean save(Income entity) throws SQLException, ClassNotFoundException {
         return SQLUtil.execute("INSERT INTO Income (Description,Amount,Year,Month,Date) VALUES(?,?,?,?,?)",
-                dto.getDesc(),
-                dto.getAmount(),
-                dto.getYear(),
-                dto.getMonth(),
-                dto.getDate()
+                entity.getDesc(),
+                entity.getAmount(),
+                entity.getYear(),
+                entity.getMonth(),
+                entity.getDate()
                 );
     }
 
@@ -50,17 +51,17 @@ public class IncomeDAOImpl implements IncomeDAO {
     }
 
     @Override
-    public List<IncomeDto> getAll() throws SQLException, ClassNotFoundException {
+    public List<Income> getAll() throws SQLException, ClassNotFoundException {
         return null;
     }
 
     @Override
-    public boolean update(IncomeDto incomeDto) throws SQLException, ClassNotFoundException {
+    public boolean update(Income incomeDto) throws SQLException, ClassNotFoundException {
         return false;
     }
 
     @Override
-    public IncomeDto search(String id) throws SQLException, ClassNotFoundException {
+    public Income search(String id) throws SQLException, ClassNotFoundException {
         return null;
     }
 

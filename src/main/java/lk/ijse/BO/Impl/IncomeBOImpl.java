@@ -9,6 +9,8 @@ import lk.ijse.BO.Custom.IncomeBO;
 import lk.ijse.DAO.Custom.ExpenditureDAO;
 import lk.ijse.DAO.Custom.IncomeDAO;
 import lk.ijse.DAO.DAOFactory;
+import lk.ijse.Entity.Expenditure;
+import lk.ijse.Entity.Income;
 import lk.ijse.dto.ExpenditureDto;
 import lk.ijse.dto.IncomeDto;
 import lk.ijse.dto.tm.ExpenditureTm;
@@ -28,7 +30,13 @@ public class IncomeBOImpl implements IncomeBO {
 
     @Override
     public boolean saveIncome(IncomeDto dto) throws SQLException, ClassNotFoundException {
-        return incomeDAO.save(dto);
+        return incomeDAO.save(new Income(
+                dto.getDesc(),
+                dto.getAmount(),
+                dto.getYear(),
+                dto.getMonth(),
+                dto.getDate()
+        ));
     }
 
     @Override
@@ -38,6 +46,10 @@ public class IncomeBOImpl implements IncomeBO {
 
     @Override
     public boolean saveExpenditure(ExpenditureDto dto) throws SQLException, ClassNotFoundException {
-        return expenditureDAO.save(dto);
+        return expenditureDAO.save(new Expenditure(dto.getDesc(),
+                dto.getAmount(),
+                dto.getYear(),
+                dto.getMonth(),
+                dto.getDate()));
     }
 }

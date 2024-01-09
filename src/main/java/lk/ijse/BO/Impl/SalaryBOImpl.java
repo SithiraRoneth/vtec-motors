@@ -8,6 +8,7 @@ package lk.ijse.BO.Impl;
 import lk.ijse.BO.Custom.SalaryBO;
 import lk.ijse.DAO.Custom.SalaryDAO;
 import lk.ijse.DAO.DAOFactory;
+import lk.ijse.Entity.Salary;
 import lk.ijse.dto.SalaryDto;
 import lk.ijse.dto.tm.SalaryTm;
 import java.sql.SQLException;
@@ -21,6 +22,14 @@ public class SalaryBOImpl implements SalaryBO {
     }
     @Override
     public boolean saveSalary(SalaryDto dto) throws SQLException, ClassNotFoundException {
-        return salaryDAO.save(dto);
+        return salaryDAO.save(new Salary(
+                dto.getId(),
+                dto.getName(),
+                dto.getSalary(),
+                dto.getBonus(),
+                dto.getEtf(),
+                dto.getFinalSalary(),
+                dto.getMonth()
+        ));
     }
 }

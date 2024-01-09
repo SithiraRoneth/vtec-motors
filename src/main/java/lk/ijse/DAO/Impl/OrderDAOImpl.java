@@ -2,13 +2,14 @@ package lk.ijse.DAO.Impl;
 
 import lk.ijse.DAO.Custom.OrderDAO;
 import lk.ijse.DAO.SQLUtil;
+import lk.ijse.Entity.Orders;
 import lk.ijse.dto.OrderDto;
 import java.sql.*;
 import java.util.List;
 
 public class OrderDAOImpl implements OrderDAO {
     @Override
-    public boolean save(OrderDto orderDto) throws SQLException, ClassNotFoundException {
+    public boolean save(Orders orderDto) throws SQLException, ClassNotFoundException {
         return SQLUtil.execute("INSERT INTO orders VALUES (?,?,?)",
                 orderDto.getOrder_id(),orderDto.getGuardian_id(),orderDto.getOrder_date()
         );
@@ -20,17 +21,17 @@ public class OrderDAOImpl implements OrderDAO {
     }
 
     @Override
-    public List<OrderDto> getAll() throws SQLException, ClassNotFoundException {
+    public List<Orders> getAll() throws SQLException, ClassNotFoundException {
         return null;
     }
 
     @Override
-    public boolean update(OrderDto orderDto) throws SQLException, ClassNotFoundException {
+    public boolean update(Orders orderDto) throws SQLException, ClassNotFoundException {
         return false;
     }
 
     @Override
-    public OrderDto search(String id) throws SQLException, ClassNotFoundException {
+    public Orders search(String id) throws SQLException, ClassNotFoundException {
         return null;
     }
 

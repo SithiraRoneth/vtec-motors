@@ -5,5 +5,15 @@
  * */
 package lk.ijse.Entity;
 
+import lombok.*;
+
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
+@ToString
 public class User {
+    private String user_name;
+    private String email;
+    private String password;
 }

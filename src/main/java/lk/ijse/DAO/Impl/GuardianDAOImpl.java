@@ -3,6 +3,7 @@ package lk.ijse.DAO.Impl;
 import lk.ijse.DAO.Custom.GuardianDAO;
 import lk.ijse.DAO.SQLUtil;
 import lk.ijse.DB.DbConnection;
+import lk.ijse.Entity.Guardian;
 import lk.ijse.dto.GuardianDto;
 
 import java.sql.Connection;
@@ -14,12 +15,12 @@ import java.util.List;
 
 public class GuardianDAOImpl implements GuardianDAO {
     @Override
-    public boolean save(GuardianDto dto) throws SQLException, ClassNotFoundException {
+    public boolean save(Guardian entity) throws SQLException, ClassNotFoundException {
         return SQLUtil.execute("INSERT INTO guardian VALUES(?,?,?,?)",
-                dto.getGuardian_id(),
-                dto.getGuardian_name(),
-                dto.getGuardian_contact(),
-                dto.getEmployee_id()
+                entity.getGuardian_id(),
+                entity.getGuardian_name(),
+                entity.getGuardian_contact(),
+                entity.getEmployee_id()
                 );
     }
 
@@ -29,26 +30,24 @@ public class GuardianDAOImpl implements GuardianDAO {
     }
 
     @Override
-    public List<GuardianDto> getAll() throws SQLException, ClassNotFoundException {
+    public List<Guardian> getAll() throws SQLException, ClassNotFoundException {
         ResultSet resultSet = SQLUtil.execute("SELECT * FROM guardian");
 
-        ArrayList<GuardianDto> dtoList = new ArrayList<>();
-
+        ArrayList<Guardian> getAllGuardian = new ArrayList<>();
         while (resultSet.next()){
-            dtoList.add(
-                    new GuardianDto(
-                            resultSet.getString(1),
-                            resultSet.getString(2),
-                            resultSet.getString(3),
-                            resultSet.getString(4)
-                    )
+            Guardian guardian = new Guardian(
+                    resultSet.getString(1),
+                    resultSet.getString(2),
+                    resultSet.getString(3),
+                    resultSet.getString(4)
             );
+            getAllGuardian.add(guardian);
         }
-        return dtoList;
+        return getAllGuardian;
     }
 
     @Override
-    public boolean update(GuardianDto dto) throws SQLException, ClassNotFoundException {
+    public boolean update(Guardian dto) throws SQLException, ClassNotFoundException {
 
         return SQLUtil.execute("UPDATE guardian SET Guardian_name = ? , Guardian_ContactNo = ? , Emp_id = ? WHERE Guardian_id = ? ",
                 dto.getGuardian_name(),
@@ -59,10 +58,10 @@ public class GuardianDAOImpl implements GuardianDAO {
     }
 
     @Override
-    public GuardianDto search(String id) throws SQLException, ClassNotFoundException {
+    public Guardian search(String id) throws SQLException, ClassNotFoundException {
         ResultSet resultSet = SQLUtil.execute("SELECT * FROM guardian WHERE Guardian_id = ?",id);
 
-        GuardianDto dto = null;
+        /*GuardianDto dto = null;
 
         if (resultSet.next()) {
             String G_id = resultSet.getString(1);
@@ -72,7 +71,18 @@ public class GuardianDAOImpl implements GuardianDAO {
 
             dto = new GuardianDto(G_id, name, contact, emp_id);
         }
-        return dto;
+        return dto;*/
+        ArrayList<Guardian> searchAllGuardian = new ArrayList<>();
+        while (resultSet.next()){
+            Guardian guardian = new Guardian(
+                    resultSet.getString(1),
+                    resultSet.getString(2),
+                    resultSet.getString(3),
+                    resultSet.getString(4)
+            );
+            searchAllGuardian.add(guardian);
+        }
+        return null;
     }
 
     @Override

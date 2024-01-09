@@ -5,5 +5,15 @@
  * */
 package lk.ijse.Entity;
 
+import lombok.*;
+
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
+@ToString
 public class Orders {
+    private String Order_id;
+    private String Order_date;
+    private String Guardian_id;
 }

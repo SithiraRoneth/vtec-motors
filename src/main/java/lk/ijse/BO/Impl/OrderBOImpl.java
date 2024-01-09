@@ -11,6 +11,8 @@ import lk.ijse.DAO.Custom.OrderServiceDAO;
 import lk.ijse.DAO.Custom.ServiceDAO;
 import lk.ijse.DAO.DAOFactory;
 import lk.ijse.DB.DbConnection;
+import lk.ijse.Entity.OrderService;
+import lk.ijse.Entity.Orders;
 import lk.ijse.dto.OrderDto;
 import lk.ijse.dto.PlaceOrderDto;
 
@@ -36,13 +38,18 @@ public class OrderBOImpl implements OrdersBO {
             connection = DbConnection.getInstance().getConnection();
             connection.setAutoCommit(false);
             var dto = new OrderDto(orderId,guardianId,date);
-            boolean isOrderSaved = orderDAO.save(dto);
+            boolean isOrderSaved = orderDAO.save(new Orders(
+                    dto.getOrder_id(),dto.getGuardian_id(),dto.getOrder_date()
+            ));
             if(isOrderSaved) {
                 boolean isUpdated = serviceDAO.updateService(placeOrderDto.getCartTmList());
                 if (isUpdated) {
-                    var place = new PlaceOrderDto(orderId, placeOrderDto.getCartTmList());
+                    //var place = new PlaceOrderDto(orderId, placeOrderDto.getCartTmList());
                     //boolean isOrderDetailsSaved = orderServiceModel.saveOrderDetails(placeOrderDto.getOrderId(),placeOrderDto.getCartTmList());
-                    boolean isOrderDetailsSaved = orderServiceDAO.save(place);
+                    boolean isOrderDetailsSaved = orderServiceDAO.save(new OrderService(
+                            placeOrderDto.getOrderId(),
+                            placeOrderDto.getCartTmList()
+                    ));
                     if (isOrderDetailsSaved) {
                         connection.commit();
                     }

@@ -2,12 +2,7 @@ package lk.ijse.DAO.Impl;
 
 import lk.ijse.DAO.Custom.EmployeeDAO;
 import lk.ijse.DAO.SQLUtil;
-import lk.ijse.DB.DbConnection;
 import lk.ijse.Entity.Employee;
-import lk.ijse.dto.EmployeeDto;
-
-import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -15,14 +10,14 @@ import java.util.List;
 
 public class EmployeeDAOImpl implements EmployeeDAO {
     @Override
-    public boolean save(EmployeeDto dto) throws SQLException, ClassNotFoundException {
+    public boolean save(Employee entity) throws SQLException, ClassNotFoundException {
         return SQLUtil.execute( "INSERT INTO employee VALUES(?,?,?,?,?,?)",
-                dto.getId(),
-                dto.getName(),
-                dto.getContact(),
-                dto.getNic(),
-                dto.getJob(),
-                dto.getEmail()
+                entity.getId(),
+                entity.getName(),
+                entity.getContact(),
+                entity.getNic(),
+                entity.getJob(),
+                entity.getEmail()
         );
     }
 
@@ -32,47 +27,50 @@ public class EmployeeDAOImpl implements EmployeeDAO {
     }
 
     @Override
-    public List<EmployeeDto> getAll() throws SQLException, ClassNotFoundException {
+    public List<Employee> getAll() throws SQLException, ClassNotFoundException {
 
         ResultSet resultSet = SQLUtil.execute("SELECT * FROM employee");
-        ArrayList<EmployeeDto>getAllEmployee = new ArrayList<>();
+        ArrayList<Employee>getAllEmployee = new ArrayList<>();
         while (resultSet.next()){
-            EmployeeDto employeeDto = new EmployeeDto(
+            Employee employee = new Employee(
                     resultSet.getString(1),
                     resultSet.getString(2),
                     resultSet.getString(3),
                     resultSet.getString(4),
                     resultSet.getString(5),
-                    resultSet.getString(6)
-            );
-            getAllEmployee.add(employeeDto);
+                    resultSet.getString(6));
+            getAllEmployee.add(employee);
         }
         return getAllEmployee;
     }
 
     @Override
-    public boolean update(EmployeeDto dto) throws SQLException, ClassNotFoundException {
+    public boolean update(Employee entity) throws SQLException, ClassNotFoundException {
         return SQLUtil.execute("UPDATE Employee SET Emp_name = ?, Contact_no = ?, NIC = ? ,Job =?,email = ? WHERE Emp_id = ?",
-                dto.getName(),
-                dto.getContact(),
-                dto.getNic(),
-                dto.getJob(),
-                dto.getEmail(),
-                dto.getId()
+                entity.getName(),
+                entity.getContact(),
+                entity.getNic(),
+                entity.getJob(),
+                entity.getEmail(),
+                entity.getId()
                 );
     }
     @Override
-    public EmployeeDto search(String id) throws SQLException, ClassNotFoundException {
+    public Employee search(String id) throws SQLException, ClassNotFoundException {
         ResultSet resultSet = SQLUtil.execute("SELECT * FROM employee WHERE Emp_id = ? ",id);
-        resultSet.next();
-        return new EmployeeDto(
-                resultSet.getString(1),
-                resultSet.getString(2),
-                resultSet.getString(3),
-                resultSet.getString(4),
-                resultSet.getString(5),
-                resultSet.getString(6)
-                );
+        ArrayList<Employee>searchAllEmployee = new ArrayList<>();
+        while (resultSet.next()){
+            Employee employee = new Employee(
+                    resultSet.getString(1),
+                    resultSet.getString(2),
+                    resultSet.getString(3),
+                    resultSet.getString(4),
+                    resultSet.getString(5),
+                    resultSet.getString(6));
+            searchAllEmployee.add(employee);
+        }
+        // return searchAllEmployee;
+        return null;
     }
 
     @Override

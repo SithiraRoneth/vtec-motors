@@ -2,6 +2,7 @@ package lk.ijse.DAO.Impl;
 
 import lk.ijse.DAO.Custom.OrderServiceDAO;
 import lk.ijse.DAO.SQLUtil;
+import lk.ijse.Entity.OrderService;
 import lk.ijse.dto.PlaceOrderDto;
 import lk.ijse.dto.tm.CartTm;
 import java.sql.SQLException;
@@ -27,7 +28,7 @@ public class OrderServiceDAOImpl implements OrderServiceDAO {
     }
 
     @Override
-    public boolean save(PlaceOrderDto placeOrderDto) throws SQLException, ClassNotFoundException {
+    public boolean save(OrderService placeOrderDto) throws SQLException, ClassNotFoundException {
         for (CartTm tm : placeOrderDto.getCartTmList()) {
             if (!saveOrderDetails(placeOrderDto.getOrderId(), tm)) {
                 return false;
@@ -42,17 +43,17 @@ public class OrderServiceDAOImpl implements OrderServiceDAO {
     }
 
     @Override
-    public List<PlaceOrderDto> getAll() throws SQLException, ClassNotFoundException {
+    public List<OrderService> getAll() throws SQLException, ClassNotFoundException {
         return null;
     }
 
     @Override
-    public boolean update(PlaceOrderDto placeOrderDto) throws SQLException, ClassNotFoundException {
+    public boolean update(OrderService placeOrderDto) throws SQLException, ClassNotFoundException {
         return false;
     }
 
     @Override
-    public PlaceOrderDto search(String id) throws SQLException, ClassNotFoundException {
+    public OrderService search(String id) throws SQLException, ClassNotFoundException {
         return null;
     }
 

@@ -8,15 +8,24 @@ package lk.ijse.BO.Impl;
 import lk.ijse.BO.Custom.GuardianBO;
 import lk.ijse.DAO.Custom.GuardianDAO;
 import lk.ijse.DAO.DAOFactory;
+import lk.ijse.Entity.Employee;
+import lk.ijse.Entity.Guardian;
+import lk.ijse.dto.EmployeeDto;
 import lk.ijse.dto.GuardianDto;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class GuardianBOImpl implements GuardianBO {
     GuardianDAO guardianDAO = (GuardianDAO) DAOFactory.getDaoFactory().getDAO(DAOFactory.DAOTypes.GUARDIAN);
     @Override
     public boolean saveGuardian(GuardianDto dto) throws SQLException, ClassNotFoundException {
-        return guardianDAO.save(dto);
+        return guardianDAO.save(new Guardian(
+                dto.getGuardian_id(),
+                dto.getGuardian_name(),
+                dto.getGuardian_contact(),
+                dto.getEmployee_id()
+        ));
     }
 
     @Override
@@ -26,17 +35,38 @@ public class GuardianBOImpl implements GuardianBO {
 
     @Override
     public List<GuardianDto> getAllGuardian() throws SQLException, ClassNotFoundException {
-        return guardianDAO.getAll();
+        ArrayList<Guardian>guardians = (ArrayList<Guardian>) guardianDAO.getAll();
+        ArrayList<GuardianDto>guardianDtos = new ArrayList<>();
+
+        for (Guardian guardian : guardians) {
+            guardianDtos.add(new GuardianDto(
+                    guardian.getGuardian_id(),
+                    guardian.getGuardian_name(),
+                    guardian.getGuardian_contact(),
+                    guardian.getEmployee_id()
+            ));
+        }
+        return guardianDtos;
     }
 
     @Override
     public boolean updateGuardian(GuardianDto dto) throws SQLException, ClassNotFoundException {
-        return guardianDAO.update(dto);
+        return guardianDAO.update(new Guardian(dto.getGuardian_name(),dto.getGuardian_contact(),dto.getEmployee_id(),dto.getGuardian_id()));
     }
 
     @Override
     public GuardianDto searchGuardian(String id) throws SQLException, ClassNotFoundException {
-        return guardianDAO.search(id);
+        Guardian guardian = guardianDAO.search(id);
+        if (guardian != null) {
+            return new GuardianDto(
+                    guardian.getGuardian_id(),
+                    guardian.getGuardian_name(),
+                    guardian.getGuardian_contact(),
+                    guardian.getEmployee_id()
+            );
+        }else {
+            return null;
+        }
     }
 
     @Override

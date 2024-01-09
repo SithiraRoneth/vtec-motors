@@ -2,6 +2,7 @@ package lk.ijse.DAO.Impl;
 
 import lk.ijse.DAO.Custom.SalaryDAO;
 import lk.ijse.DAO.SQLUtil;
+import lk.ijse.Entity.Salary;
 import lk.ijse.dto.SalaryDto;
 import lk.ijse.dto.tm.SalaryTm;
 import java.sql.ResultSet;
@@ -32,7 +33,7 @@ public class SalaryDAOImpl implements SalaryDAO {
     }
 
     @Override
-    public boolean save(SalaryDto dto) throws SQLException, ClassNotFoundException {
+    public boolean save(Salary dto) throws SQLException, ClassNotFoundException {
         return SQLUtil.execute("INSERT INTO salary (Emp_id,Emp_name,salary_amount,bonus,etf,final_salary,month)VALUES(?,?,?,?,?,?,?)",
                 dto.getId(),
                 dto.getName(),
@@ -51,17 +52,17 @@ public class SalaryDAOImpl implements SalaryDAO {
     }
 
     @Override
-    public List<SalaryDto> getAll() throws SQLException, ClassNotFoundException {
+    public List<Salary> getAll() throws SQLException, ClassNotFoundException {
         return null;
     }
 
     @Override
-    public boolean update(SalaryDto dto) throws SQLException, ClassNotFoundException {
+    public boolean update(Salary dto) throws SQLException, ClassNotFoundException {
         return false;
     }
 
     @Override
-    public SalaryDto search(String id) throws SQLException, ClassNotFoundException {
+    public Salary search(String id) throws SQLException, ClassNotFoundException {
         return null;
     }
 

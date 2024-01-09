@@ -5,5 +5,16 @@
  * */
 package lk.ijse.Entity;
 
+import lombok.*;
+
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
+@ToString
 public class Service {
+    private String id;
+    private String name;
+    private String description;
+    private double amount;
 }

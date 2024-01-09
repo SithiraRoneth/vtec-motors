@@ -3,6 +3,7 @@ package lk.ijse.DAO.Impl;
 import lk.ijse.DAO.Custom.SparePartsDAO;
 import lk.ijse.DAO.SQLUtil;
 import lk.ijse.DB.DbConnection;
+import lk.ijse.Entity.SpareParts;
 import lk.ijse.dto.SpareDto;
 import lk.ijse.dto.tm.SpareCartTm;
 
@@ -22,7 +23,7 @@ public class SparePartsDAOImpl implements SparePartsDAO {
         return true;
     }
     @Override
-    public  List<SpareDto>searchSpareparts(String id) throws SQLException, ClassNotFoundException {
+    public  List<SpareParts>searchSpareparts(String id) throws SQLException, ClassNotFoundException {
         ResultSet resultSet = SQLUtil.execute("SELECT * FROM spareparts WHERE (Service_id = ? )",id);
 
         ArrayList<SpareDto> dto = new ArrayList<>();
@@ -38,19 +39,19 @@ public class SparePartsDAOImpl implements SparePartsDAO {
                     )
             );
         }
-        return dto;
+        return null;
     }
 
     @Override
-    public boolean save(SpareDto dto) throws SQLException, ClassNotFoundException {
+    public boolean save(SpareParts entity) throws SQLException, ClassNotFoundException {
 
         return SQLUtil.execute("INSERT INTO spareparts VALUES(?,?,?,?,?,?)",
-                dto.getSpareId(),
-                dto.getSpareType(),
-                dto.getDescription(),
-                dto.getPrice(),
-                dto.getService_name(),
-                dto.getSpareId()
+                entity.getSpareId(),
+                entity.getSpareType(),
+                entity.getDescription(),
+                entity.getPrice(),
+                entity.getService_name(),
+                entity.getService_id()
                 );
     }
 
@@ -60,32 +61,31 @@ public class SparePartsDAOImpl implements SparePartsDAO {
     }
 
     @Override
-    public List<SpareDto> getAll() throws SQLException, ClassNotFoundException {
+    public List<SpareParts> getAll() throws SQLException, ClassNotFoundException {
         ResultSet resultSet = SQLUtil.execute("SELECT * FROM spareparts");
 
-        ArrayList<SpareDto> dtoList = new ArrayList<>();
+        ArrayList<SpareParts> getAllSpare = new ArrayList<>();
         while (resultSet.next()){
-            dtoList.add(
-                    new SpareDto(
+            SpareParts spareParts = new SpareParts(
                             resultSet.getString(1),
                             resultSet.getString(2),
                             resultSet.getString(3),
                             resultSet.getDouble(4),
                             resultSet.getString(5),
                             resultSet.getString(6)
-                    )
             );
+            getAllSpare.add(spareParts);
         }
-        return dtoList;
+        return getAllSpare;
     }
 
     @Override
-    public boolean update(SpareDto spareDto) throws SQLException, ClassNotFoundException {
+    public boolean update(SpareParts spareDto) throws SQLException, ClassNotFoundException {
         return false;
     }
 
     @Override
-    public SpareDto search(String id) throws SQLException, ClassNotFoundException {
+    public SpareParts search(String id) throws SQLException, ClassNotFoundException {
 
         ResultSet resultSet = SQLUtil.execute("SELECT * FROM spareparts WHERE Spare_id = ? ",id);
         SpareDto dto = null;
@@ -99,7 +99,7 @@ public class SparePartsDAOImpl implements SparePartsDAO {
                     resultSet.getString(6)
             );
         }
-        return dto;
+        return null;
     }
 
     @Override

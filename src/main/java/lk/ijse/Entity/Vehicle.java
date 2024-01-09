@@ -5,5 +5,15 @@
  * */
 package lk.ijse.Entity;
 
+import lombok.*;
+
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
+@ToString
 public class Vehicle {
+    private String vehicle_id;
+    private String vehicle_type;
+    private String guardian_id;
 }

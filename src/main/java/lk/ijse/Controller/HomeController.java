@@ -34,7 +34,6 @@ public class HomeController implements Initializable {
         Optional<ButtonType> result = alert.showAndWait();
 
         if (result.isPresent() && result.get() == yes) {
-            // Close the application
             Platform.exit();
         }
     }

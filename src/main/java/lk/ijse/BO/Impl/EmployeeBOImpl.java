@@ -5,6 +5,7 @@
  * */
 package lk.ijse.BO.Impl;
 
+import javafx.scene.control.Alert;
 import lk.ijse.BO.Custom.EmployeeBO;
 import lk.ijse.DAO.Custom.EmployeeDAO;
 import lk.ijse.DAO.DAOFactory;
@@ -75,7 +76,7 @@ public class EmployeeBOImpl implements EmployeeBO {
                     employee.getJob(),
                     employee.getEmail()
             );
-        }else {
+        } else {
             return null;
         }
     }

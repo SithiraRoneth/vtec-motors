@@ -17,5 +17,9 @@ public class EmployeeDto implements SuperDTO {
     private String job;
     private String email;
 
+    public EmployeeDto(String id){
+        this.id = id;
+    }
+
 
 }

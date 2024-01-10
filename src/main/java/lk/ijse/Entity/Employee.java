@@ -19,10 +19,4 @@ public class Employee {
     private String nic;
     private String job;
     private String email;
-
-    public Employee(String id){
-        this.id = id;
-    }
-
-
 }

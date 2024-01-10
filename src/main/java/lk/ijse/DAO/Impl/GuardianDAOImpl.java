@@ -3,6 +3,7 @@ package lk.ijse.DAO.Impl;
 import lk.ijse.DAO.Custom.GuardianDAO;
 import lk.ijse.DAO.SQLUtil;
 import lk.ijse.DB.DbConnection;
+import lk.ijse.Entity.Employee;
 import lk.ijse.Entity.Guardian;
 import lk.ijse.dto.GuardianDto;
 
@@ -47,42 +48,28 @@ public class GuardianDAOImpl implements GuardianDAO {
     }
 
     @Override
-    public boolean update(Guardian dto) throws SQLException, ClassNotFoundException {
-
+    public boolean update(Guardian entity) throws SQLException, ClassNotFoundException {
         return SQLUtil.execute("UPDATE guardian SET Guardian_name = ? , Guardian_ContactNo = ? , Emp_id = ? WHERE Guardian_id = ? ",
-                dto.getGuardian_name(),
-                dto.getGuardian_contact(),
-                dto.getEmployee_id(),
-                dto.getGuardian_id()
+                entity.getGuardian_name(),
+                entity.getGuardian_contact(),
+                entity.getEmployee_id(),
+                entity.getGuardian_id()
                 );
     }
 
     @Override
     public Guardian search(String id) throws SQLException, ClassNotFoundException {
         ResultSet resultSet = SQLUtil.execute("SELECT * FROM guardian WHERE Guardian_id = ?",id);
-
-        /*GuardianDto dto = null;
-
         if (resultSet.next()) {
-            String G_id = resultSet.getString(1);
-            String name = resultSet.getString(2);
-            String contact = resultSet.getString(3);
-            String emp_id = resultSet.getString(4);
-
-            dto = new GuardianDto(G_id, name, contact, emp_id);
-        }
-        return dto;*/
-        ArrayList<Guardian> searchAllGuardian = new ArrayList<>();
-        while (resultSet.next()){
-            Guardian guardian = new Guardian(
+            return new Guardian(
                     resultSet.getString(1),
                     resultSet.getString(2),
                     resultSet.getString(3),
                     resultSet.getString(4)
             );
-            searchAllGuardian.add(guardian);
+        } else {
+            return null;
         }
-        return null;
     }
 
     @Override

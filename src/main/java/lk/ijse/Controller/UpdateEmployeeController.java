@@ -68,8 +68,9 @@ public class UpdateEmployeeController {
 
             if (isUpdate){
                 new Alert(Alert.AlertType.CONFIRMATION,"Employee is updated").show();
+                clearFields();
             }
-            clearFields();
+
         }catch (SQLException e){
             new Alert(Alert.AlertType.ERROR,e.getMessage()).show();
         } catch (ClassNotFoundException e) {
@@ -118,13 +119,14 @@ public class UpdateEmployeeController {
     }
     public void comboEmployee_idOnAction(ActionEvent actionEvent) {
         String id = comboEmployee_id.getValue();
-        try{
+        try {
             EmployeeDto dto = employeeBO.searchEmployee(id);
             txtName.setText(dto.getName());
             txtContact.setText(dto.getContact());
             txtNic.setText(dto.getNic());
             txtJob.setText(dto.getJob());
             txtEmail.setText(dto.getEmail());
+            System.out.println("Employee Search");
         } catch (SQLException e) {
             throw new RuntimeException(e);
         } catch (ClassNotFoundException e) {

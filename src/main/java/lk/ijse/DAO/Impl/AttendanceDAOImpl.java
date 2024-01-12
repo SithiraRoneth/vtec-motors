@@ -13,7 +13,7 @@ import java.util.Date;
 import java.util.List;
 
 public class AttendanceDAOImpl{
-    public List<AttendanceDto> getAllAttendance() throws SQLException {
+   /* public List<AttendanceDto> getAllAttendance() throws SQLException {
         Connection connection = DbConnection.getInstance().getConnection();
         String sql = "SELECT * FROM attendance";
 
@@ -34,7 +34,7 @@ public class AttendanceDAOImpl{
         }
         return dtoList;
     }
-
+*/
     public static boolean addAttendanceList(List<AttendanceDto> attendanceDtoList) throws SQLException {
         Connection connection = DbConnection.getInstance().getConnection();
 
@@ -66,7 +66,7 @@ public class AttendanceDAOImpl{
     }
 
 
-    public List<AttendanceDto> getAttendanceForDate(Date date) throws SQLException {
+    /*public List<AttendanceDto> getAttendanceForDate(Date date) throws SQLException {
         Connection connection = DbConnection.getInstance().getConnection();
         String sql = "SELECT * FROM attendance WHERE Date = ? ";
 
@@ -86,7 +86,7 @@ public class AttendanceDAOImpl{
             );
         }
         return dtoList;
-    }
+    }*/
 
     public static List<AttendanceDto> getAttendance(String date) throws SQLException, ClassNotFoundException {
         ResultSet resultSet = SQLUtil.execute( "SELECT * FROM Attendance WHERE Date = ?",date);

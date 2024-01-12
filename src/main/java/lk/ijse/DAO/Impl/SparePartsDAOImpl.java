@@ -88,9 +88,8 @@ public class SparePartsDAOImpl implements SparePartsDAO {
     public SpareParts search(String id) throws SQLException, ClassNotFoundException {
 
         ResultSet resultSet = SQLUtil.execute("SELECT * FROM spareparts WHERE Spare_id = ? ",id);
-        SpareDto dto = null;
         if (resultSet.next()){
-            dto = new SpareDto(
+            return new SpareParts(
                     resultSet.getString(1),
                     resultSet.getString(2),
                     resultSet.getString(3),

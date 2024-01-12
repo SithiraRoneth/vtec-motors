@@ -11,4 +11,8 @@ public class SupplierDto {
     private String id;
     private String name;
     private String contact;
+
+    public SupplierDto(String id){
+        this.id = id;
+    }
 }

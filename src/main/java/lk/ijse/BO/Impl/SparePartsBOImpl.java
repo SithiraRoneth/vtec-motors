@@ -75,18 +75,9 @@ public class SparePartsBOImpl implements SparePartsBO {
     @Override
     public SpareDto searchSpare(String id) throws SQLException, ClassNotFoundException {
         SpareParts spareParts = sparePartsDAO.search(id);
-        if (spareParts != null) {
-            return new SpareDto(
-                    spareParts.getSpareId(),
-                    spareParts.getSpareType(),
-                    spareParts.getDescription(),
-                    spareParts.getPrice(),
-                    spareParts.getService_name(),
-                    spareParts.getService_id()
-            );
-        }else {
-            return null;
-        }
+        return new SpareDto(spareParts.getSpareId(),spareParts.getSpareType(),
+                spareParts.getDescription(),spareParts.getPrice(),
+                spareParts.getService_name(),spareParts.getService_id());
     }
 
     @Override

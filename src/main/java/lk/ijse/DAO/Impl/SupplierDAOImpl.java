@@ -3,6 +3,7 @@ package lk.ijse.DAO.Impl;
 import lk.ijse.DAO.Custom.SupplierDAO;
 import lk.ijse.DAO.SQLUtil;
 import lk.ijse.DB.DbConnection;
+import lk.ijse.Entity.Employee;
 import lk.ijse.Entity.Supplier;
 import lk.ijse.dto.SupplierDto;
 
@@ -56,25 +57,12 @@ public class SupplierDAOImpl implements SupplierDAO {
     public Supplier search(String id) throws SQLException, ClassNotFoundException {
 
         ResultSet resultSet = SQLUtil.execute( "SELECT * FROM supplier WHERE Supplier_id = ? ",id);
-        /*SupplierDto dto = null;
-        if (resultSet.next()){
-            String Supplier_id = resultSet.getString(1);
-            String Supplier_name  = resultSet.getString(2);
-            String Supplier_ContactNo = resultSet.getString(3);
-
-            dto = new SupplierDto(Supplier_id,Supplier_name,Supplier_ContactNo);
-
-        }
-        return dto;*/
-
-        ArrayList<Supplier> getAllSupplier = new ArrayList<>();
-        while (resultSet.next()) {
-            Supplier supplier = new Supplier(
+        if (resultSet.next()) {
+            return new Supplier(
                     resultSet.getString(1),
                     resultSet.getString(2),
                     resultSet.getString(3)
             );
-            getAllSupplier.add(supplier);
         }
         return null;
     }

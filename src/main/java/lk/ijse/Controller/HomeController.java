@@ -10,7 +10,10 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ButtonType;
 import javafx.scene.layout.AnchorPane;
+import lk.ijse.BO.BOFactory;
+import lk.ijse.BO.Custom.HomeBO;
 import lk.ijse.DB.DbConnection;
+import lk.ijse.dto.IncomeDto;
 
 import java.io.IOException;
 import java.net.URL;
@@ -18,12 +21,15 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashSet;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class HomeController implements Initializable {
     public AnchorPane root;
     public BarChart barChart;
+
+    HomeBO homeBO = (HomeBO) BOFactory.getBoFactory().getBO(BOFactory.BOType.HOME);
 
     public void btnCloseOnAction(ActionEvent actionEvent) {
         ButtonType yes = new ButtonType("Yes", ButtonBar.ButtonData.OK_DONE);
@@ -38,26 +44,22 @@ public class HomeController implements Initializable {
         }
     }
 
-    public void orderChart() throws SQLException {
+    public void orderChart() {
         barChart.getData().clear();
-        String sql = "SELECT month, SUM(Amount) FROM income WHERE date >= CURDATE() - INTERVAL 6 MONTH GROUP BY month";
 
-        Connection connection = DbConnection.getInstance().getConnection();
+        XYChart.Series chart = new XYChart.Series();
 
         try {
-            XYChart.Series chart = new XYChart.Series();
+            HashSet<IncomeDto> set= homeBO.orderChart();
 
-            PreparedStatement preparedStatement = connection.prepareStatement(sql);
-            ResultSet resultSet = preparedStatement.executeQuery();
-
-            while (resultSet.next()) {
-                chart.getData().add(new XYChart.Data(resultSet.getString(1), resultSet.getInt(2)));
+            for (IncomeDto incomeDto:set) {
+                chart.getData().add(new XYChart.Data(incomeDto.getMonth(),incomeDto.getAmount()));
             }
-
-            barChart.getData().add(chart);
-
-        } catch (Exception e) {
-            e.printStackTrace();
+                barChart.getData().add(chart);
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
     }
 
@@ -68,10 +70,6 @@ public class HomeController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        try {
-            orderChart();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+        orderChart();
     }
 }

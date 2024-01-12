@@ -64,16 +64,14 @@ public class ServiceDAOImpl implements ServiceDAO {
     public Service search(String id) throws SQLException, ClassNotFoundException {
 
         ResultSet resultSet = SQLUtil.execute("SELECT * FROM service WHERE Service_id = ? ",id);
-       /* ServiceDto dto = null;
         if (resultSet.next()){
-            dto = new ServiceDto(
+            return new Service(
                     resultSet.getString(1),
                     resultSet.getString(2),
                     resultSet.getString(3),
                     resultSet.getDouble(4)
             );
         }
-        return dto;*/
         return null;
     }
 

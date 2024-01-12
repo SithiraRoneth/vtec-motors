@@ -59,16 +59,7 @@ public class ServiceBOImpl implements ServiceBO {
     @Override
     public ServiceDto searchService(String id) throws SQLException, ClassNotFoundException {
         Service service = serviceDAO.search(id);
-        if (service != null) {
-            return new ServiceDto(
-                    service.getId(),
-                    service.getName(),
-                    service.getDescription(),
-                    service.getAmount()
-            );
-        }else {
-            return null;
-        }
+        return new ServiceDto(service.getId(),service.getName(),service.getDescription(),service.getAmount());
     }
 
     @Override

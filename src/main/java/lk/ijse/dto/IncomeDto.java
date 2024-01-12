@@ -14,4 +14,9 @@ public class IncomeDto {
     private int year;
     private String month;
     private String date;
+
+    public IncomeDto(String month,double amount) {
+        this.amount = amount;
+        this.month = month;
+    }
 }

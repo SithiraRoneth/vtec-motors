@@ -71,17 +71,12 @@ public class SupplierBOImpl implements SupplierBO {
 
     @Override
     public SupplierDto searchSupplier(String id) throws SQLException, ClassNotFoundException {
-        //return supplierDAO.search(id);
         Supplier supplier = supplierDAO.search(id);
-        if (supplier != null) {
-            return new SupplierDto(
-                    supplier.getId(),
-                    supplier.getName(),
-                    supplier.getContact()
-                );
-        }else {
-            return null;
-        }
+        return new SupplierDto(
+              supplier.getId(),
+              supplier.getName(),
+              supplier.getContact()
+        );
     }
 
     @Override

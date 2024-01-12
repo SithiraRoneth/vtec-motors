@@ -34,31 +34,37 @@ public class OrderBOImpl implements OrdersBO {
 
 
         Connection connection = null;
-        try{
+        try {
+
             connection = DbConnection.getInstance().getConnection();
             connection.setAutoCommit(false);
-            var dto = new OrderDto(orderId,guardianId,date);
-            boolean isOrderSaved = orderDAO.save(new Orders(
-                    dto.getOrder_id(),dto.getGuardian_id(),dto.getOrder_date()
-            ));
-            if(isOrderSaved) {
-                boolean isUpdated = serviceDAO.updateService(placeOrderDto.getCartTmList());
-                if (isUpdated) {
-                    //var place = new PlaceOrderDto(orderId, placeOrderDto.getCartTmList());
-                    //boolean isOrderDetailsSaved = orderServiceModel.saveOrderDetails(placeOrderDto.getOrderId(),placeOrderDto.getCartTmList());
-                    boolean isOrderDetailsSaved = orderServiceDAO.save(new OrderService(
-                            placeOrderDto.getOrderId(),
-                            placeOrderDto.getCartTmList()
-                    ));
-                    if (isOrderDetailsSaved) {
-                        connection.commit();
-                    }
-                }
+            var dto = new OrderDto(orderId, guardianId, date);
+
+            if (!orderDAO.save(new Orders(dto.getOrder_id(), dto.getGuardian_id(), dto.getOrder_date()))) {
+                connection.rollback();
+                connection.setAutoCommit(true);
+                return false;
             }
-            connection.rollback();
-        } finally {
+            if (!serviceDAO.updateService(placeOrderDto.getCartTmList())) {
+                connection.rollback();
+                connection.setAutoCommit(true);
+                return false;
+            }
+            //var place = new PlaceOrderDto(orderId, placeOrderDto.getCartTmList());
+            //boolean isOrderDetailsSaved = orderServiceModel.saveOrderDetails(placeOrderDto.getOrderId(),placeOrderDto.getCartTmList());
+            if (!orderServiceDAO.save(new OrderService(placeOrderDto.getOrderId(), placeOrderDto.getCartTmList()))) {
+                connection.rollback();
+                connection.setAutoCommit(true);
+                return false;
+            }
+
+            connection.commit();
             connection.setAutoCommit(true);
+            return true;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
         }
-        return true;
     }
 }

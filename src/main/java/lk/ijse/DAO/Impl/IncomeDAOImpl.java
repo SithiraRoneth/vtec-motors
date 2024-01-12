@@ -12,6 +12,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 public class IncomeDAOImpl implements IncomeDAO {
@@ -32,6 +33,23 @@ public class IncomeDAOImpl implements IncomeDAO {
         }
 
         return incomeList;
+    }
+
+    @Override
+    public HashSet<Income> getIncomeBarChart() throws SQLException, ClassNotFoundException {
+        ResultSet resultSet = SQLUtil.execute("SELECT month, SUM(Amount) FROM income WHERE date >= CURDATE() - INTERVAL 6 MONTH GROUP BY month");
+
+        HashSet<Income>incomes = new HashSet<>();
+
+        while (resultSet.next()) {
+            incomes.add(
+                    new Income(
+                            resultSet.getString(1),
+                            resultSet.getDouble(2)
+                            )
+            );
+        }
+        return incomes;
     }
 
     @Override

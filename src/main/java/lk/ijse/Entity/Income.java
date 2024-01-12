@@ -18,4 +18,9 @@ public class Income {
     private int year;
     private String month;
     private String date;
+
+    public Income(String month, double amount) {
+        this.month = month;
+        this.amount = amount;
+    }
 }

@@ -69,10 +69,18 @@ public class UpdateGuardianController {
             boolean isUpdate = guardianBO.updateGuardian(dto);
             if (isUpdate){
                 new Alert(Alert.AlertType.CONFIRMATION,"Guardian updated").show();
+                clearFields();
             }
         }catch (SQLException | ClassNotFoundException e){
             new Alert(Alert.AlertType.ERROR,e.getMessage()).show();
         }
+    }
+
+    private void clearFields() {
+        comboGuardian_id.setValue("");
+        txtName.setText("");
+        txtContact.setText("");
+        comboEmployee_id.setValue("");
     }
 
     private boolean validateGuardian() {

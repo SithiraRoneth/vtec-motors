@@ -12,7 +12,9 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import lk.ijse.BO.BOFactory;
+import lk.ijse.BO.Custom.AttendanceBO;
 import lk.ijse.BO.Custom.EmployeeBO;
+import lk.ijse.BO.Impl.AttendanceBOImpl;
 import lk.ijse.DAO.DAOFactory;
 import lk.ijse.DAO.Impl.AttendanceDAOImpl;
 import lk.ijse.DAO.Custom.EmployeeDAO;
@@ -58,9 +60,7 @@ public class AddAttendanceController {
 
     @FXML
     private DatePicker txtDate;
-
-
-    private AttendanceDAOImpl attendanceModel = new AttendanceDAOImpl();
+    AttendanceBO attendanceBO = (AttendanceBO) BOFactory.getBoFactory().getBO(BOFactory.BOType.ATTENDANCE);
     EmployeeBO employeeBO = (EmployeeBO) BOFactory.getBoFactory().getBO(BOFactory.BOType.EMPLOYEE);
 
     private ObservableList<AttendanceTm> obList = FXCollections.observableArrayList();
@@ -71,10 +71,6 @@ public class AddAttendanceController {
         setCellValueFactory();
         //setDate();
     }
-
-    /*private void setDate() {
-        lblDate.setText(String.valueOf(LocalDate.now()));
-    }*/
 
     private void setCellValueFactory() {
         colEmpId.setCellValueFactory(new PropertyValueFactory<>("empId"));
@@ -97,13 +93,13 @@ public class AddAttendanceController {
         }
 
         try{
-            boolean isSuccess = AttendanceDAOImpl.addAttendanceList(attendanceDtoList);
+            boolean isSuccess = attendanceBO.addAttendanceList(attendanceDtoList);
             if(isSuccess) {
                 new Alert(Alert.AlertType.CONFIRMATION,"Attendance save success!!!").show();
                 obList.clear();
                 tblAttendance.setItems(obList);
             }
-        } catch (SQLException e){
+        } catch (SQLException | ClassNotFoundException e){
             new Alert(Alert.AlertType.ERROR,e.getMessage()).show();
         }
     }

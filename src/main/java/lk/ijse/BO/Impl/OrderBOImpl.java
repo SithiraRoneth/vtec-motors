@@ -38,9 +38,9 @@ public class OrderBOImpl implements OrdersBO {
 
             connection = DbConnection.getInstance().getConnection();
             connection.setAutoCommit(false);
-            var dto = new OrderDto(orderId, guardianId, date);
+            var dto = new OrderDto(orderId, date, guardianId);
 
-            if (!orderDAO.save(new Orders(dto.getOrder_id(), dto.getGuardian_id(), dto.getOrder_date()))) {
+            if (!orderDAO.save(new Orders(dto.getOrder_id(), dto.getOrder_date(),dto.getGuardian_id()))) {
                 connection.rollback();
                 connection.setAutoCommit(true);
                 return false;

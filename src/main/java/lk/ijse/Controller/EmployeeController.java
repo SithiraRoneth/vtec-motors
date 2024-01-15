@@ -96,9 +96,6 @@ public class EmployeeController {
     }
 
     public void loadAllEmployee() {
-
-        var model = new EmployeeDAOImpl();
-
         ObservableList<EmployeeTm> obList = FXCollections.observableArrayList();
 
 

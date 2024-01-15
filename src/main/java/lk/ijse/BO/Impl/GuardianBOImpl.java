@@ -51,7 +51,7 @@ public class GuardianBOImpl implements GuardianBO {
 
     @Override
     public boolean updateGuardian(GuardianDto dto) throws SQLException, ClassNotFoundException {
-        return guardianDAO.update(new Guardian(dto.getGuardian_name(),dto.getGuardian_contact(),dto.getEmployee_id(),dto.getGuardian_id()));
+        return guardianDAO.update(new Guardian(dto.getGuardian_id(),dto.getGuardian_name(),dto.getGuardian_contact(),dto.getEmployee_id()));
     }
 
     @Override

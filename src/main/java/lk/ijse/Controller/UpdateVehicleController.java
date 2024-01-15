@@ -49,8 +49,6 @@ public class UpdateVehicleController {
         String vehicle_type = txtVehicleType.getText();
         String guardian_id = (String) comboGuardian_id.getValue();
 
-
-
         try{
             if (!validateVehicle()){
                 return;
@@ -61,6 +59,7 @@ public class UpdateVehicleController {
                 new Alert(Alert.AlertType.CONFIRMATION,"Vehicle updated").show();
                 clearFields();
             }
+
         }catch (SQLException | ClassNotFoundException e){
             new Alert(Alert.AlertType.ERROR,e.getMessage()).show();
         }
@@ -107,7 +106,7 @@ public class UpdateVehicleController {
 
         try{
             GuardianDto dto = guardianBO.searchGuardian(id);
-           // comboGuardian_id.setValue(dto.getGuardian_id());
+            //comboGuardian_id.setValue(dto.getGuardian_id());
         } catch (SQLException | ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
@@ -119,7 +118,10 @@ public class UpdateVehicleController {
         try {
             VehicleDto dto = vehicleBO.searchVehicle(id);
             txtVehicleType.setText(dto.getVehicle_type());
-        } catch (SQLException | ClassNotFoundException e) {
+            System.out.println("Search");
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } catch (ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
     }

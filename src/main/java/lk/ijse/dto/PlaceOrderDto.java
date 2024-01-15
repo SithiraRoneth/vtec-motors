@@ -19,9 +19,4 @@ public class PlaceOrderDto {
     private String Guardian_id;
     private List<CartTm> cartTmList = new ArrayList<>();
 
-    public PlaceOrderDto(String orderId, List<CartTm> cartTmList){
-        this.orderId = orderId;
-        this.cartTmList = cartTmList;
-    }
-
 }

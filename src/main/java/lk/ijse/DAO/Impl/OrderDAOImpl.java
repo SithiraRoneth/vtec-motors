@@ -9,9 +9,9 @@ import java.util.List;
 
 public class OrderDAOImpl implements OrderDAO {
     @Override
-    public boolean save(Orders orderDto) throws SQLException, ClassNotFoundException {
+    public boolean save(Orders entity) throws SQLException, ClassNotFoundException {
         return SQLUtil.execute("INSERT INTO orders VALUES (?,?,?)",
-                orderDto.getOrder_id(),orderDto.getOrder_date(),orderDto.getGuardian_id()
+                entity.getOrder_id(),entity.getOrder_date(),entity.getGuardian_id()
         );
     }
 

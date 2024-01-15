@@ -242,7 +242,7 @@ public class SalaryController {
     }
 
     private void email(){
-        System.out.println("Start");
+       // System.out.println("Start");
         Mail mail = new Mail();
         mail.setMsg("Your month salary payment successful"+lblFinalSalary.getText());
         mail.setTo(lblEmail.getText());
@@ -251,7 +251,7 @@ public class SalaryController {
         Thread thread = new Thread(mail);
         thread.start();
         new Alert(Alert.AlertType.CONFIRMATION,"Email sent");
-        System.out.println("end");
+      //  System.out.println("end");
 
 
     }

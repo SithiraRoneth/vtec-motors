@@ -10,7 +10,11 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
+import lk.ijse.BO.BOFactory;
+import lk.ijse.BO.Custom.AttendanceBO;
+import lk.ijse.BO.Impl.AttendanceBOImpl;
 import lk.ijse.DAO.Impl.AttendanceDAOImpl;
+import lk.ijse.Entity.Attendance;
 import lk.ijse.dto.AttendanceDto;
 import lk.ijse.dto.tm.AttendaceViewTm;
 import java.io.IOException;
@@ -33,7 +37,7 @@ public class AttendanceController {
     @FXML
     private TableView<AttendaceViewTm> tblAttendance;
 
-    private AttendanceDAOImpl attendanceModel = new AttendanceDAOImpl();
+    AttendanceBO attendanceBO = (AttendanceBO) BOFactory.getBoFactory().getBO(BOFactory.BOType.ATTENDANCE);
 
     private ObservableList<AttendaceViewTm> obList =FXCollections.observableArrayList();
 
@@ -51,10 +55,8 @@ public class AttendanceController {
 
 
     public void btnUpdateAttendance(ActionEvent actionEvent) throws IOException {
-
         root.getChildren().clear();
         root.getChildren().add(FXMLLoader.load(getClass().getResource("/view/addattendance_form.fxml")));
-
     }
 
     public void btnBackOnAction(ActionEvent actionEvent) throws IOException {
@@ -66,9 +68,10 @@ public class AttendanceController {
         try {
             String selectedDate = String.valueOf(txtDate.getValue());
             if (selectedDate != null) {
-                List<AttendanceDto> attendanceList = AttendanceDAOImpl.getAttendance(selectedDate);
+                List<AttendanceDto> attendanceList = attendanceBO.getAttendance(selectedDate);
 
                 for (AttendanceDto dto : attendanceList) {
+                    String name = dto.getEmp_name();
                     obList.add(
                             new AttendaceViewTm(
                                     dto.getDate(),

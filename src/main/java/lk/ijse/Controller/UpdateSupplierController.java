@@ -51,8 +51,6 @@ public class UpdateSupplierController {
         String name = txtName.getText();
         String contact = txtContact.getText();
 
-
-
         try {
             if (!validateSupplier()){
                 return;
@@ -62,8 +60,10 @@ public class UpdateSupplierController {
             if (isUpdate){
                 new Alert(Alert.AlertType.CONFIRMATION,"Supplier updated").show();
             }
-        }catch (SQLException | ClassNotFoundException e){
+        }catch (SQLException e){
             new Alert(Alert.AlertType.ERROR,e.getMessage()).show();
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
         }
     }
 

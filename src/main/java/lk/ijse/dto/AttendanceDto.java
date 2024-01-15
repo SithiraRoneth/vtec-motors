@@ -14,4 +14,10 @@ public class AttendanceDto {
     private String emp_id;
     private String emp_name;
     private boolean isPresent;
+
+    public AttendanceDto(String date,String emp_id,String emp_name){
+        this.date = date;
+        this.emp_id = emp_id;
+        this.emp_name = emp_name;
+    }
 }

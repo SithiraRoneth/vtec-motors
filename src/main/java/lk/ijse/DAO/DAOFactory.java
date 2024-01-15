@@ -20,7 +20,7 @@ public class DAOFactory {
     public SuperDAO getDAO(DAOTypes daoTypes){
         switch (daoTypes) {
             case ATTENDANCE:
-                //return new AttendanceDAOImpl();
+                return new AttendanceDAOImpl();
             case EMPLOYEE:
                 return new EmployeeDAOImpl();
             case EXPENDITURE:

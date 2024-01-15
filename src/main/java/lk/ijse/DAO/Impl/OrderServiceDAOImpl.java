@@ -28,9 +28,9 @@ public class OrderServiceDAOImpl implements OrderServiceDAO {
     }
 
     @Override
-    public boolean save(OrderService placeOrderDto) throws SQLException, ClassNotFoundException {
-        for (CartTm tm : placeOrderDto.getCartTmList()) {
-            if (!saveOrderDetails(placeOrderDto.getOrderId(), tm)) {
+    public boolean save(OrderService entity) throws SQLException, ClassNotFoundException {
+        for (CartTm tm : entity.getCartTmList()) {
+            if (!saveOrderDetails(entity.getOrderId(), tm)) {
                 return false;
             }
         }

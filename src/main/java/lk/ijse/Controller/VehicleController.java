@@ -6,6 +6,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Cursor;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -38,7 +39,7 @@ public class VehicleController {
     @FXML
     private TableView<VehicleTm> tblVehicle;
     VehicleBO vehicleBO = (VehicleBO) BOFactory.getBoFactory().getBO(BOFactory.BOType.VEHICLE);
-    private ObservableList<VehicleTm> obList = FXCollections.observableArrayList();
+    ObservableList<VehicleTm> obList = FXCollections.observableArrayList();
 
     public void initialize(){
         setCellValueFactory();
@@ -61,11 +62,13 @@ public class VehicleController {
     }
     private void loadAllVehicles() {
         try {
+            obList.clear();
             List<VehicleDto> dtoList = vehicleBO.getAllVehicle();
 
             for (VehicleDto dto : dtoList) {
                 Button btn = new Button("Remove");
                 setRemoveBtnOnAction(btn,dto.getVehicle_id());
+                btn.setCursor(Cursor.HAND);
                 obList.add(
                         new VehicleTm(
                                 dto.getVehicle_id(),
@@ -76,7 +79,9 @@ public class VehicleController {
                 );
             }
             tblVehicle.setItems(obList);
-        } catch (SQLException | ClassNotFoundException e) {
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } catch (ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
     }
@@ -107,7 +112,7 @@ public class VehicleController {
         } catch (SQLException | ClassNotFoundException e) {
             new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
         }
-        tblVehicle.refresh();
+        loadAllVehicles();
     }
 
     public void btnAddOnAction(ActionEvent actionEvent) throws IOException {
@@ -135,13 +140,16 @@ public class VehicleController {
         });
         stage.centerOnScreen();
         stage.show();
+
     }
     private void tableListener() {
         tblVehicle.getSelectionModel().selectedItemProperty().addListener((observable, oldValued, newValue) -> {
             try {
                 VehicleDto dto = vehicleBO.searchVehicle(newValue.getVehicle_id());
                 setData(newValue, dto.getVehicle_id());
-            } catch (SQLException | ClassNotFoundException e) {
+            } catch (SQLException  e) {
+                throw new RuntimeException(e);
+            } catch (ClassNotFoundException e) {
                 throw new RuntimeException(e);
             }
         });
